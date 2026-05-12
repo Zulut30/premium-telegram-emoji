@@ -208,4 +208,5 @@ Pack: https://t.me/addemoji/TgAndroidIcons
 | key suggestion | emoji_id | description | fallback |
 |---|---|---|---|
 | microsoft | 5188372243628985892 | Microsoft | 🤖 |
+| google | 5472169951538224541 | Google Cloud | ☁ |
 
