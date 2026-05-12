@@ -201,3 +201,11 @@ Pack: https://t.me/addemoji/TgAndroidIcons
 | verified | 5805532930662996322 | Галочка статуса | ✅ |
 | wallet | 5769403330761593044 | Кошелёк | 👛 |
 | music | 5891249688933305846 | Музыка | 🎵 |
+
+
+## Section 5 — Программирование и IT
+
+| key suggestion | emoji_id | description | fallback |
+|---|---|---|---|
+| microsoft | 5188372243628985892 | Microsoft | 🤖 |
+
