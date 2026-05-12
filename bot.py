@@ -39,7 +39,7 @@ from aiogram.types import (
 BOT_TOKEN = os.getenv("BOT_TOKEN", "")
 REPO_DIR  = Path(__file__).parent
 
-ID_FILE      = REPO_DIR / "ID - Премиум эмодзи"
+ID_FILE      = REPO_DIR / "emoji-ids.txt"
 CATALOG_FILE = REPO_DIR / "references" / "emoji-catalog.md"
 
 SECTIONS = {
@@ -203,10 +203,35 @@ def git_commit_and_push(entries: list[dict]) -> str:
             ["git", "commit", "-m", f"Add emoji: {descriptions}"],
             cwd=REPO_DIR, check=True, capture_output=True
         )
+
+        # If GITHUB_TOKEN is set, inject it into the remote URL for push
+        github_token = os.getenv("GITHUB_TOKEN", "")
+        push_env = os.environ.copy()
+        if github_token:
+            result_remote = subprocess.run(
+                ["git", "remote", "get-url", "origin"],
+                cwd=REPO_DIR, capture_output=True, text=True
+            )
+            remote_url = result_remote.stdout.strip()
+            # https://github.com/... → https://token@github.com/...
+            authed_url = remote_url.replace("https://", f"https://{github_token}@")
+            subprocess.run(
+                ["git", "remote", "set-url", "origin", authed_url],
+                cwd=REPO_DIR, check=True, capture_output=True
+            )
+
         result = subprocess.run(
             ["git", "push"],
-            cwd=REPO_DIR, capture_output=True, text=True
+            cwd=REPO_DIR, capture_output=True, text=True, env=push_env
         )
+
+        # Restore original remote URL (remove token)
+        if github_token:
+            subprocess.run(
+                ["git", "remote", "set-url", "origin", remote_url],
+                cwd=REPO_DIR, capture_output=True
+            )
+
         if result.returncode == 0:
             return "✅ Запушено в GitHub"
         else:

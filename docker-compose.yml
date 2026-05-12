@@ -1,0 +1,13 @@
+services:
+  bot:
+    build: .
+    restart: unless-stopped
+    environment:
+      - BOT_TOKEN=${BOT_TOKEN}
+      - GITHUB_TOKEN=${GITHUB_TOKEN:-}
+      - GIT_AUTHOR_NAME=emoji-bot
+      - GIT_AUTHOR_EMAIL=bot@localhost
+      - GIT_COMMITTER_NAME=emoji-bot
+      - GIT_COMMITTER_EMAIL=bot@localhost
+    volumes:
+      - .:/app
