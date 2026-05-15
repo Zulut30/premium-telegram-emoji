@@ -1,0 +1,52 @@
+name: Deploy emoji site
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "references/emoji-catalog.md"
+      - "generate_site.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cache emoji thumbnails
+        uses: actions/cache@v4
+        with:
+          path: site/images
+          key: emoji-images-${{ hashFiles('references/emoji-catalog.md') }}
+          restore-keys: emoji-images-
+
+      - name: Generate site
+        env:
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+        run: python generate_site.py
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site/
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
