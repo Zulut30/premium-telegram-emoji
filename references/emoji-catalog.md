@@ -290,7 +290,9 @@ Pack: https://t.me/addemoji/TgAndroidIcons
 | perplexity | 5945200220542344867 | Perplexity | 🐳 |
 | elevenlabs | 5944978256632487370 | Elevenlabs | 🐳 |
 | copilot | 5474379501758618408 | Copilot | 🤖 |
-
+| xiaomi | 5951971421168079496 | Xiaomi | 🟧 |
+| nvidia | 5467809962732297829 | Nvidia | 🎮 |
+| z_ai | 5945040447758933134 | Z.ai | 🐳 |
 
 ## Section 7 — Иконки Apple
 
