@@ -293,6 +293,10 @@ Pack: https://t.me/addemoji/TgAndroidIcons
 | xiaomi | 5951971421168079496 | Xiaomi | 🟧 |
 | nvidia | 5467809962732297829 | Nvidia | 🎮 |
 | z_ai | 5945040447758933134 | Z.ai | 🐳 |
+| chatgpt | 5780699670275694491 | ChatGPT | 🐳 |
+| tencent | 5780853769407307553 | Tencent | 🐳 |
+| openrouter | 5780449492725669998 | Openrouter | 🐳 |
+| minimax | 5782833036366192217 | Minimax | 🐳 |
 
 ## Section 7 — Иконки Apple
 
