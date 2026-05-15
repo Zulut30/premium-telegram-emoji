@@ -10,14 +10,13 @@
 
 from __future__ import annotations
 
-import base64
 import json
 import os
 import re
 import sys
-import time
 import urllib.request
 import urllib.parse
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
 REPO_DIR     = Path(__file__).parent
@@ -84,8 +83,28 @@ def tg_post_json(method: str, body: dict) -> dict:
         return json.loads(r.read())
 
 
-def fetch_thumbnails(emoji_ids: list[str]) -> dict[str, str]:
-    """Returns {emoji_id: local_image_path} — downloads if not cached."""
+def _download_one(sticker: dict) -> tuple[str, str] | None:
+    """Download thumbnail for one sticker. Returns (emoji_id, relative_path) or None."""
+    eid   = sticker.get("custom_emoji_id")
+    thumb = sticker.get("thumbnail") or sticker.get("thumb")
+    if not eid or not thumb:
+        return None
+    dest = IMG_DIR / f"{eid}.png"
+    if dest.exists():
+        return eid, str(dest.relative_to(SITE_DIR))
+    try:
+        fdata     = tg_get("getFile", file_id=thumb["file_id"])
+        file_path = fdata["result"]["file_path"]
+        file_url  = f"https://api.telegram.org/file/bot{BOT_TOKEN}/{file_path}"
+        urllib.request.urlretrieve(file_url, dest)
+        return eid, str(dest.relative_to(SITE_DIR))
+    except Exception as e:
+        print(f"    ✗ {eid}: {e}")
+        return None
+
+
+def fetch_thumbnails(emoji_ids: list[str], workers: int = 20) -> dict[str, str]:
+    """Returns {emoji_id: local_image_path} — downloads missing in parallel."""
     IMG_DIR.mkdir(parents=True, exist_ok=True)
     result: dict[str, str] = {}
     to_fetch: list[str] = []
@@ -100,8 +119,10 @@ def fetch_thumbnails(emoji_ids: list[str]) -> dict[str, str]:
     if not to_fetch:
         return result
 
-    print(f"  Fetching thumbnails for {len(to_fetch)} emoji…")
+    print(f"  Fetching thumbnails for {len(to_fetch)} emoji (×{workers} parallel)…")
 
+    # Resolve sticker metadata in batches of 200
+    stickers: list[dict] = []
     for i in range(0, len(to_fetch), 200):
         batch = to_fetch[i : i + 200]
         try:
@@ -109,30 +130,23 @@ def fetch_thumbnails(emoji_ids: list[str]) -> dict[str, str]:
         except Exception as e:
             print(f"  Warning: getCustomEmojiStickers failed: {e}")
             continue
-
         if not data.get("ok"):
             print(f"  Warning: API error: {data.get('description')}")
             continue
+        stickers.extend(data.get("result", []))
 
-        for sticker in data.get("result", []):
-            eid   = sticker.get("custom_emoji_id")
-            thumb = sticker.get("thumbnail") or sticker.get("thumb")
-            if not eid or not thumb:
-                continue
-
-            try:
-                fdata     = tg_get("getFile", file_id=thumb["file_id"])
-                file_path = fdata["result"]["file_path"]
-                file_url  = f"https://api.telegram.org/file/bot{BOT_TOKEN}/{file_path}"
-
-                dest = IMG_DIR / f"{eid}.png"
-                urllib.request.urlretrieve(file_url, dest)
-                result[eid] = str(dest.relative_to(SITE_DIR))
-                print(f"    ✓ {eid}")
-            except Exception as e:
-                print(f"    ✗ {eid}: {e}")
-
-        time.sleep(0.1)  # be kind to API
+    # Download in parallel
+    with ThreadPoolExecutor(max_workers=workers) as pool:
+        futures = {pool.submit(_download_one, s): s for s in stickers}
+        done = 0
+        for future in as_completed(futures):
+            res = future.result()
+            if res:
+                eid, path = res
+                result[eid] = path
+                done += 1
+                if done % 20 == 0 or done == len(stickers):
+                    print(f"    {done}/{len(stickers)} downloaded")
 
     return result
 
