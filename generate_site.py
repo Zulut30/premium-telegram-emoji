@@ -155,204 +155,450 @@ def fetch_thumbnails(emoji_ids: list[str], workers: int = 20) -> dict[str, str]:
 # HTML generation
 # ---------------------------------------------------------------------------
 
+GITHUB_URL = "https://github.com/Zulut30/premium-telegram-emoji"
+
 HTML_TEMPLATE = """\
 <!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Premium Telegram Emoji Catalog</title>
+<meta name="description" content="Каталог premium Telegram emoji с ID, превью и готовым кодом для aiogram-ботов">
+<title>Premium Telegram Emoji — каталог</title>
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  :root {
-    --bg:      #0f0f13;
-    --card-bg: #1a1a24;
-    --border:  #2a2a38;
-    --accent:  #7c6cfc;
-    --text:    #e2e2f0;
-    --muted:   #7070a0;
-    --success: #4caf50;
-  }
+:root {
+  --bg:        #08080f;
+  --surface:   #11111c;
+  --card:      #16162280;
+  --border:    #ffffff12;
+  --border-h:  #7c6cfc60;
+  --accent:    #7c6cfc;
+  --accent2:   #a78bfa;
+  --glow:      #7c6cfc30;
+  --text:      #e8e8f5;
+  --muted:     #6060a0;
+  --success:   #34d399;
+  --radius:    14px;
+}
 
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    min-height: 100vh;
-  }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
+  min-height: 100vh;
+  line-height: 1.5;
+}
 
-  header {
-    padding: 2rem 1.5rem 1rem;
-    text-align: center;
-    border-bottom: 1px solid var(--border);
-    position: sticky;
-    top: 0;
-    background: var(--bg);
-    z-index: 100;
-  }
-  header h1 { font-size: 1.4rem; margin-bottom: .75rem; }
-  header h1 span { color: var(--accent); }
+/* ── Hero ── */
+.hero {
+  padding: 4rem 1.5rem 3rem;
+  text-align: center;
+  background: radial-gradient(ellipse 80% 60% at 50% -10%, #7c6cfc18 0%, transparent 70%);
+  border-bottom: 1px solid var(--border);
+}
+.hero-nav {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 2rem;
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.github-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-size: .82rem;
+  font-weight: 500;
+  padding: .4rem .85rem;
+  text-decoration: none;
+  transition: border-color .2s, background .2s;
+}
+.github-btn:hover { border-color: var(--accent2); background: #1e1e30; }
+.github-btn svg { flex-shrink: 0; }
 
-  .controls {
-    display: flex;
-    gap: .6rem;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-  }
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  background: var(--glow);
+  border: 1px solid var(--border-h);
+  border-radius: 100px;
+  color: var(--accent2);
+  font-size: .75rem;
+  font-weight: 600;
+  letter-spacing: .04em;
+  padding: .3rem .8rem;
+  margin-bottom: 1.2rem;
+  text-transform: uppercase;
+}
+.hero h1 {
+  font-size: clamp(1.8rem, 5vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -.02em;
+  margin-bottom: .75rem;
+  line-height: 1.15;
+}
+.hero h1 .grad {
+  background: linear-gradient(135deg, #a78bfa 0%, #7c6cfc 50%, #60a5fa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero p {
+  color: var(--muted);
+  font-size: 1rem;
+  max-width: 520px;
+  margin: 0 auto 1.75rem;
+}
+.hero-stats {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.hero-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.hero-stat strong { font-size: 1.4rem; font-weight: 700; color: var(--text); }
+.hero-stat span   { font-size: .75rem; color: var(--muted); }
 
-  input[type=search] {
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    color: var(--text);
-    font-size: .9rem;
-    padding: .45rem .8rem;
-    width: 260px;
-    outline: none;
-  }
-  input[type=search]:focus { border-color: var(--accent); }
+/* ── Sticky toolbar ── */
+.toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #08080fe8;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  padding: .75rem 1.5rem;
+}
+.toolbar-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  gap: .75rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
 
-  .filter-btn {
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    color: var(--muted);
-    cursor: pointer;
-    font-size: .8rem;
-    padding: .45rem .75rem;
-    transition: all .15s;
-  }
-  .filter-btn.active, .filter-btn:hover {
-    border-color: var(--accent);
-    color: var(--text);
-  }
+.search-wrap {
+  position: relative;
+  flex: 1;
+  min-width: 180px;
+  max-width: 320px;
+}
+.search-wrap svg {
+  position: absolute;
+  left: .7rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted);
+  pointer-events: none;
+}
+input[type=search] {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--text);
+  font-size: .875rem;
+  padding: .5rem .75rem .5rem 2.1rem;
+  outline: none;
+  transition: border-color .2s;
+  -webkit-appearance: none;
+}
+input[type=search]:focus { border-color: var(--accent); }
+input[type=search]::placeholder { color: var(--muted); }
 
-  main { padding: 1.5rem; max-width: 1400px; margin: 0 auto; }
+.filters {
+  display: flex;
+  gap: .4rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.filter-btn {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: .78rem;
+  font-weight: 500;
+  padding: .38rem .7rem;
+  transition: all .15s;
+  white-space: nowrap;
+}
+.filter-btn .cnt {
+  display: inline-block;
+  background: #ffffff10;
+  border-radius: 4px;
+  font-size: .68rem;
+  margin-left: .3rem;
+  padding: 0 .3rem;
+}
+.filter-btn.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+.filter-btn.active .cnt { background: #ffffff25; }
+.filter-btn:not(.active):hover { border-color: var(--border-h); color: var(--text); }
 
-  .section-block { margin-bottom: 2.5rem; }
-  .section-title {
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--muted);
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-    gap: .5rem;
-  }
-  .section-title::after {
-    content: "";
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-  }
+/* ── Main content ── */
+main {
+  padding: 2rem 1.5rem;
+  max-width: 1280px;
+  margin: 0 auto;
+}
 
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: .75rem;
-  }
+.section-block { margin-bottom: 3rem; }
 
-  .card {
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 1rem .75rem .75rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: .5rem;
-    cursor: pointer;
-    transition: border-color .15s, transform .1s;
-    position: relative;
-  }
-  .card:hover { border-color: var(--accent); transform: translateY(-2px); }
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  margin-bottom: 1.25rem;
+}
+.section-name {
+  font-size: .95rem;
+  font-weight: 700;
+  color: var(--text);
+  white-space: nowrap;
+}
+.section-count {
+  font-size: .75rem;
+  color: var(--muted);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: .1rem .45rem;
+}
+.section-line {
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
 
-  .card img, .card .fallback {
-    width: 52px;
-    height: 52px;
-    object-fit: contain;
-  }
-  .card .fallback { font-size: 2.5rem; line-height: 52px; text-align: center; }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(148px, 1fr));
+  gap: .75rem;
+}
 
-  .card .desc {
-    font-size: .78rem;
-    text-align: center;
-    line-height: 1.3;
-    color: var(--text);
-    word-break: break-word;
-  }
-  .card .key {
-    font-size: .7rem;
-    color: var(--accent);
-    font-family: monospace;
-  }
-  .card .id {
-    font-size: .65rem;
-    color: var(--muted);
-    font-family: monospace;
-    word-break: break-all;
-    text-align: center;
-  }
+/* ── Card ── */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.1rem .85rem .85rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .45rem;
+  cursor: pointer;
+  position: relative;
+  transition: border-color .2s, box-shadow .2s, transform .15s;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  overflow: hidden;
+}
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #ffffff06, transparent 60%);
+  pointer-events: none;
+}
+.card:hover {
+  border-color: var(--border-h);
+  box-shadow: 0 0 0 1px var(--border-h), 0 8px 32px var(--glow);
+  transform: translateY(-3px);
+}
+.card:active { transform: translateY(-1px); }
 
-  .copied-tip {
-    position: absolute;
-    top: 6px; right: 8px;
-    font-size: .65rem;
-    color: var(--success);
-    opacity: 0;
-    transition: opacity .2s;
-    pointer-events: none;
-  }
-  .card.copied .copied-tip { opacity: 1; }
+.card-img-wrap {
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff08;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+.card img {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+}
+.card .fallback { font-size: 2rem; line-height: 1; }
 
-  .empty { color: var(--muted); text-align: center; padding: 3rem; }
+.card-desc {
+  font-size: .78rem;
+  font-weight: 500;
+  text-align: center;
+  line-height: 1.3;
+  color: var(--text);
+  word-break: break-word;
+}
+.card-key {
+  font-size: .68rem;
+  color: var(--accent2);
+  font-family: "SF Mono", "Fira Code", monospace;
+  background: #7c6cfc15;
+  border-radius: 5px;
+  padding: .1rem .35rem;
+}
+.card-id {
+  font-size: .62rem;
+  color: var(--muted);
+  font-family: "SF Mono", "Fira Code", monospace;
+  word-break: break-all;
+  text-align: center;
+  line-height: 1.4;
+}
 
-  footer {
-    text-align: center;
-    padding: 2rem;
-    color: var(--muted);
-    font-size: .8rem;
-    border-top: 1px solid var(--border);
-  }
+.copy-hint {
+  position: absolute;
+  inset: 0;
+  background: #7c6cfc22;
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .8rem;
+  font-weight: 600;
+  color: var(--success);
+  opacity: 0;
+  transition: opacity .2s;
+  pointer-events: none;
+  backdrop-filter: blur(4px);
+}
+.card.copied .copy-hint { opacity: 1; }
+
+/* ── Empty state ── */
+.empty {
+  text-align: center;
+  padding: 5rem 2rem;
+  color: var(--muted);
+}
+.empty p { margin-top: .5rem; font-size: .9rem; }
+
+/* ── Footer ── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 2rem 1.5rem;
+  text-align: center;
+  color: var(--muted);
+  font-size: .82rem;
+}
+footer a { color: var(--accent2); text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+
+/* ── Mobile ── */
+@media (max-width: 600px) {
+  .hero { padding: 2.5rem 1rem 2rem; }
+  .hero-nav { margin-bottom: 1.25rem; }
+  .hero-stats { gap: 1rem; }
+  .toolbar { padding: .6rem 1rem; }
+  .toolbar-inner { gap: .5rem; }
+  .search-wrap { max-width: 100%; }
+  .filters { gap: .35rem; }
+  .filter-btn { font-size: .72rem; padding: .32rem .55rem; }
+  main { padding: 1.25rem 1rem; }
+  .grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: .55rem; }
+  .card { padding: .9rem .65rem .7rem; }
+  .card-img-wrap { width: 48px; height: 48px; }
+  .card img { width: 36px; height: 36px; }
+}
+
+@media (max-width: 380px) {
+  .grid { grid-template-columns: repeat(3, 1fr); }
+}
 </style>
 </head>
 <body>
 
-<header>
-  <h1>Premium <span>Telegram</span> Emoji</h1>
-  <div class="controls">
-    <input type="search" id="search" placeholder="Поиск по описанию…" oninput="filter()">
-    <button class="filter-btn active" data-sec="all" onclick="setSection(this)">Все</button>
-    {SECTION_BUTTONS}
+<!-- Hero -->
+<section class="hero">
+  <nav class="hero-nav">
+    <a class="github-btn" href="{GITHUB_URL}" target="_blank" rel="noopener">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+      </svg>
+      GitHub
+    </a>
+  </nav>
+  <div class="hero-badge">✦ Telegram Premium</div>
+  <h1>Каталог <span class="grad">Premium Emoji</span></h1>
+  <p>Верифицированные ID premium-стикеров для Telegram-ботов. Готовый код для aiogram 3 — просто скопируй ID и используй.</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><strong>{TOTAL}</strong><span>emoji</span></div>
+    <div class="hero-stat"><strong>{SECTIONS_COUNT}</strong><span>секций</span></div>
+    <div class="hero-stat"><strong>aiogram 3</strong><span>совместимость</span></div>
   </div>
-</header>
+</section>
 
+<!-- Toolbar -->
+<div class="toolbar">
+  <div class="toolbar-inner">
+    <div class="search-wrap">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+      </svg>
+      <input type="search" id="search" placeholder="Поиск…" oninput="filter()" autocomplete="off">
+    </div>
+    <div class="filters" id="filters">
+      <button class="filter-btn active" data-sec="all" onclick="setSection(this)">
+        Все <span class="cnt">{TOTAL}</span>
+      </button>
+      {SECTION_BUTTONS}
+    </div>
+  </div>
+</div>
+
+<!-- Catalog -->
 <main id="main">
   {SECTIONS_HTML}
+  <div class="empty" id="empty" style="display:none">
+    <div style="font-size:2rem">🔍</div>
+    <p>Ничего не найдено</p>
+  </div>
 </main>
 
 <footer>
-  {TOTAL} emoji · Нажми на карточку чтобы скопировать ID
+  {TOTAL} emoji · Нажми на карточку чтобы скопировать ID ·
+  <a href="{GITHUB_URL}" target="_blank">GitHub</a>
 </footer>
 
 <script>
 let activeSec = 'all';
 
 function filter() {
-  const q = document.getElementById('search').value.toLowerCase();
+  const q = document.getElementById('search').value.toLowerCase().trim();
+  let total = 0;
   document.querySelectorAll('.card').forEach(card => {
-    const text = card.dataset.search;
-    const sec  = card.dataset.sec;
-    const matchQ   = !q || text.includes(q);
-    const matchSec = activeSec === 'all' || sec === activeSec;
-    card.style.display = (matchQ && matchSec) ? '' : 'none';
+    const matchQ   = !q || card.dataset.search.includes(q);
+    const matchSec = activeSec === 'all' || card.dataset.sec === activeSec;
+    const show = matchQ && matchSec;
+    card.style.display = show ? '' : 'none';
+    if (show) total++;
   });
   document.querySelectorAll('.section-block').forEach(block => {
-    const visible = [...block.querySelectorAll('.card')].some(c => c.style.display !== 'none');
-    block.style.display = visible ? '' : 'none';
+    const vis = [...block.querySelectorAll('.card')].some(c => c.style.display !== 'none');
+    block.style.display = vis ? '' : 'none';
   });
+  document.getElementById('empty').style.display = total ? 'none' : '';
 }
 
 function setSection(btn) {
@@ -360,12 +606,13 @@ function setSection(btn) {
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   filter();
+  window.scrollTo({ top: document.querySelector('.toolbar').offsetTop - 1, behavior: 'smooth' });
 }
 
 function copyId(card, id) {
   navigator.clipboard.writeText(id).then(() => {
     card.classList.add('copied');
-    setTimeout(() => card.classList.remove('copied'), 1500);
+    setTimeout(() => card.classList.remove('copied'), 1200);
   });
 }
 </script>
@@ -374,13 +621,12 @@ function copyId(card, id) {
 """
 
 CARD_TMPL = """\
-<div class="card" data-search="{SEARCH}" data-sec="{SEC_ID}"
-     onclick="copyId(this, '{EMOJI_ID}')">
-  <span class="copied-tip">скопировано!</span>
-  {IMG_TAG}
-  <div class="desc">{DESC}</div>
-  <div class="key">{KEY}</div>
-  <div class="id">{EMOJI_ID}</div>
+<div class="card" data-search="{SEARCH}" data-sec="{SEC_ID}" onclick="copyId(this, '{EMOJI_ID}')">
+  <div class="copy-hint">✓ скопировано</div>
+  <div class="card-img-wrap">{IMG_TAG}</div>
+  <div class="card-desc">{DESC}</div>
+  <div class="card-key">{KEY}</div>
+  <div class="card-id">{EMOJI_ID}</div>
 </div>
 """
 
@@ -390,24 +636,28 @@ def escape(s: str) -> str:
 
 
 def build_html(sections: list[dict], thumbnails: dict[str, str]) -> str:
-    sec_buttons = ""
+    sec_buttons  = ""
     sections_html = ""
     total = 0
 
     for sec in sections:
-        sec_id  = re.search(r"Section (\d+)", sec["title"]).group(1)
+        sec_id    = re.search(r"Section (\d+)", sec["title"]).group(1)
         sec_short = sec["title"].split(" — ", 1)[1] if " — " in sec["title"] else sec["title"]
-        sec_buttons += f'<button class="filter-btn" data-sec="{sec_id}" onclick="setSection(this)">{escape(sec_short)}</button>\n    '
+        count     = len(sec["emojis"])
+        sec_buttons += (
+            f'<button class="filter-btn" data-sec="{sec_id}" onclick="setSection(this)">'
+            f'{escape(sec_short)} <span class="cnt">{count}</span></button>\n      '
+        )
 
         cards = ""
         for e in sec["emojis"]:
-            eid  = e["emoji_id"]
+            eid      = e["emoji_id"]
             img_path = thumbnails.get(eid)
-            if img_path:
-                img_tag = f'<img src="{img_path}" alt="{escape(e["fallback"])}" loading="lazy">'
-            else:
-                img_tag = f'<div class="fallback">{e["fallback"]}</div>'
-
+            img_tag  = (
+                f'<img src="{img_path}" alt="{escape(e["fallback"])}" loading="lazy">'
+                if img_path else
+                f'<span class="fallback">{e["fallback"]}</span>'
+            )
             search = f"{e['description'].lower()} {e['key'].lower()}"
             cards += CARD_TMPL.format(
                 SEARCH   = escape(search),
@@ -419,17 +669,23 @@ def build_html(sections: list[dict], thumbnails: dict[str, str]) -> str:
             )
             total += 1
 
-        sections_html += f"""
-<div class="section-block" data-sec="{sec_id}">
-  <div class="section-title">{escape(sec["title"])}</div>
-  <div class="grid">{cards}</div>
-</div>
-"""
+        sections_html += (
+            f'<div class="section-block" data-sec="{sec_id}">'
+            f'<div class="section-header">'
+            f'<span class="section-name">{escape(sec["title"])}</span>'
+            f'<span class="section-count">{count}</span>'
+            f'<div class="section-line"></div>'
+            f'</div>'
+            f'<div class="grid">{cards}</div>'
+            f'</div>\n'
+        )
 
     return (HTML_TEMPLATE
+            .replace("{GITHUB_URL}",      GITHUB_URL)
             .replace("{SECTION_BUTTONS}", sec_buttons.strip())
-            .replace("{SECTIONS_HTML}",  sections_html)
-            .replace("{TOTAL}",          str(total)))
+            .replace("{SECTIONS_HTML}",   sections_html)
+            .replace("{TOTAL}",           str(total))
+            .replace("{SECTIONS_COUNT}",  str(len(sections))))
 
 
 # ---------------------------------------------------------------------------
