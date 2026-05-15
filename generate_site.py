@@ -169,22 +169,28 @@ HTML_TEMPLATE = """\
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg:        #08080f;
-  --surface:   #11111c;
-  --card:      #16162280;
-  --border:    #ffffff12;
-  --border-h:  #7c6cfc60;
-  --accent:    #7c6cfc;
-  --accent2:   #a78bfa;
-  --glow:      #7c6cfc30;
-  --text:      #e8e8f5;
-  --muted:     #6060a0;
+  --bg:        #080a0f;
+  --surface:   #10131d;
+  --surface2:  #151a27;
+  --card:      #151925cc;
+  --border:    #ffffff14;
+  --border-h:  #2dd4bf80;
+  --accent:    #2dd4bf;
+  --accent2:   #38bdf8;
+  --amber:     #fbbf24;
+  --coral:     #fb7185;
+  --glow:      #2dd4bf24;
+  --text:      #eef6ff;
+  --muted:     #8a96ad;
+  --soft:      #c8d2e3;
   --success:   #34d399;
-  --radius:    14px;
+  --radius:    16px;
 }
 
 body {
-  background: var(--bg);
+  background:
+    linear-gradient(180deg, #0b1020 0%, #080a0f 42%, #080a0f 100%),
+    repeating-linear-gradient(90deg, #ffffff05 0 1px, transparent 1px 84px);
   color: var(--text);
   font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
   min-height: 100vh;
@@ -193,73 +199,89 @@ body {
 
 /* ── Hero ── */
 .hero {
-  padding: 4rem 1.5rem 3rem;
+  padding: 3.6rem 1.5rem 3rem;
   text-align: center;
-  background: radial-gradient(ellipse 80% 60% at 50% -10%, #7c6cfc18 0%, transparent 70%);
+  background:
+    linear-gradient(135deg, #2dd4bf18 0%, transparent 32%),
+    linear-gradient(225deg, #fb718518 0%, transparent 36%);
   border-bottom: 1px solid var(--border);
 }
 .hero-nav {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 2rem;
   max-width: 1280px;
   margin-left: auto;
   margin-right: auto;
 }
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+  color: var(--soft);
+  font-size: .86rem;
+  font-weight: 700;
+  letter-spacing: .01em;
+}
+.brand-mark {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: #031018;
+  box-shadow: 0 10px 30px #2dd4bf24;
+}
 .github-btn {
   display: inline-flex;
   align-items: center;
   gap: .45rem;
-  background: var(--surface);
+  background: #101723cc;
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: 10px;
   color: var(--text);
   font-size: .82rem;
   font-weight: 500;
-  padding: .4rem .85rem;
+  padding: .48rem .9rem;
   text-decoration: none;
   transition: border-color .2s, background .2s;
 }
-.github-btn:hover { border-color: var(--accent2); background: #1e1e30; }
+.github-btn:hover { border-color: var(--accent); background: #17202f; }
 .github-btn svg { flex-shrink: 0; }
 
-.hero-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: .4rem;
-  background: var(--glow);
-  border: 1px solid var(--border-h);
-  border-radius: 100px;
-  color: var(--accent2);
-  font-size: .75rem;
-  font-weight: 600;
-  letter-spacing: .04em;
-  padding: .3rem .8rem;
-  margin-bottom: 1.2rem;
-  text-transform: uppercase;
-}
 .hero h1 {
-  font-size: clamp(1.8rem, 5vw, 3rem);
+  font-size: clamp(2.05rem, 6vw, 4.25rem);
   font-weight: 800;
-  letter-spacing: -.02em;
-  margin-bottom: .75rem;
-  line-height: 1.15;
+  letter-spacing: 0;
+  margin: 0 auto .9rem;
+  line-height: 1.05;
+  max-width: 820px;
 }
 .hero h1 .grad {
-  background: linear-gradient(135deg, #a78bfa 0%, #7c6cfc 50%, #60a5fa 100%);
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 48%, var(--coral) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 .hero p {
   color: var(--muted);
-  font-size: 1rem;
-  max-width: 520px;
-  margin: 0 auto 1.75rem;
+  font-size: 1.05rem;
+  max-width: 680px;
+  margin: 0 auto 2rem;
+}
+.hero p code {
+  color: var(--soft);
+  background: #ffffff0d;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: .92em;
+  padding: .08rem .32rem;
 }
 .hero-stats {
   display: flex;
-  gap: 1.5rem;
+  gap: .75rem;
   justify-content: center;
   flex-wrap: wrap;
 }
@@ -267,6 +289,11 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  min-width: 120px;
+  padding: .85rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: #10172399;
 }
 .hero-stat strong { font-size: 1.4rem; font-weight: 700; color: var(--text); }
 .hero-stat span   { font-size: .75rem; color: var(--muted); }
@@ -276,11 +303,11 @@ body {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: #08080fe8;
+  background: #080a0ff0;
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--border);
-  padding: .75rem 1.5rem;
+  padding: .85rem 1.5rem;
 }
 .toolbar-inner {
   max-width: 1280px;
@@ -307,7 +334,7 @@ body {
 }
 input[type=search] {
   width: 100%;
-  background: var(--surface);
+  background: #101723;
   border: 1px solid var(--border);
   border-radius: 10px;
   color: var(--text);
@@ -317,8 +344,31 @@ input[type=search] {
   transition: border-color .2s;
   -webkit-appearance: none;
 }
-input[type=search]:focus { border-color: var(--accent); }
+input[type=search]:focus { border-color: var(--accent); box-shadow: 0 0 0 3px #2dd4bf18; }
 input[type=search]::placeholder { color: var(--muted); }
+
+.toolbar-select {
+  appearance: none;
+  background: #101723;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--soft);
+  cursor: pointer;
+  font-size: .82rem;
+  font-weight: 600;
+  min-height: 36px;
+  padding: .5rem 2rem .5rem .75rem;
+  outline: none;
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--muted) 50%),
+    linear-gradient(135deg, var(--muted) 50%, transparent 50%);
+  background-position:
+    calc(100% - 14px) 15px,
+    calc(100% - 9px) 15px;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+}
+.toolbar-select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px #2dd4bf18; }
 
 .filters {
   display: flex;
@@ -327,7 +377,7 @@ input[type=search]::placeholder { color: var(--muted); }
   align-items: center;
 }
 .filter-btn {
-  background: var(--surface);
+  background: #101723;
   border: 1px solid var(--border);
   border-radius: 8px;
   color: var(--muted);
@@ -347,16 +397,16 @@ input[type=search]::placeholder { color: var(--muted); }
   padding: 0 .3rem;
 }
 .filter-btn.active {
-  background: var(--accent);
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
   border-color: var(--accent);
-  color: #fff;
+  color: #031018;
 }
 .filter-btn.active .cnt { background: #ffffff25; }
 .filter-btn:not(.active):hover { border-color: var(--border-h); color: var(--text); }
 
 /* ── Main content ── */
 main {
-  padding: 2rem 1.5rem;
+  padding: 2.25rem 1.5rem;
   max-width: 1280px;
   margin: 0 auto;
 }
@@ -391,8 +441,8 @@ main {
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(148px, 1fr));
-  gap: .75rem;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: .9rem;
 }
 
 /* ── Card ── */
@@ -400,7 +450,7 @@ main {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 1.1rem .85rem .85rem;
+  padding: 1rem .9rem .85rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -416,35 +466,39 @@ main {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, #ffffff06, transparent 60%);
+  background: linear-gradient(135deg, #ffffff08, transparent 58%);
   pointer-events: none;
 }
 .card:hover {
   border-color: var(--border-h);
-  box-shadow: 0 0 0 1px var(--border-h), 0 8px 32px var(--glow);
+  box-shadow: 0 0 0 1px var(--border-h), 0 14px 42px var(--glow);
   transform: translateY(-3px);
+}
+.card[data-rating]:not([data-rating="0"]) {
+  border-color: #fbbf2440;
 }
 .card:active { transform: translateY(-1px); }
 
 .card-img-wrap {
-  width: 56px;
-  height: 56px;
+  width: 64px;
+  height: 64px;
   display: flex;
   align-items: center;
   justify-content: center;
   background: #ffffff08;
-  border-radius: 12px;
+  border-radius: 16px;
   border: 1px solid var(--border);
 }
 .card img {
-  width: 44px;
-  height: 44px;
+  width: 50px;
+  height: 50px;
   object-fit: contain;
 }
 .card .fallback { font-size: 2rem; line-height: 1; }
 
 .card-desc {
-  font-size: .78rem;
+  min-height: 2.15rem;
+  font-size: .8rem;
   font-weight: 500;
   text-align: center;
   line-height: 1.3;
@@ -453,9 +507,9 @@ main {
 }
 .card-key {
   font-size: .68rem;
-  color: var(--accent2);
+  color: var(--accent);
   font-family: "SF Mono", "Fira Code", monospace;
-  background: #7c6cfc15;
+  background: #2dd4bf14;
   border-radius: 5px;
   padding: .1rem .35rem;
 }
@@ -466,6 +520,41 @@ main {
   word-break: break-all;
   text-align: center;
   line-height: 1.4;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .1rem;
+  min-height: 30px;
+  margin-top: .12rem;
+  position: relative;
+  z-index: 1;
+}
+.star {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: #3b4354;
+  cursor: pointer;
+  font-size: 1.06rem;
+  line-height: 1;
+  padding: .18rem;
+  transition: color .15s, transform .15s, text-shadow .15s;
+}
+.star:hover,
+.star.active {
+  color: var(--amber);
+  text-shadow: 0 0 16px #fbbf2440;
+}
+.star:hover { transform: translateY(-1px) scale(1.08); }
+.rating-label {
+  color: var(--muted);
+  font-size: .66rem;
+  line-height: 1;
+  min-height: .8rem;
+  text-align: center;
 }
 
 .copy-hint {
@@ -507,23 +596,32 @@ footer a:hover { text-decoration: underline; }
 
 /* ── Mobile ── */
 @media (max-width: 600px) {
-  .hero { padding: 2.5rem 1rem 2rem; }
+  .hero { padding: 2rem 1rem 1.8rem; text-align: left; }
   .hero-nav { margin-bottom: 1.25rem; }
-  .hero-stats { gap: 1rem; }
+  .github-btn span { display: none; }
+  .hero h1 { font-size: 2.25rem; }
+  .hero p { font-size: .95rem; margin-bottom: 1.25rem; }
+  .hero-stats { justify-content: stretch; gap: .5rem; }
+  .hero-stat { flex: 1 1 calc(50% - .5rem); min-width: 110px; padding: .7rem .75rem; align-items: flex-start; }
   .toolbar { padding: .6rem 1rem; }
   .toolbar-inner { gap: .5rem; }
-  .search-wrap { max-width: 100%; }
+  .search-wrap { max-width: 100%; min-width: 100%; }
+  .toolbar-select { flex: 1; min-width: 150px; }
   .filters { gap: .35rem; }
   .filter-btn { font-size: .72rem; padding: .32rem .55rem; }
   main { padding: 1.25rem 1rem; }
-  .grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: .55rem; }
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .65rem; }
   .card { padding: .9rem .65rem .7rem; }
-  .card-img-wrap { width: 48px; height: 48px; }
-  .card img { width: 36px; height: 36px; }
+  .card-img-wrap { width: 54px; height: 54px; }
+  .card img { width: 42px; height: 42px; }
+  .star { font-size: 1rem; padding: .16rem; }
+  .section-header { align-items: flex-start; }
+  .section-name { white-space: normal; line-height: 1.25; }
 }
 
 @media (max-width: 380px) {
-  .grid { grid-template-columns: repeat(3, 1fr); }
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .card-id { font-size: .58rem; }
 }
 </style>
 </head>
@@ -532,20 +630,24 @@ footer a:hover { text-decoration: underline; }
 <!-- Hero -->
 <section class="hero">
   <nav class="hero-nav">
+    <div class="brand">
+      <span class="brand-mark">✦</span>
+      <span>premium-telegram-emoji</span>
+    </div>
     <a class="github-btn" href="{GITHUB_URL}" target="_blank" rel="noopener">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
         <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
       </svg>
-      GitHub
+      <span>GitHub</span>
     </a>
   </nav>
-  <div class="hero-badge">✦ Telegram Premium</div>
-  <h1>Каталог <span class="grad">Premium Emoji</span></h1>
-  <p>Верифицированные ID premium-стикеров для Telegram-ботов. Готовый код для aiogram 3 — просто скопируй ID и используй.</p>
+  <h1>Каталог <span class="grad">Premium Emoji</span> для Telegram-ботов</h1>
+  <p>Верифицированные ID, реальные превью из Telegram, локальные оценки и готовый путь до кода: выбери emoji, скопируй ID и вставь в <code>&lt;tg-emoji&gt;</code>.</p>
   <div class="hero-stats">
     <div class="hero-stat"><strong>{TOTAL}</strong><span>emoji</span></div>
     <div class="hero-stat"><strong>{SECTIONS_COUNT}</strong><span>секций</span></div>
-    <div class="hero-stat"><strong>aiogram 3</strong><span>совместимость</span></div>
+    <div class="hero-stat"><strong>★</strong><span>твои оценки</span></div>
+    <div class="hero-stat"><strong>aiogram 3</strong><span>и HTML parse_mode</span></div>
   </div>
 </section>
 
@@ -558,6 +660,11 @@ footer a:hover { text-decoration: underline; }
       </svg>
       <input type="search" id="search" placeholder="Поиск…" oninput="filter()" autocomplete="off">
     </div>
+    <select class="toolbar-select" id="sort" onchange="sortCards()">
+      <option value="catalog">Порядок каталога</option>
+      <option value="rating">Сначала лучшие</option>
+      <option value="unrated">Неоценённые</option>
+    </select>
     <div class="filters" id="filters">
       <button class="filter-btn active" data-sec="all" onclick="setSection(this)">
         Все <span class="cnt">{TOTAL}</span>
@@ -577,12 +684,20 @@ footer a:hover { text-decoration: underline; }
 </main>
 
 <footer>
-  {TOTAL} emoji · Нажми на карточку чтобы скопировать ID ·
+  {TOTAL} emoji · Клик по карточке копирует ID · Оценки сохраняются только в твоём браузере ·
   <a href="{GITHUB_URL}" target="_blank">GitHub</a>
 </footer>
 
 <script>
 let activeSec = 'all';
+const RATING_KEY = 'premiumEmojiRatings:v1';
+let ratings = {};
+
+try {
+  ratings = JSON.parse(localStorage.getItem(RATING_KEY) || '{}');
+} catch (_) {
+  ratings = {};
+}
 
 function filter() {
   const q = document.getElementById('search').value.toLowerCase().trim();
@@ -615,18 +730,80 @@ function copyId(card, id) {
     setTimeout(() => card.classList.remove('copied'), 1200);
   });
 }
+
+function setRating(event, id, value) {
+  event.stopPropagation();
+  if (ratings[id] === value) {
+    delete ratings[id];
+  } else {
+    ratings[id] = value;
+  }
+  localStorage.setItem(RATING_KEY, JSON.stringify(ratings));
+  paintRatings();
+  sortCards(false);
+}
+
+function paintRatings() {
+  document.querySelectorAll('.card').forEach(card => {
+    const id = card.dataset.id;
+    const rating = Number(ratings[id] || 0);
+    card.dataset.rating = String(rating);
+    card.querySelectorAll('.star').forEach(star => {
+      const value = Number(star.dataset.value);
+      star.classList.toggle('active', value <= rating);
+      star.setAttribute('aria-pressed', value <= rating ? 'true' : 'false');
+    });
+    const label = card.querySelector('.rating-label');
+    if (label) {
+      label.textContent = rating ? `${rating}/5` : 'оценить';
+    }
+  });
+}
+
+function sortCards(shouldFilter = true) {
+  const mode = document.getElementById('sort').value;
+  document.querySelectorAll('.grid').forEach(grid => {
+    const cards = [...grid.querySelectorAll('.card')];
+    cards.sort((a, b) => {
+      const ar = Number(ratings[a.dataset.id] || 0);
+      const br = Number(ratings[b.dataset.id] || 0);
+      const ao = Number(a.dataset.order);
+      const bo = Number(b.dataset.order);
+
+      if (mode === 'rating') {
+        return (br - ar) || (ao - bo);
+      }
+      if (mode === 'unrated') {
+        return ((ar ? 1 : 0) - (br ? 1 : 0)) || (ao - bo);
+      }
+      return ao - bo;
+    });
+    cards.forEach(card => grid.appendChild(card));
+  });
+  if (shouldFilter) filter();
+}
+
+paintRatings();
 </script>
 </body>
 </html>
 """
 
 CARD_TMPL = """\
-<div class="card" data-search="{SEARCH}" data-sec="{SEC_ID}" onclick="copyId(this, '{EMOJI_ID}')">
+<div class="card" data-id="{EMOJI_ID}" data-order="{ORDER}" data-rating="0" data-search="{SEARCH}" data-sec="{SEC_ID}" onclick="copyId(this, '{EMOJI_ID}')">
   <div class="copy-hint">✓ скопировано</div>
   <div class="card-img-wrap">{IMG_TAG}</div>
   <div class="card-desc">{DESC}</div>
   <div class="card-key">{KEY}</div>
   <div class="card-id">{EMOJI_ID}</div>
+  <div class="rating" aria-label="Оценка emoji">
+    <button class="star" type="button" data-value="1" onclick="setRating(event, '{EMOJI_ID}', 1)" aria-label="Оценить на 1">★</button>
+    <button class="star" type="button" data-value="2" onclick="setRating(event, '{EMOJI_ID}', 2)" aria-label="Оценить на 2">★</button>
+    <button class="star" type="button" data-value="3" onclick="setRating(event, '{EMOJI_ID}', 3)" aria-label="Оценить на 3">★</button>
+    <button class="star" type="button" data-value="4" onclick="setRating(event, '{EMOJI_ID}', 4)" aria-label="Оценить на 4">★</button>
+    <button class="star" type="button" data-value="5" onclick="setRating(event, '{EMOJI_ID}', 5)" aria-label="Оценить на 5">★</button>
+  </div>
+  <div class="rating-label">оценить</div>
 </div>
 """
 
@@ -658,10 +835,11 @@ def build_html(sections: list[dict], thumbnails: dict[str, str]) -> str:
                 if img_path else
                 f'<span class="fallback">{e["fallback"]}</span>'
             )
-            search = f"{e['description'].lower()} {e['key'].lower()}"
+            search = f"{e['description'].lower()} {e['key'].lower()} {eid}"
             cards += CARD_TMPL.format(
                 SEARCH   = escape(search),
                 SEC_ID   = sec_id,
+                ORDER    = total,
                 EMOJI_ID = eid,
                 IMG_TAG  = img_tag,
                 DESC     = escape(e["description"]),
