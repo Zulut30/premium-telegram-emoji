@@ -224,7 +224,12 @@ Pack: https://t.me/addemoji/TgAndroidIcons
 | elexir | 5339471048528114691 | Elexir | 💻 |
 | kotlin | 5258439236289311492 | Kotlin | 💻 |
 | lua | 5258338381867266341 | Lua | 💻 |
-
+| linux | 5929096876321149063 | Linux | 🖥 |
+| debian | 5300838891442413975 | Debian | 👩‍💻 |
+| terminal | 5301233981189005137 | Terminal | 👩‍💻 |
+| css | 5278704833317052295 | CSS | 👩‍💻 |
+| react | 5301232280381956336 | React | 👩‍💻 |
+| node_js | 5769509712806550043 | Node.js | 🔰 |
 
 ## Section 6 — Нейросети
 
