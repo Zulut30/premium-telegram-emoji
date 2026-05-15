@@ -230,6 +230,19 @@ Pack: https://t.me/addemoji/TgAndroidIcons
 | css | 5278704833317052295 | CSS | 👩‍💻 |
 | react | 5301232280381956336 | React | 👩‍💻 |
 | node_js | 5769509712806550043 | Node.js | 🔰 |
+| pycharm | 5300905068298509813 | PyCharm | 👩‍💻 |
+| intellij | 5300959605793235101 | IntelliJ IDEA | 👩‍💻 |
+| vue_js | 5300879633502184552 | Vue.js | 👩‍💻 |
+| wordpress | 5359298442927545442 | Wordpress | 🌐 |
+| docker | 5301137237050663843 | Docker | 👩‍💻 |
+| postgresql | 4985967215405695597 | PostgreSQL | 🖥 |
+| powershell | 5301110372030225169 | Powershell | 👩‍💻 |
+| git | 5278751704295152483 | Git | 👩‍💻 |
+| mysql | 4985500816317088601 | MySQL | 🖥 |
+| coding | 4985930888572306287 | Coding | 🖥 |
+| sql | 4985770106471580492 | SQL | 🖥 |
+| shell | 5276381204470329471 | Shell | 🧑‍💻 |
+| bash | 5301083932211550593 | Bash | 👩‍💻 |
 
 ## Section 6 — Нейросети
 
