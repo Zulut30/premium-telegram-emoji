@@ -1,4 +1,7 @@
 .env
 __pycache__/
 *.pyc
-site/images/
+site/
+.venv/
+.runtime/
+output/playwright/

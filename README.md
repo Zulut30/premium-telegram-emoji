@@ -38,6 +38,21 @@
 - Нажми на карточку → ID скопирован в буфер
 - Обновляется автоматически при каждом пуше в репозиторий
 
+Разобраны восемь дополнительных паков: RoundFlags, GameIcons, GameEmoji,
+EffectEmoji, CuteEmoji, TopicIcons, MovieIcons и AnimalIcons — 884 эмодзи.
+Каждый получил русское название, категорию, подкатегорию, уникальный key,
+fallback и поисковые теги. Подкатегории показаны на карточках; поиск понимает
+названия франшиз на русском и английском. Неоднозначные записи имеют пометку.
+
+Полный разбор: [`references/pack-analysis.md`](references/pack-analysis.md).
+Данные для программ: [`data/emoji-packs.json`](data/emoji-packs.json).
+Подробные таблицы каждого пака: [`references/packs/`](references/packs/).
+
+Для повторного визуального анализа установи `requirements-inspection.txt`,
+затем используй `tools/inspect_packs.py` и `tools/inspect_animations.py`.
+Подписи хранятся в `data/labels/`; `tools/import_reviewed_packs.py --write-catalog`
+добавляет проверенные записи и пропускает уже имеющиеся ID.
+
 ---
 
 ## 🧠 Claude Code Skill
@@ -99,6 +114,26 @@ async def send_news(bot: Bot, channel: str, title: str, body: str) -> None:
 Бот для пополнения каталога. Отправляешь ему сообщение с premium emoji и описанием — он сам добавляет всё в каталог и пушит в GitHub.
 
 ### Быстрый старт
+
+#### Windows / PowerShell
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+# Запиши BOT_TOKEN=токен_от_BotFather в локальный файл .env
+.\Start-Bot.ps1
+# Остановка: .\Stop-Bot.ps1
+```
+
+Бот работает в фоне, пока компьютер включён. Логи находятся в `.runtime/`.
+На Windows токен также может храниться в `.runtime/bot-token.dpapi`,
+зашифрованный средствами Windows для текущего пользователя. Этот резерв
+используется только при отсутствии `BOT_TOKEN` в окружении и `.env`.
+Файл защищённого токена, `.env` и логи исключены из Git.
+Если Git уже авторизован для push, отдельный `GITHUB_TOKEN` не нужен.
+Бот читает секции из каталога, поэтому новые разделы появляются в кнопках автоматически.
+
+#### Docker
 
 ```bash
 git clone https://github.com/Zulut30/premium-telegram-emoji.git

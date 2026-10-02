@@ -6,6 +6,8 @@ on:
     paths:
       - "references/emoji-catalog.md"
       - "generate_site.py"
+      - "config.py"
+      - "data/emoji-packs.json"
   workflow_dispatch:
 
 permissions:

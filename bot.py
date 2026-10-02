@@ -13,10 +13,14 @@
 
 from __future__ import annotations
 
+import base64
+import html
+import logging
 import os
 import re
 import subprocess
 from pathlib import Path
+from config import load_environment
 
 from aiogram import Bot, Dispatcher, F, Router
 from aiogram.client.default import DefaultBotProperties
@@ -36,18 +40,28 @@ from aiogram.types import (
 # Config
 # ---------------------------------------------------------------------------
 
+REPO_DIR = Path(__file__).resolve().parent
+
+
+def load_env() -> None:
+    load_environment(REPO_DIR)
+
+
+load_env()
 BOT_TOKEN = os.getenv("BOT_TOKEN", "")
-REPO_DIR  = Path(__file__).parent
 
 ID_FILE      = REPO_DIR / "emoji-ids.txt"
 CATALOG_FILE = REPO_DIR / "references" / "emoji-catalog.md"
 
-SECTIONS = {
-    "1": "Section 1 — Animated News Emoji",
-    "2": "Section 2 — Static App Icons",
-    "3": "Section 3 — Animated App Icons",
-    "4": "Section 4 — Minimalist B&W Icons",
-}
+def catalog_sections() -> dict[str, str]:
+    return {
+        match.group(1): match.group(0)[3:]
+        for match in re.finditer(
+            r"^## Section (\d+) — .+$",
+            CATALOG_FILE.read_text(encoding="utf-8"),
+            re.MULTILINE,
+        )
+    }
 
 # ---------------------------------------------------------------------------
 # FSM
@@ -55,6 +69,7 @@ SECTIONS = {
 
 class AddEmoji(StatesGroup):
     waiting_for_section = State()
+    waiting_for_section_name = State()
 
 
 # ---------------------------------------------------------------------------
@@ -142,26 +157,29 @@ def description_to_key(description: str) -> str:
 
 
 def section_keyboard() -> InlineKeyboardMarkup:
-    return InlineKeyboardMarkup(inline_keyboard=[
-        [
-            InlineKeyboardButton(text="1 — Анимир. новости", callback_data="sec_1"),
-            InlineKeyboardButton(text="2 — Иконки приложений", callback_data="sec_2"),
-        ],
-        [
-            InlineKeyboardButton(text="3 — Анимир. иконки", callback_data="sec_3"),
-            InlineKeyboardButton(text="4 — Минимализм ч/б",  callback_data="sec_4"),
-        ],
-    ])
+    buttons = [
+        InlineKeyboardButton(
+            text=title.removeprefix("Section "), callback_data=f"sec_{number}"
+        )
+        for number, title in catalog_sections().items()
+    ]
+    rows = [buttons[i:i + 2] for i in range(0, len(buttons), 2)]
+    rows.append([InlineKeyboardButton(text="➕ Новая секция", callback_data="new_section")])
+    return InlineKeyboardMarkup(inline_keyboard=rows)
+
+
+def markdown_cell(value: str) -> str:
+    return " ".join(value.split()).replace("|", "&#124;")
 
 
 def append_to_id_file(entries: list[dict]) -> None:
     with open(ID_FILE, "a", encoding="utf-8") as f:
         for e in entries:
-            f.write(f"\n{e['emoji_id']} - {e['description']}")
+            f.write(f"\n{e['emoji_id']} - {' '.join(e['description'].split())}")
 
 
 def append_to_catalog(entries: list[dict], section_num: str) -> None:
-    section_header = f"## {SECTIONS[section_num]}"
+    section_header = f"## {catalog_sections()[section_num]}"
     text = CATALOG_FILE.read_text(encoding="utf-8")
 
     # Find the end of the target section (before the next ## or end of file)
@@ -174,19 +192,24 @@ def append_to_catalog(entries: list[dict], section_num: str) -> None:
             f.write("|---|---|---|---|\n")
             for e in entries:
                 key = description_to_key(e["description"])
-                f.write(f"| {key} | {e['emoji_id']} | {e['description']} | {e['fallback']} |\n")
+                f.write(f"| {key} | {e['emoji_id']} | {markdown_cell(e['description'])} | {markdown_cell(e['fallback'])} |\n")
         return
 
     # Find insertion point = just before the next section header or end
     next_section = text.find("\n## ", section_pos + len(section_header))
-    insert_at = next_section if next_section != -1 else len(text)
+    section_end = next_section if next_section != -1 else len(text)
+    # Keep new entries inside the existing table, before notes and separators.
+    table_rows = list(re.finditer(r"^\|.*\|[ \t]*$", text[section_pos:section_end], re.MULTILINE))
+    insert_at = section_pos + table_rows[-1].end() if table_rows else section_end
 
     new_rows = ""
     for e in entries:
         key = description_to_key(e["description"])
-        new_rows += f"| {key} | {e['emoji_id']} | {e['description']} | {e['fallback']} |\n"
+        new_rows += f"| {key} | {e['emoji_id']} | {markdown_cell(e['description'])} | {markdown_cell(e['fallback'])} |\n"
 
-    updated = text[:insert_at].rstrip() + "\n" + new_rows + "\n" + text[insert_at:].lstrip("\n")
+    updated = text[:insert_at].rstrip() + "\n" + new_rows.rstrip("\n") + text[insert_at:]
+    if not updated.endswith("\n"):
+        updated += "\n"
     CATALOG_FILE.write_text(updated, encoding="utf-8")
 
 
@@ -204,40 +227,28 @@ def git_commit_and_push(entries: list[dict]) -> str:
             cwd=REPO_DIR, check=True, capture_output=True
         )
 
-        # If GITHUB_TOKEN is set, inject it into the remote URL for push
+        # Pass optional authentication only in the child process environment.
         github_token = os.getenv("GITHUB_TOKEN", "")
         push_env = os.environ.copy()
+        push_env["GIT_TERMINAL_PROMPT"] = "0"
         if github_token:
-            result_remote = subprocess.run(
-                ["git", "remote", "get-url", "origin"],
-                cwd=REPO_DIR, capture_output=True, text=True
-            )
-            remote_url = result_remote.stdout.strip()
-            # https://github.com/... → https://token@github.com/...
-            authed_url = remote_url.replace("https://", f"https://{github_token}@")
-            subprocess.run(
-                ["git", "remote", "set-url", "origin", authed_url],
-                cwd=REPO_DIR, check=True, capture_output=True
-            )
+            credential = base64.b64encode(f"x-access-token:{github_token}".encode()).decode()
+            config_index = int(push_env.get("GIT_CONFIG_COUNT", "0"))
+            push_env["GIT_CONFIG_COUNT"] = str(config_index + 1)
+            push_env[f"GIT_CONFIG_KEY_{config_index}"] = "http.https://github.com/.extraheader"
+            push_env[f"GIT_CONFIG_VALUE_{config_index}"] = f"AUTHORIZATION: basic {credential}"
 
         result = subprocess.run(
             ["git", "push"],
             cwd=REPO_DIR, capture_output=True, text=True, env=push_env
         )
 
-        # Restore original remote URL (remove token)
-        if github_token:
-            subprocess.run(
-                ["git", "remote", "set-url", "origin", remote_url],
-                cwd=REPO_DIR, capture_output=True
-            )
-
         if result.returncode == 0:
             return "✅ Запушено в GitHub"
         else:
-            return f"⚠️ Файлы обновлены, но push не удался:\n<code>{result.stderr[:200]}</code>"
+            return "⚠️ Файлы сохранены локально, но push не удался. Проверь доступ к GitHub."
     except subprocess.CalledProcessError as exc:
-        return f"⚠️ Ошибка git: <code>{exc.stderr.decode()[:200]}</code>"
+        return "⚠️ Файлы сохранены локально, но Git не смог создать коммит. Проверь настройки Git."
 
 
 # ---------------------------------------------------------------------------
@@ -259,6 +270,40 @@ async def cmd_start(message: Message) -> None:
     )
 
 
+@router.message(Command("sections"))
+async def cmd_sections(message: Message) -> None:
+    await message.answer("\n".join(html.escape(title) for title in catalog_sections().values()))
+
+
+@router.message(Command("cancel"))
+async def cmd_cancel(message: Message, state: FSMContext) -> None:
+    await state.clear()
+    await message.answer("Добавление отменено. Отправь новое сообщение с emoji и описанием.")
+
+
+@router.callback_query(AddEmoji.waiting_for_section, F.data == "new_section")
+async def handle_new_section(callback: CallbackQuery, state: FSMContext) -> None:
+    await state.set_state(AddEmoji.waiting_for_section_name)
+    await callback.message.edit_reply_markup(reply_markup=None)
+    await callback.message.answer("Напиши название новой секции. Для отмены: /cancel")
+    await callback.answer()
+
+
+@router.message(AddEmoji.waiting_for_section_name, F.text)
+async def handle_section_name(message: Message, state: FSMContext) -> None:
+    name = " ".join(message.text.split()).strip()
+    if not name or len(name) > 80:
+        await message.answer("Название должно содержать от 1 до 80 символов.")
+        return
+    sections = catalog_sections()
+    section_num = str(max(map(int, sections), default=0) + 1)
+    with CATALOG_FILE.open("a", encoding="utf-8") as catalog:
+        catalog.write(f"\n\n## Section {section_num} — {name}\n\n")
+        catalog.write("| key suggestion | emoji_id | description | fallback |\n|---|---|---|---|\n")
+    data = await state.get_data()
+    await save_entries(message, state, data["entries"], section_num)
+
+
 @router.message(F.entities)
 async def handle_message_with_entities(message: Message, state: FSMContext) -> None:
     entries = parse_emoji_entries(message)
@@ -269,7 +314,7 @@ async def handle_message_with_entities(message: Message, state: FSMContext) -> N
     # Show what was found
     lines = ["<b>Нашёл:</b>"]
     for e in entries:
-        lines.append(f"• <code>{e['emoji_id']}</code> — {e['description']} (fallback: {e['fallback']})")
+        lines.append(f"• <code>{e['emoji_id']}</code> — {html.escape(e['description'])} (fallback: {html.escape(e['fallback'])})")
     lines.append("\nВ какую секцию добавить?")
 
     await state.update_data(entries=entries)
@@ -283,23 +328,30 @@ async def handle_section_choice(callback: CallbackQuery, state: FSMContext) -> N
     data = await state.get_data()
     entries = data["entries"]
 
-    await state.clear()
+    if section_num not in catalog_sections():
+        await callback.answer("Секция больше не существует. Отправь emoji ещё раз.")
+        return
+    await callback.answer()
     await callback.message.edit_reply_markup(reply_markup=None)
+    await save_entries(callback.message, state, entries, section_num)
+
+
+async def save_entries(message: Message, state: FSMContext, entries: list[dict], section_num: str) -> None:
 
     # Update files
     append_to_id_file(entries)
     append_to_catalog(entries, section_num)
     push_result = git_commit_and_push(entries)
+    await state.clear()
 
     # Summary
-    lines = [f"<b>Добавлено в {SECTIONS[section_num]}:</b>"]
+    lines = [f"<b>Добавлено в {html.escape(catalog_sections()[section_num])}:</b>"]
     for e in entries:
         key = description_to_key(e["description"])
-        lines.append(f"• key: <code>{key}</code> | id: <code>{e['emoji_id']}</code> | {e['description']}")
+        lines.append(f"• key: <code>{key}</code> | id: <code>{e['emoji_id']}</code> | {html.escape(e['description'])}")
     lines.append(f"\n{push_result}")
 
-    await callback.message.answer("\n".join(lines), parse_mode=ParseMode.HTML)
-    await callback.answer()
+    await message.answer("\n".join(lines), parse_mode=ParseMode.HTML)
 
 
 # ---------------------------------------------------------------------------
@@ -307,6 +359,7 @@ async def handle_section_choice(callback: CallbackQuery, state: FSMContext) -> N
 # ---------------------------------------------------------------------------
 
 async def main() -> None:
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
     if not BOT_TOKEN:
         raise RuntimeError("Нет BOT_TOKEN — задай переменную окружения или .env файл")
 
@@ -321,12 +374,4 @@ async def main() -> None:
 
 if __name__ == "__main__":
     import asyncio
-    # Загружаем .env если есть
-    env_file = Path(__file__).parent / ".env"
-    if env_file.exists():
-        for line in env_file.read_text().splitlines():
-            if "=" in line and not line.startswith("#"):
-                k, _, v = line.partition("=")
-                os.environ.setdefault(k.strip(), v.strip())
-
     asyncio.run(main())

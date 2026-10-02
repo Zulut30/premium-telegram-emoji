@@ -18,11 +18,15 @@ import urllib.request
 import urllib.parse
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
+from config import load_environment
 
 REPO_DIR     = Path(__file__).parent
 CATALOG_FILE = REPO_DIR / "references" / "emoji-catalog.md"
 SITE_DIR     = REPO_DIR / "site"
 IMG_DIR      = SITE_DIR / "images"
+METADATA_FILE = REPO_DIR / "data" / "emoji-packs.json"
+
+load_environment(REPO_DIR)
 
 BOT_TOKEN = os.getenv("BOT_TOKEN", "")
 API       = f"https://api.telegram.org/bot{BOT_TOKEN}"
@@ -34,6 +38,14 @@ API       = f"https://api.telegram.org/bot{BOT_TOKEN}"
 
 def parse_catalog() -> list[dict]:
     text = CATALOG_FILE.read_text(encoding="utf-8")
+    reviewed = {}
+    if METADATA_FILE.exists():
+        data = json.loads(METADATA_FILE.read_text(encoding="utf-8"))
+        reviewed = {
+            item["emoji_id"]: {**item, "pack_name": pack["name"], "pack_url": pack["url"]}
+            for pack in data["packs"]
+            for item in pack["items"]
+        }
     sections: list[dict] = []
     current: dict | None = None
 
@@ -44,6 +56,10 @@ def parse_catalog() -> list[dict]:
             sections.append(current)
             continue
 
+        if current and line.startswith("Pack: "):
+            current["pack_url"] = line.removeprefix("Pack: ").strip()
+            continue
+
         if (
             current
             and line.startswith("|")
@@ -52,12 +68,17 @@ def parse_catalog() -> list[dict]:
         ):
             parts = [p.strip() for p in line.split("|")[1:-1]]
             if len(parts) >= 4 and parts[1].isdigit():
-                current["emojis"].append({
+                emoji = {
                     "key":         parts[0],
                     "emoji_id":    parts[1],
                     "description": parts[2],
                     "fallback":    parts[3],
-                })
+                }
+                metadata = reviewed.get(parts[1], {})
+                for key in ["category", "subcategory", "tags", "pack_name", "pack_url", "monochrome", "needs_review", "notes"]:
+                    if key in metadata:
+                        emoji[key] = metadata[key]
+                current["emojis"].append(emoji)
 
     return sections
 
@@ -370,6 +391,8 @@ input[type=search]::placeholder { color: var(--muted); }
 }
 .toolbar-select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px #2dd4bf18; }
 
+.section-mobile { display: none; }
+
 .filters {
   display: flex;
   gap: .4rem;
@@ -494,6 +517,7 @@ main {
   height: 50px;
   object-fit: contain;
 }
+.card img.monochrome { filter: brightness(0) invert(1); }
 .card .fallback { font-size: 2rem; line-height: 1; }
 
 .card-desc {
@@ -506,6 +530,8 @@ main {
   word-break: break-word;
 }
 .card-key {
+  max-width: 100%;
+  word-break: break-word;
   font-size: .68rem;
   color: var(--accent);
   font-family: "SF Mono", "Fira Code", monospace;
@@ -513,6 +539,9 @@ main {
   border-radius: 5px;
   padding: .1rem .35rem;
 }
+.card-category { color: var(--muted); font-size: .68rem; text-align: center; }
+.card-review { color: var(--amber); font-size: .68rem; text-align: center; }
+.section-source { color: var(--accent2); font-size: .75rem; text-decoration: none; }
 .card-id {
   font-size: .62rem;
   color: var(--muted);
@@ -605,6 +634,8 @@ footer a:hover { text-decoration: underline; }
   .hero-stat { flex: 1 1 calc(50% - .5rem); min-width: 110px; padding: .7rem .75rem; align-items: flex-start; }
   .toolbar { padding: .6rem 1rem; }
   .toolbar-inner { gap: .5rem; }
+  .filters { display: none; }
+  .section-mobile { display: block; flex: 1; min-width: 0; max-width: 100%; }
   .search-wrap { max-width: 100%; min-width: 100%; }
   .toolbar-select { flex: 1; min-width: 150px; }
   .filters { gap: .35rem; }
@@ -658,12 +689,16 @@ footer a:hover { text-decoration: underline; }
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
       </svg>
-      <input type="search" id="search" placeholder="Поиск…" oninput="filter()" autocomplete="off">
+      <input type="search" id="search" placeholder="Название, категория, игра или ID…" oninput="filter()" autocomplete="off">
     </div>
     <select class="toolbar-select" id="sort" onchange="sortCards()">
       <option value="catalog">Порядок каталога</option>
       <option value="rating">Сначала лучшие</option>
       <option value="unrated">Неоценённые</option>
+    </select>
+    <select class="toolbar-select section-mobile" id="sectionMobile" aria-label="Раздел каталога" onchange="setSectionFromSelect(this.value)">
+      <option value="all">Все разделы · {TOTAL}</option>
+      {SECTION_OPTIONS}
     </select>
     <div class="filters" id="filters">
       <button class="filter-btn active" data-sec="all" onclick="setSection(this)">
@@ -718,10 +753,16 @@ function filter() {
 
 function setSection(btn) {
   activeSec = btn.dataset.sec;
+  document.getElementById('sectionMobile').value = activeSec;
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   filter();
   window.scrollTo({ top: document.querySelector('.toolbar').offsetTop - 1, behavior: 'smooth' });
+}
+
+function setSectionFromSelect(value) {
+  const button = [...document.querySelectorAll('.filter-btn')].find(btn => btn.dataset.sec === value);
+  if (button) setSection(button);
 }
 
 function copyId(card, id) {
@@ -795,6 +836,8 @@ CARD_TMPL = """\
   <div class="card-img-wrap">{IMG_TAG}</div>
   <div class="card-desc">{DESC}</div>
   <div class="card-key">{KEY}</div>
+  {CATEGORY_HTML}
+  {REVIEW_HTML}
   <div class="card-id">{EMOJI_ID}</div>
   <div class="rating" aria-label="Оценка emoji">
     <button class="star" type="button" data-value="1" onclick="setRating(event, '{EMOJI_ID}', 1)" aria-label="Оценить на 1">★</button>
@@ -814,6 +857,7 @@ def escape(s: str) -> str:
 
 def build_html(sections: list[dict], thumbnails: dict[str, str]) -> str:
     sec_buttons  = ""
+    sec_options = ""
     sections_html = ""
     total = 0
 
@@ -826,16 +870,25 @@ def build_html(sections: list[dict], thumbnails: dict[str, str]) -> str:
             f'{escape(sec_short)} <span class="cnt">{count}</span></button>\n      '
         )
 
+        sec_options += f'<option value="{sec_id}">{escape(sec_short)} · {count}</option>\n'
+
         cards = ""
         for e in sec["emojis"]:
             eid      = e["emoji_id"]
             img_path = thumbnails.get(eid)
             img_tag  = (
-                f'<img src="{img_path}" alt="{escape(e["fallback"])}" loading="lazy">'
+                f'<img src="{img_path}" alt="{escape(e["description"])}" loading="lazy"'
+                + (' class="monochrome"' if e.get("monochrome") else '') + '>'
                 if img_path else
-                f'<span class="fallback">{e["fallback"]}</span>'
+                f'<span class="fallback">{escape(e["fallback"])}</span>'
             )
-            search = f"{e['description'].lower()} {e['key'].lower()} {eid}"
+            search = ' '.join([
+                e['description'], e['key'], eid,
+                e.get('category', ''), e.get('subcategory', ''), e.get('pack_name', ''),
+                *e.get('tags', []),
+            ]).lower()
+            category_html = f'<div class="card-category">{escape(e["subcategory"])}</div>' if e.get('subcategory') else ''
+            review_html = f'<div class="card-review" title="{escape(" ".join(e.get("notes", [])))}">Требует уточнения</div>' if e.get('needs_review') else ''
             cards += CARD_TMPL.format(
                 SEARCH   = escape(search),
                 SEC_ID   = sec_id,
@@ -844,6 +897,8 @@ def build_html(sections: list[dict], thumbnails: dict[str, str]) -> str:
                 IMG_TAG  = img_tag,
                 DESC     = escape(e["description"]),
                 KEY      = escape(e["key"]),
+                CATEGORY_HTML = category_html,
+                REVIEW_HTML = review_html,
             )
             total += 1
 
@@ -852,7 +907,8 @@ def build_html(sections: list[dict], thumbnails: dict[str, str]) -> str:
             f'<div class="section-header">'
             f'<span class="section-name">{escape(sec["title"])}</span>'
             f'<span class="section-count">{count}</span>'
-            f'<div class="section-line"></div>'
+            + (f'<a class="section-source" href="{escape(sec["pack_url"])}" target="_blank" rel="noopener">Открыть пак ↗</a>' if sec.get('pack_url') else '')
+            + f'<div class="section-line"></div>'
             f'</div>'
             f'<div class="grid">{cards}</div>'
             f'</div>\n'
@@ -861,6 +917,7 @@ def build_html(sections: list[dict], thumbnails: dict[str, str]) -> str:
     return (HTML_TEMPLATE
             .replace("{GITHUB_URL}",      GITHUB_URL)
             .replace("{SECTION_BUTTONS}", sec_buttons.strip())
+            .replace("{SECTION_OPTIONS}", sec_options.strip())
             .replace("{SECTIONS_HTML}",   sections_html)
             .replace("{TOTAL}",           str(total))
             .replace("{SECTIONS_COUNT}",  str(len(sections))))
