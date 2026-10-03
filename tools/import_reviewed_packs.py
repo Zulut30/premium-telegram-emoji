@@ -91,6 +91,8 @@ def main(write_catalog=False):
     section_numbers = [int(n) for n in re.findall(r'^## Section (\d+)', original, re.MULTILINE)]
     next_section = max(section_numbers, default=0) + 1
     document = {'schema_version': 1, 'reviewed_on': '2026-10-03', 'method': 'Manual visual review of all previews, rendered TGS frames and original animation layer names; Telegram fallback checked separately.', 'packs': []}
+    metadata_path = ROOT / 'data' / 'emoji-packs.json'
+    previous_document = json.loads(metadata_path.read_text(encoding='utf-8')) if metadata_path.exists() else {'packs': []}
     new_rows = []
     updated = original
     seen = set()
@@ -148,7 +150,10 @@ def main(write_catalog=False):
             note = ('Требует уточнения. ' if item['needs_review'] else '') + ' '.join(item['notes'])
             text += '| ' + ' | '.join(cell(value) for value in [item['pack_index'], item['name_ru'], item['subcategory'], item['emoji_id'], item['key'], item['fallback'], note]) + ' |\n'
         path.write_text(text, encoding='utf-8', newline='\n')
-    (ROOT / 'data' / 'emoji-packs.json').write_text(json.dumps(document, ensure_ascii=False, indent=2) + '\n', encoding='utf-8', newline='\n')
+    previous_packs = {pack['name']: pack for pack in previous_document['packs']}
+    previous_packs.update({pack['name']: pack for pack in document['packs']})
+    merged_document = {**previous_document, 'packs': list(previous_packs.values())}
+    metadata_path.write_text(json.dumps(merged_document, ensure_ascii=False, indent=2) + '\n', encoding='utf-8', newline='\n')
     assert len(seen) == 884
     if write_catalog and new_rows:
         if catalog_path.read_text(encoding='utf-8') != original:
@@ -160,7 +165,7 @@ def main(write_catalog=False):
         existing_lines = set(re.findall(r'^(\d{15,22})\b', ids, re.MULTILINE))
         additions = ''.join(f'\n{item["emoji_id"]} - {item["name_ru"]}' for item in new_rows if item['emoji_id'] not in existing_lines) + '\n'
         ids_path.write_bytes(ids_bytes + additions.encode('utf-8'))
-    report = ROOT / 'references' / 'pack-analysis.md'
+    report = ROOT / 'references' / ('pack-analysis-initial-eight.md' if len(previous_packs) > len(CONFIG) else 'pack-analysis.md')
     text = '# Анализ восьми паков Telegram Emoji\n\nПроверено 3 октября 2026 года. 884 разных custom_emoji_id: 610 анимированных и 274 статичных. Для каждой записи сохранены русское название, основная категория, подкатегория, уникальный key, fallback, поисковые теги и источник.\n\nАвторские названия слоёв использованы как свидетельство замысла автора, а не как проверка официальности эмблем. Редакционные категории и рекомендации по применению предложены при анализе. Неоднозначные случаи отмечены отдельно.\n\n| Пак | Название раздела | Категория | Всего | Анимированных | Подкатегорий | Применение |\n|---|---|---|---|---|---|---|\n'
     for pack in document['packs']:
         text += '| ' + ' | '.join([f'[{pack["name"]}]({pack["url"]})', f'[{pack["title_ru"]}](packs/{pack["name"]}.md)', pack['category'], str(pack['count']), str(sum(item['is_animated'] for item in pack['items'])), str(len({item['subcategory'] for item in pack['items']})), pack['usage']]) + ' |\n'

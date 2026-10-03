@@ -1,0 +1,3727 @@
+{
+  "reviewed_on": "2026-10-03",
+  "sources": [
+    "https://core.telegram.org/bots/api#sticker",
+    "https://github.com/unicode-org/cldr/blob/main/common/annotations/ru.xml"
+  ],
+  "packs": {
+    "StickersByEasyForBusy": {
+      "title_ru": "Буквы и реакции на бумажных стикерах",
+      "category": "Буквы и надписи",
+      "style": "бумажные стикеры",
+      "reviewed_pages": [
+        1,
+        2,
+        3
+      ],
+      "notes": [
+        "Алфавиты и надписи сохраняют исходное написание; служебные fallback не обозначают буквы."
+      ],
+      "overrides": {
+        "1": {
+          "text": "А",
+          "role": "letter"
+        },
+        "2": {
+          "text": "Б",
+          "role": "letter"
+        },
+        "3": {
+          "text": "В",
+          "role": "letter"
+        },
+        "4": {
+          "text": "Г",
+          "role": "letter"
+        },
+        "5": {
+          "text": "Д",
+          "role": "letter"
+        },
+        "6": {
+          "text": "Е",
+          "role": "letter"
+        },
+        "7": {
+          "text": "Ё",
+          "role": "letter"
+        },
+        "8": {
+          "text": "Ж",
+          "role": "letter"
+        },
+        "9": {
+          "text": "З",
+          "role": "letter"
+        },
+        "10": {
+          "text": "И",
+          "role": "letter"
+        },
+        "11": {
+          "text": "Й",
+          "role": "letter"
+        },
+        "12": {
+          "text": "К",
+          "role": "letter"
+        },
+        "13": {
+          "text": "Л",
+          "role": "letter"
+        },
+        "14": {
+          "text": "М",
+          "role": "letter"
+        },
+        "15": {
+          "text": "Н",
+          "role": "letter"
+        },
+        "16": {
+          "text": "О",
+          "role": "letter"
+        },
+        "17": {
+          "text": "П",
+          "role": "letter"
+        },
+        "18": {
+          "text": "Р",
+          "role": "letter"
+        },
+        "19": {
+          "text": "С",
+          "role": "letter"
+        },
+        "20": {
+          "text": "Т",
+          "role": "letter"
+        },
+        "21": {
+          "text": "У",
+          "role": "letter"
+        },
+        "22": {
+          "text": "Ф",
+          "role": "letter"
+        },
+        "23": {
+          "text": "Х",
+          "role": "letter"
+        },
+        "24": {
+          "text": "Ц",
+          "role": "letter"
+        },
+        "25": {
+          "text": "Ч",
+          "role": "letter"
+        },
+        "26": {
+          "text": "Ш",
+          "role": "letter"
+        },
+        "27": {
+          "text": "Щ",
+          "role": "letter"
+        },
+        "28": {
+          "text": "Ъ",
+          "role": "letter"
+        },
+        "29": {
+          "text": "Ы",
+          "role": "letter"
+        },
+        "30": {
+          "text": "Ь",
+          "role": "letter"
+        },
+        "31": {
+          "text": "Э",
+          "role": "letter"
+        },
+        "32": {
+          "text": "Ю",
+          "role": "letter"
+        },
+        "33": {
+          "text": "Я",
+          "role": "letter"
+        },
+        "34": {
+          "text": "A",
+          "role": "letter"
+        },
+        "35": {
+          "text": "B",
+          "role": "letter"
+        },
+        "36": {
+          "text": "C",
+          "role": "letter"
+        },
+        "37": {
+          "text": "D",
+          "role": "letter"
+        },
+        "38": {
+          "text": "E",
+          "role": "letter"
+        },
+        "39": {
+          "text": "F",
+          "role": "letter"
+        },
+        "40": {
+          "text": "G",
+          "role": "letter"
+        },
+        "41": {
+          "text": "H",
+          "role": "letter"
+        },
+        "42": {
+          "text": "I",
+          "role": "letter"
+        },
+        "43": {
+          "text": "J",
+          "role": "letter"
+        },
+        "44": {
+          "text": "K",
+          "role": "letter"
+        },
+        "45": {
+          "text": "L",
+          "role": "letter"
+        },
+        "46": {
+          "text": "M",
+          "role": "letter"
+        },
+        "47": {
+          "text": "N",
+          "role": "letter"
+        },
+        "48": {
+          "text": "O",
+          "role": "letter"
+        },
+        "49": {
+          "text": "P",
+          "role": "letter"
+        },
+        "50": {
+          "text": "Q",
+          "role": "letter"
+        },
+        "51": {
+          "text": "R",
+          "role": "letter"
+        },
+        "52": {
+          "text": "S",
+          "role": "letter"
+        },
+        "53": {
+          "text": "T",
+          "role": "letter"
+        },
+        "54": {
+          "text": "U",
+          "role": "letter"
+        },
+        "55": {
+          "text": "V",
+          "role": "letter"
+        },
+        "56": {
+          "text": "W",
+          "role": "letter"
+        },
+        "57": {
+          "text": "X",
+          "role": "letter"
+        },
+        "58": {
+          "text": "Y",
+          "role": "letter"
+        },
+        "59": {
+          "text": "Z",
+          "role": "letter"
+        },
+        "60": {
+          "text": "0",
+          "role": "digit"
+        },
+        "61": {
+          "text": "1",
+          "role": "digit"
+        },
+        "62": {
+          "text": "2",
+          "role": "digit"
+        },
+        "63": {
+          "text": "3",
+          "role": "digit"
+        },
+        "64": {
+          "text": "4",
+          "role": "digit"
+        },
+        "65": {
+          "text": "5",
+          "role": "digit"
+        },
+        "66": {
+          "text": "6",
+          "role": "digit"
+        },
+        "67": {
+          "text": "7",
+          "role": "digit"
+        },
+        "68": {
+          "text": "8",
+          "role": "digit"
+        },
+        "69": {
+          "text": "9",
+          "role": "digit"
+        }
+      }
+    },
+    "SocialEmojis": {
+      "title_ru": "Цветные логотипы соцсетей и сервисов",
+      "category": "Бренды и сервисы",
+      "style": "цветные логотипы",
+      "reviewed_pages": [
+        1
+      ],
+      "overrides": {
+        "38": {
+          "needs_review": true,
+          "notes": [
+            "Сервис не установлен; название описывает видимый логотип."
+          ]
+        },
+        "45": {
+          "needs_review": true,
+          "notes": [
+            "Сервис не установлен; название описывает видимый логотип."
+          ]
+        },
+        "48": {
+          "needs_review": true,
+          "notes": [
+            "Телевизионный логотип не установлен."
+          ]
+        },
+        "60": {
+          "needs_review": true,
+          "notes": [
+            "Пиксельный телевизор распознан; название сервиса не установлено."
+          ]
+        }
+      }
+    },
+    "adaptivcandyEmoji": {
+      "title_ru": "Контурные иконки со звёздочками",
+      "category": "Предметы и символы",
+      "style": "контур со звёздами",
+      "reviewed_pages": [
+        1,
+        2,
+        3
+      ],
+      "overrides": {
+        "156": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "role": "unknown",
+          "notes": [
+            "Изображение полностью прозрачное; назначение элемента не установлено."
+          ]
+        }
+      }
+    },
+    "NeonEmoji": {
+      "title_ru": "Неоновые реакции и предметы",
+      "category": "Эффекты и оформление",
+      "style": "неон",
+      "reviewed_pages": [
+        1
+      ]
+    },
+    "DigitalEmojiPack": {
+      "title_ru": "Логотипы маркетинга, аналитики и цифровых сервисов",
+      "category": "Маркетинг и цифровые сервисы",
+      "style": "цветные логотипы",
+      "reviewed_pages": [
+        1,
+        2,
+        3
+      ],
+      "notes": [
+        "Название исходного пака вводит в заблуждение: внутри логотипы цифровых сервисов, а не пиксельные смайлики.",
+        "Служебные fallback этого пака не использованы для идентификации брендов."
+      ],
+      "overrides": {
+        "3": {
+          "needs_review": true,
+          "notes": [
+            "Бренд не установлен; дано визуальное название эмблемы."
+          ]
+        },
+        "4": {
+          "needs_review": true,
+          "notes": [
+            "Бренд не установлен; дано визуальное название эмблемы."
+          ]
+        },
+        "38": {
+          "needs_review": true,
+          "notes": [
+            "Бренд не установлен; дано визуальное название эмблемы."
+          ]
+        },
+        "53": {
+          "needs_review": true,
+          "notes": [
+            "Бренд не установлен; дано визуальное название эмблемы."
+          ]
+        },
+        "57": {
+          "needs_review": true,
+          "notes": [
+            "Бренд не установлен; дано визуальное название эмблемы."
+          ]
+        },
+        "61": {
+          "needs_review": true,
+          "notes": [
+            "Бренд не установлен; дано визуальное название эмблемы."
+          ]
+        },
+        "64": {
+          "needs_review": true,
+          "notes": [
+            "Бренд не установлен; дано визуальное название эмблемы."
+          ]
+        },
+        "66": {
+          "needs_review": true,
+          "notes": [
+            "Бренд не установлен; дано визуальное название эмблемы."
+          ]
+        },
+        "68": {
+          "needs_review": true,
+          "notes": [
+            "Бренд не установлен; дано визуальное название эмблемы."
+          ]
+        },
+        "80": {
+          "needs_review": true,
+          "notes": [
+            "Бренд не установлен; дано визуальное название эмблемы."
+          ]
+        },
+        "86": {
+          "needs_review": true,
+          "notes": [
+            "Бренд не установлен; дано визуальное название эмблемы."
+          ]
+        },
+        "89": {
+          "needs_review": true,
+          "notes": [
+            "Бренд не установлен; дано визуальное название эмблемы."
+          ]
+        },
+        "90": {
+          "needs_review": true,
+          "notes": [
+            "Бренд не установлен; дано визуальное название эмблемы."
+          ]
+        },
+        "108": {
+          "needs_review": true,
+          "notes": [
+            "Бренд не установлен; дано визуальное название эмблемы."
+          ]
+        },
+        "117": {
+          "needs_review": true,
+          "notes": [
+            "Бренд не установлен; дано визуальное название эмблемы."
+          ]
+        },
+        "125": {
+          "needs_review": true,
+          "notes": [
+            "Бренд не установлен; дано визуальное название эмблемы."
+          ]
+        },
+        "126": {
+          "needs_review": true,
+          "notes": [
+            "Бренд не установлен; дано визуальное название эмблемы."
+          ]
+        },
+        "140": {
+          "needs_review": true,
+          "notes": [
+            "Бренд не установлен; дано визуальное название эмблемы."
+          ]
+        },
+        "141": {
+          "needs_review": true,
+          "notes": [
+            "Бренд не установлен; дано визуальное название эмблемы."
+          ]
+        },
+        "145": {
+          "needs_review": true,
+          "notes": [
+            "Бренд не установлен; дано визуальное название эмблемы."
+          ]
+        },
+        "153": {
+          "needs_review": true,
+          "notes": [
+            "Бренд не установлен; дано визуальное название эмблемы."
+          ]
+        },
+        "154": {
+          "needs_review": true,
+          "notes": [
+            "Бренд не установлен; дано визуальное название эмблемы."
+          ]
+        },
+        "156": {
+          "needs_review": true,
+          "notes": [
+            "Бренд не установлен; дано визуальное название эмблемы."
+          ]
+        },
+        "158": {
+          "needs_review": true,
+          "notes": [
+            "Бренд не установлен; дано визуальное название эмблемы."
+          ]
+        },
+        "162": {
+          "needs_review": true,
+          "notes": [
+            "Бренд не установлен; дано визуальное название эмблемы."
+          ]
+        }
+      }
+    },
+    "to_archaic": {
+      "title_ru": "Архаические и античные символы",
+      "category": "История и символы",
+      "style": "архаика",
+      "reviewed_pages": [
+        1
+      ],
+      "notes": [
+        "Редакционные названия описывают рисунок; точная историческая атрибуция ритуальных символов не заявляется."
+      ]
+    },
+    "gryaznye_kartnki_by_TgEmodziBot": {
+      "title_ru": "Штрихи, растения и рисованные элементы",
+      "category": "Эффекты и оформление",
+      "style": "рисованные штрихи",
+      "reviewed_pages": [
+        1,
+        2
+      ]
+    },
+    "EmojiStatus": {
+      "title_ru": "Анимированные значки статуса",
+      "category": "Статусы и реакции",
+      "style": "значки статуса",
+      "reviewed_pages": [
+        1,
+        2
+      ],
+      "overrides": {
+        "27": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и оригинальная TGS-анимация сейчас прозрачны; исходный рисунок не установлен."
+          ]
+        },
+        "28": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и оригинальная TGS-анимация сейчас прозрачны; исходный рисунок не установлен."
+          ]
+        },
+        "29": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и оригинальная TGS-анимация сейчас прозрачны; исходный рисунок не установлен."
+          ]
+        },
+        "30": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и оригинальная TGS-анимация сейчас прозрачны; исходный рисунок не установлен."
+          ]
+        },
+        "31": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и оригинальная TGS-анимация сейчас прозрачны; исходный рисунок не установлен."
+          ]
+        },
+        "32": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и оригинальная TGS-анимация сейчас прозрачны; исходный рисунок не установлен."
+          ]
+        },
+        "56": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и оригинальная TGS-анимация сейчас прозрачны; исходный рисунок не установлен."
+          ]
+        },
+        "80": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и оригинальная TGS-анимация сейчас прозрачны; исходный рисунок не установлен."
+          ]
+        },
+        "87": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и оригинальная TGS-анимация сейчас прозрачны; исходный рисунок не установлен."
+          ]
+        },
+        "88": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и оригинальная TGS-анимация сейчас прозрачны; исходный рисунок не установлен."
+          ]
+        }
+      }
+    },
+    "Education2026": {
+      "title_ru": "Учёба, наука и образование",
+      "category": "Образование и наука",
+      "style": "образование",
+      "reviewed_pages": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "notes": [
+        "Части автобуса, школы, линейки, карандаша и эволюционной полосы сохранены по отдельности и в исходном порядке.",
+        "Портретам даны визуальные описания; личность человека по рисунку не утверждается."
+      ]
+    },
+    "smearedfont": {
+      "title_ru": "Размазанные русские и латинские буквы",
+      "category": "Буквы и надписи",
+      "style": "размазанный шрифт",
+      "reviewed_pages": [
+        1
+      ],
+      "overrides": {
+        "1": {
+          "text": "А",
+          "role": "letter"
+        },
+        "2": {
+          "text": "Б",
+          "role": "letter"
+        },
+        "3": {
+          "text": "В",
+          "role": "letter"
+        },
+        "4": {
+          "text": "Г",
+          "role": "letter"
+        },
+        "5": {
+          "text": "Д",
+          "role": "letter"
+        },
+        "6": {
+          "text": "Е",
+          "role": "letter"
+        },
+        "7": {
+          "text": "Ё",
+          "role": "letter"
+        },
+        "8": {
+          "text": "Ж",
+          "role": "letter"
+        },
+        "9": {
+          "text": "З",
+          "role": "letter"
+        },
+        "10": {
+          "text": "И",
+          "role": "letter"
+        },
+        "11": {
+          "text": "Й",
+          "role": "letter"
+        },
+        "12": {
+          "text": "К",
+          "role": "letter"
+        },
+        "13": {
+          "text": "Л",
+          "role": "letter"
+        },
+        "14": {
+          "text": "М",
+          "role": "letter"
+        },
+        "15": {
+          "text": "Н",
+          "role": "letter"
+        },
+        "16": {
+          "text": "О",
+          "role": "letter"
+        },
+        "17": {
+          "text": "П",
+          "role": "letter"
+        },
+        "18": {
+          "text": "Р",
+          "role": "letter"
+        },
+        "19": {
+          "text": "С",
+          "role": "letter"
+        },
+        "20": {
+          "text": "Т",
+          "role": "letter"
+        },
+        "21": {
+          "text": "У",
+          "role": "letter"
+        },
+        "22": {
+          "text": "Ф",
+          "role": "letter"
+        },
+        "23": {
+          "text": "Х",
+          "role": "letter"
+        },
+        "24": {
+          "text": "Ц",
+          "role": "letter"
+        },
+        "25": {
+          "text": "Ч",
+          "role": "letter"
+        },
+        "26": {
+          "text": "Ш",
+          "role": "letter"
+        },
+        "27": {
+          "text": "Щ",
+          "role": "letter"
+        },
+        "28": {
+          "text": "Ъ",
+          "role": "letter"
+        },
+        "29": {
+          "text": "Ы",
+          "role": "letter"
+        },
+        "30": {
+          "text": "Ь",
+          "role": "letter"
+        },
+        "31": {
+          "text": "Э",
+          "role": "letter"
+        },
+        "32": {
+          "text": "Ю",
+          "role": "letter"
+        },
+        "33": {
+          "text": "Я",
+          "role": "letter"
+        },
+        "41": {
+          "text": "D",
+          "role": "letter"
+        },
+        "42": {
+          "text": "F",
+          "role": "letter"
+        },
+        "43": {
+          "text": "G",
+          "role": "letter"
+        },
+        "44": {
+          "text": "I",
+          "role": "letter"
+        },
+        "45": {
+          "text": "J",
+          "role": "letter"
+        },
+        "46": {
+          "text": "L",
+          "role": "letter"
+        },
+        "47": {
+          "text": "N",
+          "role": "letter"
+        },
+        "48": {
+          "text": "Q",
+          "role": "letter"
+        },
+        "49": {
+          "text": "R",
+          "role": "letter"
+        },
+        "50": {
+          "text": "S",
+          "role": "letter"
+        },
+        "51": {
+          "text": "U",
+          "role": "letter"
+        },
+        "52": {
+          "text": "V",
+          "role": "letter"
+        },
+        "53": {
+          "text": "W",
+          "role": "letter"
+        },
+        "54": {
+          "text": "Z",
+          "role": "letter"
+        }
+      }
+    },
+    "Dervit": {
+      "title_ru": "Значки технологий и общения",
+      "category": "Технологии и общение",
+      "style": "адаптивные значки",
+      "reviewed_pages": [
+        1
+      ],
+      "overrides": {
+        "5": {
+          "needs_review": true,
+          "notes": [
+            "Точное название сервиса не установлено."
+          ]
+        },
+        "6": {
+          "needs_review": true,
+          "notes": [
+            "Буквы DS видны; название бренда не установлено."
+          ]
+        }
+      }
+    },
+    "ref_x3_collab": {
+      "title_ru": "Предметы, знаки и геометрия collab",
+      "category": "Предметы и символы",
+      "style": "контурные и геометрические символы",
+      "reviewed_pages": [
+        1,
+        2
+      ],
+      "overrides": {
+        "3": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Статичное превью полностью прозрачно; исходный рисунок не установлен."
+          ]
+        }
+      }
+    },
+    "adaptiveznaki_by_TgEmodziBot": {
+      "title_ru": "Адаптивные предметы и знаки",
+      "category": "Предметы и символы",
+      "style": "адаптивный контур",
+      "reviewed_pages": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    "wi_pixeleng": {
+      "title_ru": "Пиксельные английские буквы",
+      "category": "Буквы и надписи",
+      "style": "латинский пиксельный шрифт",
+      "reviewed_pages": [
+        1
+      ],
+      "overrides": {
+        "1": {
+          "text": "A",
+          "role": "letter"
+        },
+        "2": {
+          "text": "B",
+          "role": "letter"
+        },
+        "3": {
+          "text": "C",
+          "role": "letter"
+        },
+        "4": {
+          "text": "D",
+          "role": "letter"
+        },
+        "5": {
+          "text": "E",
+          "role": "letter"
+        },
+        "6": {
+          "text": "F",
+          "role": "letter"
+        },
+        "7": {
+          "text": "G",
+          "role": "letter"
+        },
+        "8": {
+          "text": "H",
+          "role": "letter"
+        },
+        "9": {
+          "text": "I",
+          "role": "letter"
+        },
+        "10": {
+          "text": "J",
+          "role": "letter"
+        },
+        "11": {
+          "text": "K",
+          "role": "letter"
+        },
+        "12": {
+          "text": "L",
+          "role": "letter"
+        },
+        "13": {
+          "text": "M",
+          "role": "letter"
+        },
+        "14": {
+          "text": "N",
+          "role": "letter"
+        },
+        "15": {
+          "text": "O",
+          "role": "letter"
+        },
+        "16": {
+          "text": "P",
+          "role": "letter"
+        },
+        "17": {
+          "text": "Q",
+          "role": "letter"
+        },
+        "18": {
+          "text": "R",
+          "role": "letter"
+        },
+        "19": {
+          "text": "S",
+          "role": "letter"
+        },
+        "20": {
+          "text": "T",
+          "role": "letter"
+        },
+        "21": {
+          "text": "U",
+          "role": "letter"
+        },
+        "22": {
+          "text": "V",
+          "role": "letter"
+        },
+        "23": {
+          "text": "W",
+          "role": "letter"
+        },
+        "24": {
+          "text": "X",
+          "role": "letter"
+        },
+        "25": {
+          "text": "Y",
+          "role": "letter"
+        },
+        "26": {
+          "text": "Z",
+          "role": "letter"
+        },
+        "27": {
+          "text": "1",
+          "role": "digit"
+        },
+        "28": {
+          "text": "2",
+          "role": "digit"
+        },
+        "29": {
+          "text": "3",
+          "role": "digit"
+        },
+        "30": {
+          "text": "4",
+          "role": "digit"
+        },
+        "31": {
+          "text": "5",
+          "role": "digit"
+        },
+        "32": {
+          "text": "6",
+          "role": "digit"
+        },
+        "33": {
+          "text": "7",
+          "role": "digit"
+        },
+        "34": {
+          "text": "8",
+          "role": "digit"
+        },
+        "35": {
+          "text": "9",
+          "role": "digit"
+        },
+        "36": {
+          "text": "0",
+          "role": "digit"
+        }
+      }
+    },
+    "wi_pixelru": {
+      "title_ru": "Пиксельные русские буквы",
+      "category": "Буквы и надписи",
+      "style": "русский пиксельный шрифт",
+      "reviewed_pages": [
+        1,
+        2
+      ],
+      "overrides": {
+        "1": {
+          "text": "А",
+          "role": "letter"
+        },
+        "2": {
+          "text": "Б",
+          "role": "letter"
+        },
+        "3": {
+          "text": "В",
+          "role": "letter"
+        },
+        "4": {
+          "text": "Г",
+          "role": "letter"
+        },
+        "5": {
+          "text": "Д",
+          "role": "letter"
+        },
+        "6": {
+          "text": "Е",
+          "role": "letter"
+        },
+        "7": {
+          "text": "Ё",
+          "role": "letter"
+        },
+        "8": {
+          "text": "Ж",
+          "role": "letter"
+        },
+        "9": {
+          "text": "З",
+          "role": "letter"
+        },
+        "10": {
+          "text": "И",
+          "role": "letter"
+        },
+        "11": {
+          "text": "Й",
+          "role": "letter"
+        },
+        "12": {
+          "text": "К",
+          "role": "letter"
+        },
+        "13": {
+          "text": "Л",
+          "role": "letter"
+        },
+        "14": {
+          "text": "М",
+          "role": "letter"
+        },
+        "15": {
+          "text": "Н",
+          "role": "letter"
+        },
+        "16": {
+          "text": "О",
+          "role": "letter"
+        },
+        "17": {
+          "text": "П",
+          "role": "letter"
+        },
+        "18": {
+          "text": "Р",
+          "role": "letter"
+        },
+        "19": {
+          "text": "С",
+          "role": "letter"
+        },
+        "20": {
+          "text": "Т",
+          "role": "letter"
+        },
+        "21": {
+          "text": "У",
+          "role": "letter"
+        },
+        "22": {
+          "text": "Ф",
+          "role": "letter"
+        },
+        "23": {
+          "text": "Х",
+          "role": "letter"
+        },
+        "24": {
+          "text": "Ц",
+          "role": "letter"
+        },
+        "25": {
+          "text": "Ч",
+          "role": "letter"
+        },
+        "26": {
+          "text": "Ш",
+          "role": "letter"
+        },
+        "27": {
+          "text": "Щ",
+          "role": "letter"
+        },
+        "28": {
+          "text": "Ъ",
+          "role": "letter"
+        },
+        "29": {
+          "text": "Ы",
+          "role": "letter"
+        },
+        "30": {
+          "text": "Ь",
+          "role": "letter"
+        },
+        "31": {
+          "text": "Э",
+          "role": "letter"
+        },
+        "32": {
+          "text": "Ю",
+          "role": "letter"
+        },
+        "33": {
+          "text": "Я",
+          "role": "letter"
+        },
+        "34": {
+          "text": "1",
+          "role": "digit"
+        },
+        "35": {
+          "text": "2",
+          "role": "digit"
+        },
+        "36": {
+          "text": "3",
+          "role": "digit"
+        },
+        "37": {
+          "text": "4",
+          "role": "digit"
+        },
+        "38": {
+          "text": "5",
+          "role": "digit"
+        },
+        "39": {
+          "text": "6",
+          "role": "digit"
+        },
+        "40": {
+          "text": "7",
+          "role": "digit"
+        },
+        "41": {
+          "text": "8",
+          "role": "digit"
+        },
+        "42": {
+          "text": "9",
+          "role": "digit"
+        },
+        "43": {
+          "text": "0",
+          "role": "digit"
+        }
+      }
+    },
+    "Spring_adapted_by_TgEmodziBot": {
+      "title_ru": "Весна, цветы и растения",
+      "category": "Природа и сезоны",
+      "style": "весенний контур",
+      "reviewed_pages": [
+        1,
+        2
+      ]
+    },
+    "pixel_bitbit": {
+      "title_ru": "Пиксельные символы и орнаменты",
+      "category": "Пиксельные эмодзи",
+      "style": "пиксельный орнамент",
+      "reviewed_pages": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "overrides": {
+        "132": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Оригинал и превью прозрачны; исходный знак не установлен."
+          ]
+        },
+        "23": {
+          "text": "0",
+          "role": "digit"
+        },
+        "24": {
+          "text": "1",
+          "role": "digit"
+        },
+        "25": {
+          "text": "2",
+          "role": "digit"
+        },
+        "26": {
+          "text": "3",
+          "role": "digit"
+        },
+        "27": {
+          "text": "4",
+          "role": "digit"
+        },
+        "28": {
+          "text": "5",
+          "role": "digit"
+        },
+        "29": {
+          "text": "6",
+          "role": "digit"
+        },
+        "30": {
+          "text": "7",
+          "role": "digit"
+        },
+        "31": {
+          "text": "8",
+          "role": "digit"
+        },
+        "32": {
+          "text": "9",
+          "role": "digit"
+        },
+        "47": {
+          "text": "А",
+          "role": "letter"
+        },
+        "48": {
+          "text": "Б",
+          "role": "letter"
+        },
+        "49": {
+          "text": "В",
+          "role": "letter"
+        },
+        "50": {
+          "text": "Г",
+          "role": "letter"
+        },
+        "51": {
+          "text": "Д",
+          "role": "letter"
+        },
+        "52": {
+          "text": "Е",
+          "role": "letter"
+        },
+        "53": {
+          "text": "Ё",
+          "role": "letter"
+        },
+        "54": {
+          "text": "Ж",
+          "role": "letter"
+        },
+        "55": {
+          "text": "З",
+          "role": "letter"
+        },
+        "56": {
+          "text": "И",
+          "role": "letter"
+        },
+        "57": {
+          "text": "Й",
+          "role": "letter"
+        },
+        "58": {
+          "text": "К",
+          "role": "letter"
+        },
+        "59": {
+          "text": "Л",
+          "role": "letter"
+        },
+        "60": {
+          "text": "М",
+          "role": "letter"
+        },
+        "61": {
+          "text": "Н",
+          "role": "letter"
+        },
+        "62": {
+          "text": "О",
+          "role": "letter"
+        },
+        "63": {
+          "text": "П",
+          "role": "letter"
+        },
+        "64": {
+          "text": "Р",
+          "role": "letter"
+        },
+        "65": {
+          "text": "С",
+          "role": "letter"
+        },
+        "66": {
+          "text": "Т",
+          "role": "letter"
+        },
+        "67": {
+          "text": "У",
+          "role": "letter"
+        },
+        "68": {
+          "text": "Ф",
+          "role": "letter"
+        },
+        "69": {
+          "text": "Х",
+          "role": "letter"
+        },
+        "70": {
+          "text": "Ц",
+          "role": "letter"
+        },
+        "71": {
+          "text": "Ч",
+          "role": "letter"
+        },
+        "72": {
+          "text": "Ш",
+          "role": "letter"
+        },
+        "73": {
+          "text": "Щ",
+          "role": "letter"
+        },
+        "74": {
+          "text": "Ъ",
+          "role": "letter"
+        },
+        "75": {
+          "text": "Ы",
+          "role": "letter"
+        },
+        "76": {
+          "text": "Ь",
+          "role": "letter"
+        },
+        "77": {
+          "text": "Э",
+          "role": "letter"
+        },
+        "78": {
+          "text": "Ю",
+          "role": "letter"
+        },
+        "79": {
+          "text": "Я",
+          "role": "letter"
+        },
+        "106": {
+          "text": "A",
+          "role": "letter"
+        },
+        "107": {
+          "text": "B",
+          "role": "letter"
+        },
+        "108": {
+          "text": "C",
+          "role": "letter"
+        },
+        "109": {
+          "text": "D",
+          "role": "letter"
+        },
+        "110": {
+          "text": "E",
+          "role": "letter"
+        },
+        "111": {
+          "text": "F",
+          "role": "letter"
+        },
+        "112": {
+          "text": "G",
+          "role": "letter"
+        },
+        "113": {
+          "text": "H",
+          "role": "letter"
+        },
+        "114": {
+          "text": "I",
+          "role": "letter"
+        },
+        "115": {
+          "text": "J",
+          "role": "letter"
+        },
+        "116": {
+          "text": "K",
+          "role": "letter"
+        },
+        "117": {
+          "text": "L",
+          "role": "letter"
+        },
+        "118": {
+          "text": "M",
+          "role": "letter"
+        },
+        "119": {
+          "text": "N",
+          "role": "letter"
+        },
+        "120": {
+          "text": "O",
+          "role": "letter"
+        },
+        "121": {
+          "text": "P",
+          "role": "letter"
+        },
+        "122": {
+          "text": "Q",
+          "role": "letter"
+        },
+        "123": {
+          "text": "R",
+          "role": "letter"
+        },
+        "124": {
+          "text": "S",
+          "role": "letter"
+        },
+        "125": {
+          "text": "T",
+          "role": "letter"
+        },
+        "126": {
+          "text": "U",
+          "role": "letter"
+        },
+        "127": {
+          "text": "V",
+          "role": "letter"
+        },
+        "128": {
+          "text": "W",
+          "role": "letter"
+        },
+        "129": {
+          "text": "X",
+          "role": "letter"
+        },
+        "130": {
+          "text": "Y",
+          "role": "letter"
+        },
+        "131": {
+          "text": "Z",
+          "role": "letter"
+        }
+      }
+    },
+    "February_fourteenth_by_TgEmodziBot": {
+      "title_ru": "Любовь и День святого Валентина",
+      "category": "Любовь и отношения",
+      "style": "романтический контур",
+      "reviewed_pages": [
+        1,
+        2
+      ]
+    },
+    "AdaptiveNewYear": {
+      "title_ru": "Новогодние украшения и буквы",
+      "category": "Праздники и сезоны",
+      "style": "новогодний контур",
+      "reviewed_pages": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "notes": [
+        "Цифры 2024 сохранены как часть исходного рисунка; это не обозначение текущего года."
+      ]
+    },
+    "tg_assets_adptv": {
+      "title_ru": "Иконки интерфейса Telegram",
+      "category": "Интерфейс и навигация",
+      "style": "Telegram UI",
+      "reviewed_pages": [
+        1,
+        2
+      ]
+    },
+    "DMJNumeralsEmoji": {
+      "title_ru": "Цифры, числа и знаки нумерации",
+      "category": "Цифры и нумерация",
+      "style": "типографская нумерация",
+      "reviewed_pages": [
+        1,
+        2,
+        3
+      ],
+      "overrides": {
+        "1": {
+          "text": "0"
+        },
+        "2": {
+          "text": "1"
+        },
+        "3": {
+          "text": "2"
+        },
+        "4": {
+          "text": "3"
+        },
+        "5": {
+          "text": "4"
+        },
+        "6": {
+          "text": "5"
+        },
+        "7": {
+          "text": "6"
+        },
+        "8": {
+          "text": "7"
+        },
+        "9": {
+          "text": "8"
+        },
+        "10": {
+          "text": "9"
+        },
+        "11": {
+          "text": "10"
+        },
+        "12": {
+          "text": "11"
+        },
+        "13": {
+          "text": "12"
+        },
+        "14": {
+          "text": "13"
+        },
+        "15": {
+          "text": "14"
+        },
+        "16": {
+          "text": "15"
+        },
+        "17": {
+          "text": "16"
+        },
+        "18": {
+          "text": "17"
+        },
+        "19": {
+          "text": "18"
+        },
+        "20": {
+          "text": "19"
+        },
+        "21": {
+          "text": "20"
+        },
+        "22": {
+          "text": "21"
+        },
+        "23": {
+          "text": "22"
+        },
+        "24": {
+          "text": "23"
+        },
+        "25": {
+          "text": "24"
+        },
+        "26": {
+          "text": "25"
+        },
+        "27": {
+          "text": "26"
+        },
+        "28": {
+          "text": "27"
+        },
+        "29": {
+          "text": "28"
+        },
+        "30": {
+          "text": "29"
+        },
+        "31": {
+          "text": "30"
+        },
+        "32": {
+          "text": "31"
+        },
+        "33": {
+          "text": "32"
+        },
+        "34": {
+          "text": "33"
+        },
+        "35": {
+          "text": "34"
+        },
+        "36": {
+          "text": "35"
+        },
+        "37": {
+          "text": "36"
+        },
+        "38": {
+          "text": "37"
+        },
+        "39": {
+          "text": "38"
+        },
+        "40": {
+          "text": "39"
+        },
+        "41": {
+          "text": "40"
+        },
+        "42": {
+          "text": "41"
+        },
+        "43": {
+          "text": "42"
+        },
+        "44": {
+          "text": "43"
+        },
+        "45": {
+          "text": "44"
+        },
+        "46": {
+          "text": "45"
+        },
+        "47": {
+          "text": "46"
+        },
+        "48": {
+          "text": "47"
+        },
+        "49": {
+          "text": "48"
+        },
+        "50": {
+          "text": "49"
+        },
+        "51": {
+          "text": "50"
+        },
+        "52": {
+          "text": "51"
+        },
+        "53": {
+          "text": "52"
+        },
+        "54": {
+          "text": "53"
+        },
+        "55": {
+          "text": "54"
+        },
+        "56": {
+          "text": "55"
+        },
+        "57": {
+          "text": "56"
+        },
+        "58": {
+          "text": "57"
+        },
+        "59": {
+          "text": "58"
+        },
+        "60": {
+          "text": "59"
+        },
+        "61": {
+          "text": "60"
+        },
+        "62": {
+          "text": "61"
+        },
+        "63": {
+          "text": "62"
+        },
+        "64": {
+          "text": "63"
+        },
+        "65": {
+          "text": "64"
+        },
+        "66": {
+          "text": "65"
+        },
+        "67": {
+          "text": "66"
+        },
+        "68": {
+          "text": "67"
+        },
+        "69": {
+          "text": "68"
+        },
+        "70": {
+          "text": "69"
+        },
+        "71": {
+          "text": "70"
+        },
+        "72": {
+          "text": "71"
+        },
+        "73": {
+          "text": "72"
+        },
+        "74": {
+          "text": "73"
+        },
+        "75": {
+          "text": "74"
+        },
+        "76": {
+          "text": "75"
+        },
+        "77": {
+          "text": "76"
+        },
+        "78": {
+          "text": "77"
+        },
+        "79": {
+          "text": "78"
+        },
+        "80": {
+          "text": "79"
+        },
+        "81": {
+          "text": "80"
+        },
+        "82": {
+          "text": "81"
+        },
+        "83": {
+          "text": "82"
+        },
+        "84": {
+          "text": "83"
+        },
+        "85": {
+          "text": "84"
+        },
+        "86": {
+          "text": "85"
+        },
+        "87": {
+          "text": "86"
+        },
+        "88": {
+          "text": "87"
+        },
+        "89": {
+          "text": "88"
+        },
+        "90": {
+          "text": "89"
+        },
+        "91": {
+          "text": "90"
+        },
+        "92": {
+          "text": "91"
+        },
+        "93": {
+          "text": "92"
+        },
+        "94": {
+          "text": "93"
+        },
+        "95": {
+          "text": "94"
+        },
+        "96": {
+          "text": "95"
+        },
+        "97": {
+          "text": "96"
+        },
+        "98": {
+          "text": "97"
+        },
+        "99": {
+          "text": "98"
+        },
+        "100": {
+          "text": "99"
+        },
+        "101": {
+          "text": "100"
+        },
+        "102": {
+          "text": "101"
+        },
+        "103": {
+          "text": "102"
+        },
+        "104": {
+          "text": "103"
+        },
+        "105": {
+          "text": "104"
+        },
+        "106": {
+          "text": "105"
+        },
+        "107": {
+          "text": "106"
+        },
+        "108": {
+          "text": "107"
+        },
+        "109": {
+          "text": "108"
+        },
+        "110": {
+          "text": "109"
+        },
+        "111": {
+          "text": "110"
+        },
+        "112": {
+          "text": "111"
+        },
+        "113": {
+          "text": "112"
+        },
+        "114": {
+          "text": "113"
+        },
+        "115": {
+          "text": "114"
+        },
+        "116": {
+          "text": "115"
+        },
+        "117": {
+          "text": "116"
+        },
+        "118": {
+          "text": "117"
+        },
+        "119": {
+          "text": "118"
+        },
+        "120": {
+          "text": "119"
+        },
+        "121": {
+          "text": "120"
+        },
+        "122": {
+          "text": "121"
+        },
+        "123": {
+          "text": "122"
+        },
+        "124": {
+          "text": "123"
+        },
+        "125": {
+          "text": "124"
+        },
+        "126": {
+          "text": "125"
+        },
+        "127": {
+          "text": "126"
+        },
+        "128": {
+          "text": "127"
+        },
+        "129": {
+          "text": "128"
+        },
+        "130": {
+          "text": "129"
+        },
+        "131": {
+          "text": "130"
+        },
+        "132": {
+          "text": "131"
+        },
+        "133": {
+          "text": "132"
+        },
+        "134": {
+          "text": "133"
+        },
+        "135": {
+          "text": "134"
+        },
+        "136": {
+          "text": "135"
+        },
+        "137": {
+          "text": "136"
+        },
+        "138": {
+          "text": "137"
+        },
+        "139": {
+          "text": "138"
+        },
+        "140": {
+          "text": "139"
+        },
+        "141": {
+          "text": "140"
+        },
+        "142": {
+          "text": "141"
+        },
+        "143": {
+          "text": "142"
+        },
+        "144": {
+          "text": "143"
+        },
+        "145": {
+          "text": "144"
+        },
+        "146": {
+          "text": "145"
+        },
+        "147": {
+          "text": "146"
+        },
+        "148": {
+          "text": "147"
+        },
+        "149": {
+          "text": "148"
+        },
+        "150": {
+          "text": "149"
+        },
+        "151": {
+          "text": "150"
+        },
+        "152": {
+          "text": "151"
+        },
+        "153": {
+          "text": "152"
+        },
+        "154": {
+          "text": "153"
+        },
+        "155": {
+          "text": "154"
+        },
+        "156": {
+          "text": "155"
+        },
+        "157": {
+          "text": "156"
+        },
+        "158": {
+          "text": "157"
+        },
+        "159": {
+          "text": "158"
+        },
+        "160": {
+          "text": "159"
+        },
+        "161": {
+          "text": "160"
+        },
+        "162": {
+          "text": "161"
+        },
+        "163": {
+          "text": "162"
+        },
+        "164": {
+          "text": "163"
+        },
+        "165": {
+          "text": "164"
+        },
+        "166": {
+          "text": "165"
+        },
+        "167": {
+          "text": "166"
+        },
+        "168": {
+          "text": "167"
+        },
+        "169": {
+          "text": "168"
+        },
+        "170": {
+          "text": "169"
+        }
+      }
+    },
+    "nexus_base": {
+      "title_ru": "Составные текстовые плашки и эффекты",
+      "category": "Составные элементы",
+      "style": "непрерывные плашки и линии",
+      "reviewed_pages": [
+        1,
+        2
+      ],
+      "notes": [
+        "Текстовые плашки собираются из трёх соседних эмодзи без пробелов. Порядок и повторения сохранены в данных сочетаний."
+      ],
+      "overrides": {
+        "18": {
+          "needs_review": true,
+          "availability": "file_unavailable",
+          "notes": [
+            "Telegram возвращает metadata, но файл превью и оригинал временно недоступны. По соседним фрагментам это конец плашки «СКАЧАТЬ»."
+          ]
+        }
+      }
+    },
+    "prompt_ui": {
+      "title_ru": "Геометрические интерфейсные символы",
+      "category": "Интерфейс и навигация",
+      "style": "геометрический UI",
+      "reviewed_pages": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "overrides": {
+        "113": {
+          "needs_review": true,
+          "notes": [
+            "Бренд не установлен; название описывает видимую эмблему."
+          ]
+        },
+        "169": {
+          "needs_review": true,
+          "notes": [
+            "Бренд не установлен; название описывает видимую эмблему."
+          ]
+        },
+        "174": {
+          "needs_review": true,
+          "notes": [
+            "Бренд не установлен; название описывает видимую эмблему."
+          ]
+        },
+        "175": {
+          "needs_review": true,
+          "notes": [
+            "Бренд не установлен; название описывает видимую эмблему."
+          ]
+        },
+        "176": {
+          "needs_review": true,
+          "notes": [
+            "Бренд не установлен; название описывает видимую эмблему."
+          ]
+        },
+        "179": {
+          "needs_review": true,
+          "notes": [
+            "Бренд не установлен; название описывает видимую эмблему."
+          ]
+        },
+        "180": {
+          "needs_review": true,
+          "notes": [
+            "Бренд не установлен; название описывает видимую эмблему."
+          ]
+        },
+        "181": {
+          "needs_review": true,
+          "notes": [
+            "Бренд не установлен; название описывает видимую эмблему."
+          ]
+        },
+        "182": {
+          "needs_review": true,
+          "notes": [
+            "Бренд не установлен; название описывает видимую эмблему."
+          ]
+        },
+        "184": {
+          "needs_review": true,
+          "notes": [
+            "Бренд не установлен; название описывает видимую эмблему."
+          ]
+        },
+        "185": {
+          "needs_review": true,
+          "notes": [
+            "Бренд не установлен; название описывает видимую эмблему."
+          ]
+        },
+        "186": {
+          "needs_review": true,
+          "notes": [
+            "Бренд не установлен; название описывает видимую эмблему."
+          ]
+        },
+        "187": {
+          "needs_review": true,
+          "notes": [
+            "Бренд не установлен; название описывает видимую эмблему."
+          ]
+        },
+        "189": {
+          "needs_review": true,
+          "notes": [
+            "Бренд не установлен; название описывает видимую эмблему."
+          ]
+        },
+        "190": {
+          "needs_review": true,
+          "notes": [
+            "Бренд не установлен; название описывает видимую эмблему."
+          ]
+        },
+        "192": {
+          "needs_review": true,
+          "notes": [
+            "Бренд не установлен; название описывает видимую эмблему."
+          ]
+        },
+        "196": {
+          "needs_review": true,
+          "notes": [
+            "Бренд не установлен; название описывает видимую эмблему."
+          ]
+        },
+        "200": {
+          "needs_review": true,
+          "notes": [
+            "Бренд не установлен; название описывает видимую эмблему."
+          ]
+        }
+      }
+    },
+    "cutekeyboard_9_of_9_Emoji": {
+      "title_ru": "Декоративная клавиатура и буквы",
+      "category": "Буквы и надписи",
+      "style": "декоративные клавиши",
+      "reviewed_pages": [
+        1,
+        2,
+        3
+      ],
+      "notes": [
+        "Shift, пробел, Enter и авторская подпись состоят из нескольких эмодзи; порядок сборки сохранён.",
+        "Пак не содержит отдельные латинские клавиши, визуально совпадающие с кириллическими."
+      ],
+      "overrides": {
+        "1": {
+          "text": "А",
+          "role": "letter"
+        },
+        "2": {
+          "text": "Б",
+          "role": "letter"
+        },
+        "3": {
+          "text": "В",
+          "role": "letter"
+        },
+        "4": {
+          "text": "Г",
+          "role": "letter"
+        },
+        "5": {
+          "text": "Д",
+          "role": "letter"
+        },
+        "6": {
+          "text": "Е",
+          "role": "letter"
+        },
+        "7": {
+          "text": "Ё",
+          "role": "letter"
+        },
+        "8": {
+          "text": "Ж",
+          "role": "letter"
+        },
+        "9": {
+          "text": "З",
+          "role": "letter"
+        },
+        "10": {
+          "text": "И",
+          "role": "letter"
+        },
+        "11": {
+          "text": "Й",
+          "role": "letter"
+        },
+        "12": {
+          "text": "К",
+          "role": "letter"
+        },
+        "13": {
+          "text": "Л",
+          "role": "letter"
+        },
+        "14": {
+          "text": "М",
+          "role": "letter"
+        },
+        "15": {
+          "text": "Н",
+          "role": "letter"
+        },
+        "16": {
+          "text": "О",
+          "role": "letter"
+        },
+        "17": {
+          "text": "П",
+          "role": "letter"
+        },
+        "18": {
+          "text": "Р",
+          "role": "letter"
+        },
+        "19": {
+          "text": "С",
+          "role": "letter"
+        },
+        "20": {
+          "text": "Т",
+          "role": "letter"
+        },
+        "21": {
+          "text": "У",
+          "role": "letter"
+        },
+        "22": {
+          "text": "Ф",
+          "role": "letter"
+        },
+        "23": {
+          "text": "Х",
+          "role": "letter"
+        },
+        "24": {
+          "text": "Ц",
+          "role": "letter"
+        },
+        "25": {
+          "text": "Ч",
+          "role": "letter"
+        },
+        "26": {
+          "text": "Ш",
+          "role": "letter"
+        },
+        "27": {
+          "text": "Щ",
+          "role": "letter"
+        },
+        "28": {
+          "text": "Ъ",
+          "role": "letter"
+        },
+        "29": {
+          "text": "Ы",
+          "role": "letter"
+        },
+        "30": {
+          "text": "Ь",
+          "role": "letter"
+        },
+        "31": {
+          "text": "Э",
+          "role": "letter"
+        },
+        "32": {
+          "text": "Ю",
+          "role": "letter"
+        },
+        "33": {
+          "text": "Я",
+          "role": "letter"
+        },
+        "41": {
+          "text": "D",
+          "role": "letter"
+        },
+        "42": {
+          "text": "F",
+          "role": "letter"
+        },
+        "43": {
+          "text": "G",
+          "role": "letter"
+        },
+        "44": {
+          "text": "I",
+          "role": "letter"
+        },
+        "45": {
+          "text": "J",
+          "role": "letter"
+        },
+        "46": {
+          "text": "L",
+          "role": "letter"
+        },
+        "47": {
+          "text": "N",
+          "role": "letter"
+        },
+        "48": {
+          "text": "Q",
+          "role": "letter"
+        },
+        "49": {
+          "text": "R",
+          "role": "letter"
+        },
+        "50": {
+          "text": "S",
+          "role": "letter"
+        },
+        "51": {
+          "text": "U",
+          "role": "letter"
+        },
+        "52": {
+          "text": "V",
+          "role": "letter"
+        },
+        "53": {
+          "text": "W",
+          "role": "letter"
+        },
+        "54": {
+          "text": "Y",
+          "role": "letter"
+        },
+        "55": {
+          "text": "Z",
+          "role": "letter"
+        },
+        "89": {
+          "text": "0",
+          "role": "digit"
+        },
+        "90": {
+          "text": "1",
+          "role": "digit"
+        },
+        "91": {
+          "text": "2",
+          "role": "digit"
+        },
+        "92": {
+          "text": "3",
+          "role": "digit"
+        },
+        "93": {
+          "text": "4",
+          "role": "digit"
+        },
+        "94": {
+          "text": "5",
+          "role": "digit"
+        },
+        "95": {
+          "text": "6",
+          "role": "digit"
+        },
+        "96": {
+          "text": "7",
+          "role": "digit"
+        },
+        "97": {
+          "text": "8",
+          "role": "digit"
+        },
+        "98": {
+          "text": "9",
+          "role": "digit"
+        }
+      }
+    },
+    "Winter_k_by_TgEmodziBot": {
+      "title_ru": "Зимние предметы и новогодний уют",
+      "category": "Природа и сезоны",
+      "style": "зимний контур",
+      "reviewed_pages": [
+        1,
+        2
+      ]
+    },
+    "Adaptivpintura": {
+      "title_ru": "Растения, орнаменты и декоративные надписи",
+      "category": "Эффекты и оформление",
+      "style": "линейная графика",
+      "reviewed_pages": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "notes": [
+        "Части орнаментов и надписей сохраняются отдельно; сборки перечислены в композициях."
+      ],
+      "overrides": {
+        "106": {
+          "needs_review": true,
+          "notes": [
+            "Название передаёт прочитанные буквы; необычная надпись требует уточнения."
+          ]
+        },
+        "107": {
+          "needs_review": true,
+          "notes": [
+            "Название передаёт прочитанные буквы; необычная надпись требует уточнения."
+          ]
+        },
+        "109": {
+          "needs_review": true,
+          "notes": [
+            "Название передаёт прочитанные буквы; необычная надпись требует уточнения."
+          ]
+        },
+        "110": {
+          "needs_review": true,
+          "notes": [
+            "Название передаёт прочитанные буквы; необычная надпись требует уточнения."
+          ]
+        }
+      }
+    },
+    "ZETXAURA": {
+      "title_ru": "Готические черепа и мрачные символы",
+      "category": "Готика и хоррор",
+      "style": "готика",
+      "reviewed_pages": [
+        1
+      ],
+      "notes": [
+        "Названия описывают изображения; конкретные религиозные персонажи и происхождение символов не установлены."
+      ]
+    },
+    "animalghostsEmoji": {
+      "title_ru": "Призрачные животные",
+      "category": "Животные и персонажи",
+      "style": "животные-призраки",
+      "reviewed_pages": [
+        1,
+        2
+      ]
+    },
+    "TPEmoji_of_jib": {
+      "title_ru": "Работа, бизнес и офис",
+      "category": "Работа и бизнес",
+      "style": "офисный контур",
+      "reviewed_pages": [
+        1
+      ]
+    },
+    "TPEmoji_mag_adap": {
+      "title_ru": "Ведьминские и магические предметы",
+      "category": "Магия и символы",
+      "style": "ведьминский контур",
+      "reviewed_pages": [
+        1
+      ]
+    },
+    "TPEmoji_SCARY_adaptive": {
+      "title_ru": "Хоррор, монстры и страшные предметы",
+      "category": "Готика и хоррор",
+      "style": "хоррор",
+      "reviewed_pages": [
+        1
+      ]
+    },
+    "TPEmoji_king": {
+      "title_ru": "Реакции короля",
+      "category": "Персонажи и реакции",
+      "style": "король",
+      "reviewed_pages": [
+        1
+      ]
+    },
+    "Markers_emoji_gray": {
+      "title_ru": "Маркеры списков и геометрические знаки",
+      "category": "Интерфейс и навигация",
+      "style": "маркеры",
+      "reviewed_pages": [
+        1,
+        2,
+        3
+      ],
+      "notes": [
+        "Название исходного пака содержит gray, но превью преимущественно красные. Элементы 174–175 составляют рамку."
+      ]
+    },
+    "cryptomojinon": {
+      "title_ru": "Криптовалюты и финансовые сервисы",
+      "category": "Финансы и криптовалюты",
+      "style": "криптовалютные эмблемы",
+      "reviewed_pages": [
+        1
+      ],
+      "overrides": {
+        "12": {
+          "needs_review": true,
+          "notes": [
+            "Название описывает эмблему; принадлежность к проекту не подтверждена."
+          ]
+        },
+        "21": {
+          "needs_review": true,
+          "notes": [
+            "Название описывает эмблему; принадлежность к проекту не подтверждена."
+          ]
+        },
+        "33": {
+          "needs_review": true,
+          "notes": [
+            "Название описывает эмблему; принадлежность к проекту не подтверждена."
+          ]
+        },
+        "34": {
+          "needs_review": true,
+          "notes": [
+            "Название описывает эмблему; принадлежность к проекту не подтверждена."
+          ]
+        },
+        "36": {
+          "needs_review": true,
+          "notes": [
+            "Название описывает эмблему; принадлежность к проекту не подтверждена."
+          ]
+        },
+        "37": {
+          "needs_review": true,
+          "notes": [
+            "Название описывает эмблему; принадлежность к проекту не подтверждена."
+          ]
+        },
+        "38": {
+          "needs_review": true,
+          "notes": [
+            "Название описывает эмблему; принадлежность к проекту не подтверждена."
+          ]
+        },
+        "49": {
+          "needs_review": true,
+          "notes": [
+            "Название описывает эмблему; принадлежность к проекту не подтверждена."
+          ]
+        },
+        "50": {
+          "needs_review": true,
+          "notes": [
+            "Название описывает эмблему; принадлежность к проекту не подтверждена."
+          ]
+        }
+      }
+    },
+    "TPEmoji_adaptive_police": {
+      "title_ru": "Полиция, безопасность и эмоции",
+      "category": "Профессии и реакции",
+      "style": "полицейский персонаж",
+      "reviewed_pages": [
+        1
+      ]
+    },
+    "sfsymbols": {
+      "title_ru": "Системные символы и интерфейсные иконки",
+      "category": "Интерфейс и навигация",
+      "style": "SF Symbols",
+      "reviewed_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "notes": [
+        "Просмотрены все 14 листов. 82 позиции полностью прозрачны в исходных анимациях и отмечены для уточнения."
+      ],
+      "overrides": {
+        "97": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "98": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "99": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "100": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "101": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "102": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "103": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "104": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "161": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "162": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "163": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "164": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "165": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "166": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "167": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "168": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "281": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "282": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "283": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "284": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "285": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "286": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "287": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "288": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "409": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "410": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "411": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "412": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "413": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "414": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "415": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "416": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "481": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "482": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "483": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "484": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "485": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "486": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "487": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "488": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "545": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "546": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "547": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "548": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "549": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "550": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "551": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "552": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "585": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "586": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "587": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "588": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "589": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "590": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "591": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "592": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "689": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "690": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "691": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "692": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "693": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "694": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "695": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "696": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "713": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "714": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "715": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "716": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "717": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "718": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "719": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "720": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "721": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "722": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "723": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "724": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "725": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "726": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "727": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "728": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "729": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "730": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью и проверенные кадры исходной TGS-анимации полностью прозрачны. Назначение символа не установлено."
+          ]
+        },
+        "858": {
+          "needs_review": true,
+          "notes": [
+            "Название описывает видимую форму; принадлежность эмблемы не установлена."
+          ]
+        }
+      }
+    },
+    "pictograms_adaptive": {
+      "title_ru": "Пиктограммы, предупреждения и действия",
+      "category": "Пиктограммы и знаки",
+      "style": "пиктограммы",
+      "reviewed_pages": [
+        1,
+        2,
+        3
+      ],
+      "overrides": {
+        "24": {
+          "needs_review": true,
+          "notes": [
+            "Необычная надпись или знак описан по видимому рисунку."
+          ]
+        },
+        "56": {
+          "needs_review": true,
+          "notes": [
+            "Необычная надпись или знак описан по видимому рисунку."
+          ]
+        },
+        "57": {
+          "needs_review": true,
+          "notes": [
+            "Необычная надпись или знак описан по видимому рисунку."
+          ]
+        },
+        "58": {
+          "needs_review": true,
+          "notes": [
+            "Необычная надпись или знак описан по видимому рисунку."
+          ]
+        },
+        "110": {
+          "needs_review": true,
+          "notes": [
+            "Необычная надпись или знак описан по видимому рисунку."
+          ]
+        }
+      }
+    },
+    "TPEmoji_adaptive_panda": {
+      "title_ru": "Реакции панды",
+      "category": "Животные и персонажи",
+      "style": "панда",
+      "reviewed_pages": [
+        1
+      ]
+    },
+    "random_adapt": {
+      "title_ru": "Рисованные предметы и реакции",
+      "category": "Предметы и символы",
+      "style": "декоративный контур",
+      "reviewed_pages": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "overrides": {
+        "135": {
+          "needs_review": true,
+          "availability": "telegram_unavailable",
+          "notes": [
+            "Telegram возвращает wrong file_id or file temporarily unavailable при загрузке превью. Содержание не установлено."
+          ]
+        }
+      }
+    },
+    "flower_lover_HD": {
+      "title_ru": "Цветы, листья и ботанические орнаменты",
+      "category": "Растения и орнаменты",
+      "style": "ботаническая графика",
+      "reviewed_pages": [
+        1,
+        2,
+        3
+      ],
+      "notes": [
+        "Элементы 129–185 — части растительных разделителей; их порядок и повторы важны для сборки."
+      ],
+      "overrides": {
+        "129": {
+          "role": "composition_part"
+        },
+        "130": {
+          "role": "composition_part"
+        },
+        "131": {
+          "role": "composition_part"
+        },
+        "132": {
+          "role": "composition_part"
+        },
+        "133": {
+          "role": "composition_part"
+        },
+        "134": {
+          "role": "composition_part"
+        },
+        "135": {
+          "role": "composition_part"
+        },
+        "136": {
+          "role": "composition_part"
+        },
+        "137": {
+          "role": "composition_part"
+        },
+        "138": {
+          "role": "composition_part"
+        },
+        "139": {
+          "role": "composition_part"
+        },
+        "140": {
+          "role": "composition_part"
+        },
+        "141": {
+          "role": "composition_part"
+        },
+        "142": {
+          "role": "composition_part"
+        },
+        "143": {
+          "role": "composition_part"
+        },
+        "144": {
+          "role": "composition_part"
+        },
+        "145": {
+          "role": "composition_part"
+        },
+        "146": {
+          "role": "composition_part"
+        },
+        "147": {
+          "role": "composition_part"
+        },
+        "148": {
+          "role": "composition_part"
+        },
+        "149": {
+          "role": "composition_part"
+        },
+        "150": {
+          "role": "composition_part"
+        },
+        "151": {
+          "role": "composition_part"
+        },
+        "152": {
+          "role": "composition_part"
+        },
+        "153": {
+          "role": "composition_part"
+        },
+        "154": {
+          "role": "composition_part"
+        },
+        "155": {
+          "role": "composition_part"
+        },
+        "156": {
+          "role": "composition_part"
+        },
+        "157": {
+          "role": "composition_part"
+        },
+        "158": {
+          "role": "composition_part"
+        },
+        "159": {
+          "role": "composition_part"
+        },
+        "160": {
+          "role": "composition_part"
+        },
+        "161": {
+          "role": "composition_part"
+        },
+        "162": {
+          "role": "composition_part"
+        },
+        "163": {
+          "role": "composition_part"
+        },
+        "164": {
+          "role": "composition_part"
+        },
+        "165": {
+          "role": "composition_part"
+        },
+        "166": {
+          "role": "composition_part"
+        },
+        "167": {
+          "role": "composition_part"
+        },
+        "168": {
+          "role": "composition_part"
+        },
+        "169": {
+          "role": "composition_part"
+        },
+        "170": {
+          "role": "composition_part"
+        },
+        "171": {
+          "role": "composition_part"
+        },
+        "172": {
+          "role": "composition_part"
+        },
+        "173": {
+          "role": "composition_part"
+        },
+        "174": {
+          "role": "composition_part"
+        },
+        "175": {
+          "role": "composition_part"
+        },
+        "176": {
+          "role": "composition_part"
+        },
+        "177": {
+          "role": "composition_part"
+        },
+        "178": {
+          "role": "composition_part"
+        },
+        "179": {
+          "role": "composition_part"
+        },
+        "180": {
+          "role": "composition_part"
+        },
+        "181": {
+          "role": "composition_part"
+        },
+        "182": {
+          "role": "composition_part"
+        },
+        "183": {
+          "role": "composition_part"
+        },
+        "184": {
+          "role": "composition_part"
+        },
+        "185": {
+          "role": "composition_part"
+        }
+      }
+    },
+    "Kakasha_TPEmoji_adaptive": {
+      "title_ru": "Реакции персонажа-какашки",
+      "category": "Персонажи и реакции",
+      "style": "шуточный персонаж",
+      "reviewed_pages": [
+        1
+      ]
+    },
+    "butterfly_k_by_TgEmodziBot": {
+      "title_ru": "Бабочки и крылатые орнаменты",
+      "category": "Природа и орнаменты",
+      "style": "бабочки",
+      "reviewed_pages": [
+        1,
+        2
+      ]
+    },
+    "AdaptivePixelEmoji": {
+      "title_ru": "Пиксельные предметы и реакции",
+      "category": "Пиксельные эмодзи",
+      "style": "пиксель",
+      "reviewed_pages": [
+        1
+      ]
+    },
+    "AdaptiveSummer": {
+      "title_ru": "Лето, пляж и путешествия",
+      "category": "Природа и сезоны",
+      "style": "летний контур",
+      "reviewed_pages": [
+        1
+      ]
+    },
+    "Naturevista_my": {
+      "title_ru": "Туризм, природа и путешествия",
+      "category": "Природа и путешествия",
+      "style": "рисованные контурные значки",
+      "reviewed_pages": [
+        1
+      ]
+    },
+    "phighting_icons_adaptive_by_TgEmodziBot": {
+      "title_ru": "PHIGHTING! — символы и игровые эмблемы",
+      "category": "Игры и игровые вселенные",
+      "style": "PHIGHTING!",
+      "reviewed_pages": [
+        1,
+        2
+      ],
+      "notes": [
+        "Иконки PHIGHTING! названы по видимому действию и форме; названия игровых способностей не приписывались."
+      ]
+    },
+    "adaptivefoodemoji_by_TgEmodziBot": {
+      "title_ru": "Выпечка, сладости и романтические иконки",
+      "category": "Еда и напитки",
+      "style": "контурная еда",
+      "reviewed_pages": [
+        1
+      ]
+    },
+    "AdaptiveHardcore": {
+      "title_ru": "Мрачные предметы и дерзкие реакции",
+      "category": "Готика и хоррор",
+      "style": "hardcore",
+      "reviewed_pages": [
+        1,
+        2,
+        3
+      ],
+      "notes": [
+        "Набор содержит оружие, мрачные рисунки, ругательства и взрослые силуэты; названия описательные."
+      ],
+      "overrides": {
+        "92": {
+          "tags": [
+            "взрослый силуэт",
+            "18+"
+          ]
+        },
+        "93": {
+          "tags": [
+            "взрослый силуэт",
+            "18+"
+          ]
+        },
+        "95": {
+          "tags": [
+            "взрослый силуэт",
+            "18+"
+          ]
+        },
+        "96": {
+          "tags": [
+            "взрослый силуэт",
+            "18+"
+          ]
+        },
+        "97": {
+          "tags": [
+            "взрослый силуэт",
+            "18+"
+          ]
+        },
+        "98": {
+          "tags": [
+            "взрослый силуэт",
+            "18+"
+          ]
+        },
+        "99": {
+          "tags": [
+            "взрослый силуэт",
+            "18+"
+          ]
+        },
+        "100": {
+          "tags": [
+            "взрослый силуэт",
+            "18+"
+          ]
+        },
+        "102": {
+          "tags": [
+            "взрослый силуэт",
+            "18+"
+          ]
+        },
+        "103": {
+          "tags": [
+            "взрослый силуэт",
+            "18+"
+          ]
+        },
+        "104": {
+          "tags": [
+            "взрослый силуэт",
+            "18+"
+          ]
+        },
+        "138": {
+          "tags": [
+            "взрослый силуэт",
+            "18+"
+          ]
+        },
+        "139": {
+          "tags": [
+            "взрослый силуэт",
+            "18+"
+          ]
+        },
+        "140": {
+          "tags": [
+            "взрослый силуэт",
+            "18+"
+          ]
+        },
+        "141": {
+          "tags": [
+            "взрослый силуэт",
+            "18+"
+          ]
+        }
+      }
+    },
+    "medico_emoji_z1vert1k": {
+      "title_ru": "Медицина, анатомия и инструменты",
+      "category": "Медицина и здоровье",
+      "style": "медицинский контур",
+      "reviewed_pages": [
+        1
+      ]
+    },
+    "MorkovkaAdaptive": {
+      "title_ru": "Иконки сервисов, знаки и предметы",
+      "category": "Предметы и символы",
+      "style": "адаптивные значки",
+      "reviewed_pages": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "overrides": {
+        "59": {
+          "needs_review": true,
+          "availability": "transparent_placeholder",
+          "notes": [
+            "Превью полностью прозрачное; назначение элемента не установлено."
+          ]
+        },
+        "90": {
+          "needs_review": true
+        },
+        "148": {
+          "needs_review": true
+        }
+      }
+    }
+  }
+}

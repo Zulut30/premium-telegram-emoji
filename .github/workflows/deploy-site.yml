@@ -8,6 +8,9 @@ on:
       - "generate_site.py"
       - "config.py"
       - "data/emoji-packs.json"
+      - "data/emoji-compositions.json"
+      - "assets/previews/**"
+      - "web/**"
   workflow_dispatch:
 
 permissions:

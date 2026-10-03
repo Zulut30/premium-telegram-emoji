@@ -1,0 +1,81 @@
+[
+  {
+    "name": "search",
+    "source": "https://raw.githubusercontent.com/tabler/tabler-icons/main/icons/outline/search.svg",
+    "sha256": "e579b69a4b978f702908a48b1bef74d9ac73df4679cb1a6074c567bec2748c41",
+    "local_sha256": "e579b69a4b978f702908a48b1bef74d9ac73df4679cb1a6074c567bec2748c41"
+  },
+  {
+    "name": "copy",
+    "source": "https://raw.githubusercontent.com/tabler/tabler-icons/main/icons/outline/copy.svg",
+    "sha256": "b38a178d5ee74073f95b57ea33e7dab0624e314c1cc835c85ff35f1d1e5517e1",
+    "local_sha256": "b38a178d5ee74073f95b57ea33e7dab0624e314c1cc835c85ff35f1d1e5517e1"
+  },
+  {
+    "name": "external-link",
+    "source": "https://raw.githubusercontent.com/tabler/tabler-icons/main/icons/outline/external-link.svg",
+    "sha256": "951e270416621680e98e80224ef6466a43fc9db3f5105a2005bd621b02e30634",
+    "local_sha256": "951e270416621680e98e80224ef6466a43fc9db3f5105a2005bd621b02e30634"
+  },
+  {
+    "name": "star",
+    "source": "https://raw.githubusercontent.com/tabler/tabler-icons/main/icons/outline/star.svg",
+    "sha256": "33727ef0a469dbe7147e5cfe5a875a28b97809b0eac99a2e6886679369d43934",
+    "local_sha256": "33727ef0a469dbe7147e5cfe5a875a28b97809b0eac99a2e6886679369d43934"
+  },
+  {
+    "name": "x",
+    "source": "https://raw.githubusercontent.com/tabler/tabler-icons/main/icons/outline/x.svg",
+    "sha256": "6b97b0d51512b84eee04c0644fd07059a9c21d537886cdb40ef48485d874abc3",
+    "local_sha256": "6b97b0d51512b84eee04c0644fd07059a9c21d537886cdb40ef48485d874abc3"
+  },
+  {
+    "name": "chevron-left",
+    "source": "https://raw.githubusercontent.com/tabler/tabler-icons/main/icons/outline/chevron-left.svg",
+    "sha256": "a31fa17fbe7b3bfbe7951d55ca91933722af60372182a7ab95e0681b04662fdd",
+    "local_sha256": "a31fa17fbe7b3bfbe7951d55ca91933722af60372182a7ab95e0681b04662fdd"
+  },
+  {
+    "name": "chevron-right",
+    "source": "https://raw.githubusercontent.com/tabler/tabler-icons/main/icons/outline/chevron-right.svg",
+    "sha256": "26b321e42c7c7ed5d5161d9af061033df1d49ef33b5d2fc2309e2f6ee3d4c81a",
+    "local_sha256": "26b321e42c7c7ed5d5161d9af061033df1d49ef33b5d2fc2309e2f6ee3d4c81a"
+  },
+  {
+    "name": "arrow-left",
+    "source": "https://raw.githubusercontent.com/tabler/tabler-icons/main/icons/outline/arrow-left.svg",
+    "sha256": "058fc4190c178ecce118b6294b74235d4f88c4dfbd17c6159d67210a03222bc0",
+    "local_sha256": "058fc4190c178ecce118b6294b74235d4f88c4dfbd17c6159d67210a03222bc0"
+  },
+  {
+    "name": "check",
+    "source": "https://raw.githubusercontent.com/tabler/tabler-icons/main/icons/outline/check.svg",
+    "sha256": "fe359b27c74ed0f4f72bfabbe5ca969a8bb13a5f39648bae63f9e798034ebed3",
+    "local_sha256": "fe359b27c74ed0f4f72bfabbe5ca969a8bb13a5f39648bae63f9e798034ebed3"
+  },
+  {
+    "name": "brand-github",
+    "source": "https://raw.githubusercontent.com/tabler/tabler-icons/main/icons/outline/brand-github.svg",
+    "sha256": "5c6d0d81f0b91ead71db4a145d2446a33ef5f775434b2f84f173921a9c386e3a",
+    "local_sha256": "5c6d0d81f0b91ead71db4a145d2446a33ef5f775434b2f84f173921a9c386e3a"
+  },
+  {
+    "name": "chevron-down",
+    "source": "https://raw.githubusercontent.com/tabler/tabler-icons/main/icons/outline/chevron-down.svg",
+    "sha256": "06bd20b8cbe565b97046c5d0ec917f11ed6b29c0e4885a82ae057325c972bf9a",
+    "local_sha256": "6e98d5c41c6973c1877536be094988b7240e939a8ddafa79de88c20779fc3453",
+    "theme_adjustment": "currentColor replaced with #92a8c8; geometry unchanged"
+  },
+  {
+    "name": "star-filled",
+    "source": "https://raw.githubusercontent.com/tabler/tabler-icons/main/icons/filled/star.svg",
+    "sha256": "80d24a0a662d6f75e7420fee30bd4942cbbd295097bb0ce2fabbee1d92adccc0",
+    "local_sha256": "80d24a0a662d6f75e7420fee30bd4942cbbd295097bb0ce2fabbee1d92adccc0"
+  },
+  {
+    "name": "bolt",
+    "source": "https://raw.githubusercontent.com/tabler/tabler-icons/main/icons/outline/bolt.svg",
+    "sha256": "f18f1b4476d1f1ba018219131fee671f2a7ac286c9eb3aa83ea72274e17f34e5",
+    "local_sha256": "f18f1b4476d1f1ba018219131fee671f2a7ac286c9eb3aa83ea72274e17f34e5"
+  }
+]

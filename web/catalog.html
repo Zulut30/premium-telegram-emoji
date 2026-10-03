@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Каталог Telegram custom emoji: реальные превью, поиск по пакам, ID и HTML для сообщений.">
+  <meta name="color-scheme" content="dark">
+  <title>Premium Emoji — каталог для Telegram</title>
+  <style>__CATALOG_CSS__</style>
+</head>
+<body>
+  <a class="skip-link" href="#catalog">Перейти к каталогу</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="./" aria-label="Premium Emoji — главная">
+        <img src="__BRAND_IMAGE__" width="32" height="32" alt="">
+        <span>Premium Emoji</span>
+      </a>
+      <nav class="navigation" aria-label="Разделы каталога">
+        <button type="button" class="nav-link active" data-view="all" aria-current="page">Каталог эмодзи</button>
+        <button type="button" class="nav-link" data-view="packs">Паки</button>
+        <button type="button" class="nav-link" data-view="ratings">Мои оценки</button>
+        <button type="button" class="nav-link" data-view="news">Новости</button>
+        <button type="button" class="nav-link" data-view="apps">Приложения</button>
+      </nav>
+      <button type="button" class="icon-button header-search" id="focus-search" aria-label="Перейти к поиску">
+        <img class="icon" src="icons/search.svg" alt="">
+      </button>
+    </div>
+  </header>
+
+  <main class="main" id="catalog" tabindex="-1">
+    <div class="page-heading">
+      <div class="heading-text">
+        <h1 id="page-title">Каталог эмодзи</h1>
+        <p id="catalog-summary"></p>
+      </div>
+      <div class="search-field">
+        <label class="sr-only" for="search">Поиск по названию, игре или ID</label>
+        <img class="icon" src="icons/search.svg" alt="">
+        <input type="search" id="search" placeholder="Найти по названию, игре или ID" autocomplete="off" spellcheck="false">
+        <button type="button" class="icon-button" id="clear-search" aria-label="Очистить поиск" hidden>
+          <img class="icon" src="icons/x.svg" alt="">
+        </button>
+      </div>
+    </div>
+
+    <div class="workspace">
+      <section class="catalog-pane" aria-label="Результаты поиска">
+        <div class="list-toolbar">
+          <div class="selects">
+            <label class="sr-only" for="pack-filter">Пак эмодзи</label>
+            <select id="pack-filter"><option value="all">Все паки</option></select>
+            <label class="sr-only" for="sort">Порядок эмодзи</label>
+            <select id="sort">
+              <option value="catalog">Порядок каталога</option>
+              <option value="rating">Сначала лучшие</option>
+              <option value="unrated">Сначала без оценки</option>
+              <option value="name">По названию</option>
+            </select>
+          </div>
+          <p class="results-count" id="results-count" role="status" aria-live="polite"></p>
+        </div>
+
+        <details class="composition-panel" id="composition-panel" hidden>
+          <summary id="composition-summary">Примеры сборки</summary>
+          <p class="composition-hint">Вставляйте части подряд без пробелов. Порядок и повторы сохранены.</p>
+          <div id="composition-list"></div>
+        </details>
+        <div class="table-shell" id="table-shell">
+          <div class="table-heading" aria-hidden="true">
+            <span>Эмодзи</span><span>Название</span><span class="key-column">Ключ</span><span class="rating-column">Моя оценка</span>
+          </div>
+          <div class="emoji-list" id="emoji-list" aria-label="Эмодзи"></div>
+        </div>
+        <div class="pack-list" id="pack-list" hidden></div>
+        <div class="empty-state" id="empty-state" hidden>
+          <img class="icon" src="icons/search.svg" alt="" width="32" height="32">
+          <h2 id="empty-title">Ничего не найдено</h2>
+          <p id="empty-description">Попробуйте другой запрос или сбросьте фильтры.</p>
+          <button type="button" class="secondary-button" id="reset-filters">Сбросить фильтры</button>
+        </div>
+        <div class="pagination" id="pagination">
+          <p id="page-range"></p>
+          <div class="page-controls">
+            <button type="button" class="icon-button" id="previous-page" aria-label="Предыдущая страница"><img class="icon" src="icons/chevron-left.svg" alt=""></button>
+            <span id="page-number"></span>
+            <button type="button" class="icon-button" id="next-page" aria-label="Следующая страница"><img class="icon" src="icons/chevron-right.svg" alt=""></button>
+          </div>
+        </div>
+      </section>
+
+      <aside class="detail-panel" id="detail-panel" aria-label="Детали выбранного эмодзи" tabindex="-1">
+        <button type="button" class="detail-back secondary-button" id="close-detail"><img class="icon" src="icons/arrow-left.svg" alt="">Назад к каталогу</button>
+        <div id="detail-content">
+          <div class="detail-heading">
+            <div class="detail-preview" id="detail-preview"></div>
+            <div class="detail-name">
+              <h2 id="detail-title"></h2>
+              <dl class="detail-meta">
+                <div><dt>Ключ:</dt><dd id="detail-key"></dd></div>
+                <div><dt>Пак:</dt><dd id="detail-pack"></dd></div>
+              </dl>
+            </div>
+          </div>
+          <p class="review-note" id="review-note" hidden></p>
+          <p class="detail-category" id="adaptive-note" hidden>Адаптивный эмодзи: Telegram окрашивает его под цвет текста.</p>
+          <section class="detail-section composition-detail" id="composition-detail" hidden aria-label="Составные эмодзи">
+            <h3>Используется в сборках</h3>
+            <div id="detail-compositions"></div>
+          </section>
+          <section class="detail-section id-section" aria-label="Копирование ID">
+            <label class="field-label" for="emoji-id">custom_emoji_id</label>
+            <div class="id-field">
+              <input id="emoji-id" readonly spellcheck="false" aria-label="ID выбранного эмодзи">
+              <button type="button" class="icon-button" id="copy-id-icon" aria-label="Скопировать ID"><img class="icon" src="icons/copy.svg" alt=""></button>
+            </div>
+            <button type="button" class="primary-button" id="copy-id"><img class="icon" src="icons/copy.svg" alt="">Скопировать ID</button>
+            <h3 class="field-label code-label">HTML для Telegram</h3>
+            <pre class="html-preview"><code id="emoji-html"></code></pre>
+            <button type="button" class="secondary-button" id="copy-html"><img class="icon" src="icons/copy.svg" alt="">Копировать HTML</button>
+          </section>
+          <section class="detail-section personal-rating" aria-labelledby="rating-title">
+            <div class="rating-heading"><h3 id="rating-title">Моя оценка</h3><span id="rating-value"></span></div>
+            <div class="rating-controls">
+              <div class="rating-buttons" role="group" aria-label="Личная оценка эмодзи"></div>
+              <button type="button" class="text-button" id="reset-rating">Сбросить</button>
+            </div>
+          </section>
+          <section class="detail-section pack-section">
+            <a class="pack-link secondary-button" id="open-pack" target="_blank" rel="noopener noreferrer"><img class="icon" src="icons/external-link.svg" alt="">Открыть пак</a>
+            <p class="pack-hint" id="pack-hint">Открыть этот пак в Telegram</p>
+            <p class="detail-category" id="detail-category" hidden></p>
+          </section>
+        </div>
+        <p class="detail-empty" id="detail-empty" hidden>Выберите эмодзи в списке, чтобы увидеть его ID и HTML.</p>
+      </aside>
+    </div>
+    <footer class="site-footer">
+      <span>Оценки сохраняются в этом браузере</span>
+      <a href="__GITHUB_URL__" target="_blank" rel="noopener noreferrer"><img class="icon" src="icons/brand-github.svg" alt="">GitHub</a>
+    </footer>
+    <noscript><p class="no-script">Включите JavaScript для поиска, просмотра эмодзи и копирования ID. <a href="__GITHUB_URL__/blob/main/references/emoji-catalog.md">Открыть каталог в Markdown</a>.</p></noscript>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+  <script type="application/json" id="catalog-data">__CATALOG_DATA__</script>
+  <script>__CATALOG_JS__</script>
+</body>
+</html>
