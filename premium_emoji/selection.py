@@ -37,7 +37,7 @@ def search(data: dict, query: str, *, style: str = '', pack: str = '', limit: in
     else:
         results.sort(key=lambda result: (-result['score'], result['item']['order']))
     decision = ('needs_clarification' if plan['warnings'] else 'no_match' if not results else
-                'browse' if not plan['intents'] and not plan['terms'] else
+                'browse' if not plan['intents'] and not plan['terms'] and not plan.get('games') else
                 'matched' if results[0]['recommended'] else 'needs_review')
     candidates = [candidate(result) for result in results[:limit]]
     result = {'query': plan, 'decision': decision, 'count': len(results), 'candidates': candidates}

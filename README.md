@@ -117,6 +117,8 @@ py -3 install_skill.py --agent codex
 ```bash
 python3 scripts/select_emoji.py styles
 python3 scripts/select_emoji.py search "колокольчик без звука" --style minimal
+python3 scripts/select_emoji.py search "Майнкрафт" --pack GameIcons
+python3 scripts/select_emoji.py search "начать игру" --pack sfsymbols
 python3 scripts/select_emoji.py search "уведомления" --animation static --color monochrome
 python3 scripts/select_emoji.py search "уведомления" --profile "/path/to/app/emoji-style.json"
 ```
@@ -133,6 +135,10 @@ python3 scripts/select_emoji.py compositions "ПОЛЕЗНОЕ" --pack nexus_bas
 </details>
 
 ## Посмотреть каталог
+
+Для игровых ботов поддерживаются 13 ролей: от инвентаря и достижений до здоровья,
+валюты и заданий. Названия игр распознаются на русском и английском, включая
+`CS2` и `WoW`. [Примеры игровых палитр →](references/emoji-selection.md#gaming-bots)
 
 **[Открыть онлайн-каталог →](https://zulut30.github.io/premium-telegram-emoji/)**
 

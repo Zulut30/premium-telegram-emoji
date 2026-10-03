@@ -256,6 +256,24 @@ function check(name, callback) {
     assert.equal(semantic.rows().length, 0);
     assert.match(semantic.get('style-status').textContent, /противоречат/);
   });
+  semantic.search('Майнкрафт');
+  check('Russian game alias finds its verified emblem', () => {
+    assert.equal(semantic.rows()[0].dataset.id, '5406611098285650804');
+    assert.ok(semantic.rows().every(row => payload.items.find(item => item.id === row.dataset.id).games.includes('minecraft')));
+  });
+  semantic.change('pack-filter', payload.items.find(item => item.pack === 'sfsymbols').sections[0]);
+  semantic.search('начать игру');
+  check('game start uses playback instead of dice', () => assert.equal(semantic.rows()[0].dataset.id, '5807414083388971488'));
+  semantic.search('геймпад');
+  check('controller is distinct from playback and board games', () => assert.equal(semantic.rows()[0].dataset.id, '6023852878597200124'));
+  semantic.search('инвентарь');
+  check('inventory finds a backpack in the saved source pack', () => assert.equal(semantic.rows()[0].dataset.id, '6021621630202027944'));
+  semantic.change('pack-filter', 'all');
+  semantic.search('Майнкрафт и Дота');
+  check('multiple game topics explain how to split selection', () => {
+    assert.equal(semantic.rows().length, 0);
+    assert.match(semantic.get('style-status').textContent, /каждой игры отдельно/);
+  });
   check('new selection controls produce no script errors', () => assert.deepEqual([...semantic.errors, ...reopened.errors], []));
   reopened.dom.window.close(); semantic.dom.window.close();
   restored.dom.window.close(); phone.dom.window.close(); env.dom.window.close();

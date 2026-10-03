@@ -143,10 +143,12 @@ class SourceValidationTests(unittest.TestCase):
         policy['intents']['sound']['pattern'] = '['
         policy['styles']['minimal']['packs'] = ['Unknown']
         policy['actions'] = ['unknown']
+        policy['intents']['sound']['query_overrides'] = ['unknown']
         errors = self.validate(policy=policy)
         self.assertTrue(any('invalid regular expression' in error for error in errors))
         self.assertTrue(any('unknown pack' in error for error in errors))
         self.assertTrue(any('unknown action' in error for error in errors))
+        self.assertTrue(any('invalid overridden intent' in error for error in errors))
 
 
 class DependencyBoundaryTests(unittest.TestCase):

@@ -102,6 +102,11 @@ HTML with Telegram's HTML parse mode, and preview URLs as images on web surfaces
 
 ## Explore and contribute
 
+Gaming selection distinguishes controllers, board games and game start, and
+supports inventory, achievements, leaderboards, quests, health and currency.
+Common Russian and English game aliases include Minecraft, Hearthstone, CS2 and
+WoW. [Gaming palettes and profile reuse](references/emoji-selection.md#gaming-bots).
+
 | Resource | Link |
 | --- | --- |
 | Public machine index | [emoji-index.json](https://zulut30.github.io/premium-telegram-emoji/emoji-index.json) |

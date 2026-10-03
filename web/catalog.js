@@ -113,7 +113,7 @@
       if (view === 'ratings' && !ratings[item.id]) return false;
       if (view === 'news' && !item.sections.includes('1')) return false;
       if (view === 'apps' && !item.sections.some(id => ['2', '3', '7', '8'].includes(id))) return false;
-      const result = window.EmojiSelection.rank(item, plan, {includeSpecial: !plan.intents.length || query === item.id});
+      const result = window.EmojiSelection.rank(item, plan, {includeSpecial: (!plan.intents.length && !plan.games.length) || query === item.id});
       if (!result) return false;
       scores.set(item.id, result.score);
       return true;
@@ -131,6 +131,8 @@
       $('style-status').textContent = 'Несколько назначений: ищите каждый значок отдельно.';
     } else if (plan.warnings.includes('multiple_styles')) {
       $('style-status').textContent = 'Укажите один стиль, чтобы получить согласованный набор.';
+    } else if (plan.warnings.includes('multiple_games')) {
+      $('style-status').textContent = 'Несколько игр: подберите эмодзи для каждой игры отдельно.';
     } else if (plan.intents.length && result.length && !result.some(item =>
       window.EmojiSelection.rank(item, plan)?.recommended)) {
       $('style-status').textContent = 'Есть лишь совпадения по категории. Уточните назначение и проверьте изображение.';

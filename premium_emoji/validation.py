@@ -61,6 +61,10 @@ def validate_documents(catalog: str, ids_text: str, metadata: dict, compositions
             if expected != members:
                 errors.append(f'emoji-compositions.json:{key}: IDs must follow pack_indices exactly, including repetitions')
     intents, features = policy['intents'], policy['features']
+    for intent, rule in intents.items():
+        for target in rule.get('query_overrides', []):
+            if target not in intents or target == intent:
+                errors.append(f'selection-policy.json:{intent}: invalid overridden intent {target}')
     for action in policy.get('actions', []):
         if action not in intents:
             errors.append(f'selection-policy.json: unknown action {action}')

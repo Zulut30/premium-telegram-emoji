@@ -9,7 +9,7 @@ from pathlib import Path
 
 from .paths import DEFAULT_PATHS
 from .policy import POLICY, SITE_URL
-from .query import concepts, matches
+from .query import concepts, matches, extract_games
 from .rendering import safe_fallback
 import hashlib
 
@@ -154,9 +154,13 @@ def enrich_catalog(data: dict) -> dict:
                              *[alias['name'] for alias in item.get('aliases', [])]])
         excluded_intents = {key for key, rule in POLICY['intents'].items()
                             if rule.get('source_exclude_pattern') and matches(rule['source_exclude_pattern'], evidence)}
-        item['direct_intents'] = [key for key in concepts(evidence) if key not in excluded_intents]
+        direct = set(concepts(evidence, source=True))
+        direct.update(key for key, rule in POLICY['intents'].items()
+                      if rule.get('source_pattern') and matches(rule['source_pattern'], item['name']))
+        item['direct_intents'] = [key for key in POLICY['intents'] if key in direct and key not in excluded_intents]
         item['intents'] = list(dict.fromkeys([*item['direct_intents'],
-                            *[key for key in concepts(item.get('subcategory', '')) if key not in excluded_intents]]))
+                            *[key for key in concepts(item.get('subcategory', ''), source=True) if key not in excluded_intents]]))
+        item['games'] = [key for key, rule in POLICY.get('game_aliases', {}).items() if matches(rule['source_pattern'], evidence)]
         item['style_family'] = families.get(item['pack'], 'unclassified')
         role = item.get('role', '')
         if role == 'composition_part' or matches('часть|сегмент|фрагмент|половин', item['name']):
@@ -169,12 +173,13 @@ def enrich_catalog(data: dict) -> dict:
         item['selectable'] = not item.get('needs_review') and not item.get('availability') and kind == 'emoji'
         item['html_fallback'] = safe_fallback(item.get('original_fallback') or item['fallback'])
         item['preview_url'] = '' if item.get('availability') else SITE_URL + f'images/{item["id"]}.png'
-        item['features'] = [key for key, rule in POLICY['features'].items() if matches(rule['pattern'], item['name'])]
+        feature_evidence = extract_games(item['name'])[0]
+        item['features'] = [key for key, rule in POLICY['features'].items() if matches(rule['pattern'], feature_evidence)]
         if matches('замок|lock', item['name']) and not {'open', 'disabled'} & set(item['features']) and 'closed' not in item['features']:
             item['features'].append('closed')
         item['color_mode'] = ('monochrome' if item['monochrome'] else 'color') if item.get('color_known') else 'unknown'
     data['selection_policy'] = POLICY
-    material = [{key: item.get(key) for key in ('id', 'name', 'pack', 'style_family', 'intents', 'direct_intents', 'features', 'color_mode', 'repainting', 'animated', 'selection_kind', 'selectable')}
+    material = [{key: item.get(key) for key in ('id', 'name', 'pack', 'style_family', 'intents', 'direct_intents', 'games', 'features', 'color_mode', 'repainting', 'animated', 'selection_kind', 'selectable')}
                 for item in data['items']]
     data['catalog_version'] = hashlib.sha256(json.dumps({'items': material, 'policy': POLICY}, ensure_ascii=False, sort_keys=True).encode()).hexdigest()[:16]
     return data

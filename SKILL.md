@@ -66,6 +66,14 @@ full means direct name/key evidence for every primary intent; partial and
 category_only are weaker matches. These labels are not probabilities. Do not
 promote a category-only match to a role, or use a pack's name as proof of meaning.
 Missing roles are explicit: do not fill them with arbitrary symbols.
+For a gaming bot, distinguish the game topic from the interface action: a
+Minecraft emblem names the game; a backpack opens inventory; a play symbol starts
+the game. The selector supports gaming roles and common Russian/English game
+aliases. A controller, dice and a play button are distinct roles. Use one pack
+for interface roles and an explicitly reviewed topic pack for game emblems.
+Read [gaming examples](references/emoji-selection.md#gaming-bots) for supported
+roles, alias queries and a coherent bot palette. A matched shortlist still needs
+preview review, especially when an abstract role maps to a conventional symbol.
 Once a profile exists, pass --profile to searches too. It limits candidates to
 the recorded packs, inherits constraints, and prioritizes compatible saved IDs.
 saved_roles identifies those choices; catalog_changed reports source updates

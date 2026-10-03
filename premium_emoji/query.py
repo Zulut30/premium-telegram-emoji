@@ -29,17 +29,38 @@ def matches(pattern: str, value: str) -> bool:
     return bool(spans(pattern, value))
 
 
-def concepts(value: str) -> list[str]:
+def concepts(value: str, *, source: bool = False) -> list[str]:
     return [key for key, rule in POLICY['intents'].items()
-            if normalized(value).strip() == key or matches(rule['pattern'], value)]
+            if normalized(value).strip() == key or matches(rule.get('source_pattern', rule['pattern']) if source else rule['pattern'], value)]
+
+
+def extract_games(value: str) -> tuple[str, list[str], list[str]]:
+    """Protect whole game names from role/state parsing, including negations."""
+    remaining, games, excluded = normalized(value), [], []
+    for key, rule in POLICY.get('game_aliases', {}).items():
+        for start, end in reversed(spans(rule['pattern'], remaining)):
+            if end and 'а' <= remaining[end - 1] <= 'я':
+                end += len(re.match(r'[а-я]*', remaining[end:])[0])
+            negative = re.search(r'(?:^|[^a-zа-я0-9])((?:не|без|not|no|without)\s+)$', remaining[:start])
+            if negative:
+                excluded.append(key)
+                start = negative.start(1)
+            else:
+                games.append(key)
+            remaining = remaining[:start] + ' ' * (end - start) + remaining[end:]
+    return remaining, list(dict.fromkeys(games)), list(dict.fromkeys(excluded))
 
 
 def query_plan(query: str, style: str = '', constraints: dict | None = None) -> dict:
     if style and style not in POLICY['styles']:
         raise ValueError(f'Unknown style: {style}')
-    remaining = normalized(query)
+    remaining, games, excluded_games = extract_games(query)
     required, excluded, excluded_terms, excluded_styles, state_intents = [], [], [], [], []
     found_constraints, warnings = {}, []
+    if len(games) > 1:
+        warnings.append('multiple_games')
+    if set(games) & set(excluded_games):
+        warnings.append('conflicting_constraints')
 
     def consume(pattern: str) -> bool:
         nonlocal remaining
@@ -89,6 +110,10 @@ def query_plan(query: str, style: str = '', constraints: dict | None = None) -> 
         remaining = remaining[:start] + ' ' * (end - start) + remaining[end:]
     inferred = [key for key, rule in POLICY['styles'].items() if matches(rule['pattern'], remaining)]
     detected = concepts(remaining)
+    overridden = {target for key in detected for target in POLICY['intents'][key].get('query_overrides', [])}
+    if games:
+        overridden.add('game')
+    detected = [key for key in detected if key not in overridden]
     if 'shopping' in detected and 'delete' in detected and not matches(POLICY['intents']['delete']['action_pattern'], remaining):
         detected.remove('delete')
     ordered = sorted(detected, key=lambda key: spans(POLICY['intents'][key]['pattern'], remaining)[0][0]
@@ -105,7 +130,14 @@ def query_plan(query: str, style: str = '', constraints: dict | None = None) -> 
         intent_keys = list(dict.fromkeys([*state_intents,
             *[POLICY['features'][key]['implicit_intent'] for key in required
               if POLICY['features'][key].get('implicit_intent')]]))
-    tokens = re.findall(r'[a-zа-я0-9]+', remaining)
+    # Whole role phrases are evidence, not extra literal requirements.
+    terms_text = remaining
+    positions = sorted({position for rule in POLICY['intents'].values() for position in spans(rule['pattern'], remaining)}, reverse=True)
+    for start, end in positions:
+        if end and 'а' <= remaining[end - 1] <= 'я':
+            end += len(re.match(r'[а-я]*', remaining[end:])[0])
+        terms_text = terms_text[:start] + ' ' * (end - start) + terms_text[end:]
+    tokens = re.findall(r'[a-zа-я0-9]+', terms_text)
     terms = []
     for token in tokens:
         if token in POLICY['stop_words'] or concepts(token):
@@ -135,6 +167,8 @@ def query_plan(query: str, style: str = '', constraints: dict | None = None) -> 
     if any(all(key in required for key in group) for group in POLICY['feature_conflicts']):
         warnings.append('conflicting_constraints')
     return {'query': query, 'intents': intent_keys, 'context_intents': context, 'terms': terms,
+            'games': games, 'excluded_games': excluded_games,
+            'game_mode': 'context' if intent_keys and intent_keys != ['game'] else 'topic',
             'style': selected_style, 'constraints': found_constraints, 'features': list(dict.fromkeys(required)),
             'excluded_features': list(dict.fromkeys(excluded)), 'excluded_terms': excluded_terms,
             'excluded_styles': excluded_styles, 'warnings': list(dict.fromkeys(warnings))}
