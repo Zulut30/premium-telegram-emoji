@@ -76,4 +76,3 @@ def parse_emoji_entries(message: MessageLike) -> list[dict]:
             })
 
     return entries
-

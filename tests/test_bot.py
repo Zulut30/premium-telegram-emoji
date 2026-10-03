@@ -76,7 +76,7 @@ class CatalogTests(unittest.IsolatedAsyncioTestCase):
         state.clear.assert_awaited_once()
         self.assertIn('&lt;запуск&gt;', message.answer.call_args.args[0])
 
-    def test_catalog_commit_and_push_to_isolated_local_remote(self):
+    def test_catalog_publication_preserves_staged_work_and_local_data_on_push_failure(self):
         remote = self.root / 'remote.git'
 
         def git(*args):
@@ -103,6 +103,16 @@ class CatalogTests(unittest.IsolatedAsyncioTestCase):
         self.assertIn('| novaya | 333 |', pushed)
         self.assertEqual(git('diff', '--name-only', 'HEAD~1', 'HEAD').stdout.decode().splitlines(), ['emoji-ids.txt', 'references/emoji-catalog.md'])
         self.assertEqual(git('diff', '--cached', '--name-only').stdout.decode().splitlines(), ['application.txt'])
+        git('remote', 'set-url', 'origin', str(self.root / 'missing.git'))
+        next_entry = {**ENTRY, 'emoji_id': '444'}
+        with patch.dict(os.environ, {'GITHUB_TOKEN': ''}):
+            section, status = bot.save_and_publish([next_entry], '1')
+        self.assertEqual(section, '1')
+        self.assertIn('push не удался', status)
+        self.assertIn('444', git('show', 'HEAD:emoji-ids.txt').stdout.decode())
+        self.assertIn('| novaya | 444 |', self.catalog.read_text(encoding='utf-8'))
+        self.assertEqual(git('diff', '--cached', '--name-only').stdout.decode().splitlines(), ['application.txt'])
+        self.assertNotIn('444', git('--git-dir=' + str(remote), 'show', 'main:emoji-ids.txt').stdout.decode())
 
     async def test_slow_publication_keeps_event_loop_free_and_preserves_new_request(self):
         started, finish = threading.Event(), threading.Event()
