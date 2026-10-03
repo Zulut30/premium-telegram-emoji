@@ -22,6 +22,11 @@ FILES = (
     'references/emoji-selection.md', 'references/emoji-compositions.md',
     'references/pack-analysis.md', 'references/pack-analysis-initial-eight.md',
     'references/pack-analysis-2026-10-03.md', 'references/platforms.md',
+    'premium_emoji/__init__.py', 'premium_emoji/__main__.py',
+    'premium_emoji/paths.py', 'premium_emoji/policy.py', 'premium_emoji/catalog.py',
+    'premium_emoji/query.py', 'premium_emoji/rendering.py', 'premium_emoji/ranking.py',
+    'premium_emoji/selection.py', 'premium_emoji/profile_validation.py',
+    'premium_emoji/profiles.py', 'premium_emoji/cli.py', 'premium_emoji/io.py',
 )
 AGENTS = {
     'codex': ('.agents/skills', '.agents/skills'),

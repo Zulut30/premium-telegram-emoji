@@ -8,18 +8,21 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-import bot
+import os
+from config import load_environment
+from premium_emoji.paths import DEFAULT_PATHS
 from aiogram import Bot
 from PIL import Image, ImageDraw, ImageFont, ImageStat
 
-ROOT = bot.REPO_DIR
+ROOT = DEFAULT_PATHS.root
 CACHE = ROOT / '.runtime' / 'packs'
 
 
 async def fetch(names, originals=False):
     CACHE.mkdir(parents=True, exist_ok=True)
     semaphore = asyncio.Semaphore(16)
-    async with Bot(bot.BOT_TOKEN) as client:
+    load_environment(DEFAULT_PATHS.root)
+    async with Bot(os.environ.get("BOT_TOKEN", "")) as client:
         async def metadata(name):
             path = CACHE / f'{name}.json'
             if not path.exists():

@@ -6,3 +6,4 @@ site/
 .runtime/
 output/playwright/
 dist/
+node_modules/

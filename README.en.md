@@ -6,7 +6,7 @@
 
 **Choose emoji by meaning. Keep a consistent style across your application.**
 
-[![Portable skill](https://github.com/Zulut30/premium-telegram-emoji/actions/workflows/skill-package.yml/badge.svg)](https://github.com/Zulut30/premium-telegram-emoji/actions/workflows/skill-package.yml)
+[![CI · Windows / macOS / Linux](https://github.com/Zulut30/premium-telegram-emoji/actions/workflows/ci.yml/badge.svg)](https://github.com/Zulut30/premium-telegram-emoji/actions/workflows/ci.yml)
 [![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=flat-square&logo=python&logoColor=white)](https://www.python.org/)
 [![Agent Skills](https://img.shields.io/badge/Agent_Skills-compatible-C4A6FF?style=flat-square)](https://agentskills.io/specification)
 
@@ -110,7 +110,13 @@ HTML with Telegram's HTML parse mode, and preview URLs as images on web surfaces
 | Agent instructions | [SKILL.md](SKILL.md) |
 | Selection details | [emoji-selection.md](references/emoji-selection.md) |
 | Bot, imports and development | [Development guide](docs/development.md) |
+| Module boundaries and extension points | [Architecture](docs/architecture.md) |
+| Agent contribution rules | [AGENTS.md](AGENTS.md) |
 
 Submit emoji with descriptions through the collection bot, or contribute a PR
 with reviewed names and metadata. Pack imports include visual review before
 publication. Catalog content and the bot are independent of the portable skill.
+
+Development gate: install `requirements.txt`, run `npm ci`, then
+`python scripts/project.py check --web`. CI uses the same gate on all three OSes
+before packaging, deploying the site or publishing a skill release.

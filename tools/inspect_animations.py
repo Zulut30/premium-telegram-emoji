@@ -6,17 +6,20 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-import bot
+import os
+from config import load_environment
+from premium_emoji.paths import DEFAULT_PATHS
 from aiogram import Bot
 from PIL import Image, ImageDraw, ImageFont
 from rlottie_python import LottieAnimation
 
-ROOT = bot.REPO_DIR / '.runtime' / 'packs'
+ROOT = DEFAULT_PATHS.root / '.runtime' / 'packs'
 
 
 async def download():
     limit = asyncio.Semaphore(12)
-    async with Bot(bot.BOT_TOKEN) as client:
+    load_environment(DEFAULT_PATHS.root)
+    async with Bot(os.environ.get("BOT_TOKEN", "")) as client:
         async def one(name, index, sticker):
             target = ROOT / name / f'{index:03d}.tgs'
             if target.exists():

@@ -7,6 +7,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY bot.py .
 COPY config.py .
+COPY premium_emoji/ premium_emoji/
+COPY integrations/ integrations/
+COPY data/ data/
 COPY emoji-ids.txt .
 COPY references/ references/
 

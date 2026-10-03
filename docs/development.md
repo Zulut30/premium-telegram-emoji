@@ -89,34 +89,50 @@ python3 tools/import_pack_batch.py data/import-batches/2026-10-03.json
 
 ## Сборка и проверки
 
-```bash
-python3 generate_site.py --offline
-python3 -m unittest discover -s tests -v
-python3 tools/skill_package.py --output dist
-```
-
-Для полного набора тестов бота нужны `requirements.txt`. Тесты подбора и
-переносимости используют только стандартную библиотеку Python:
+Для разработки нужны Python 3.11+ и Node.js 24.15+ (либо 22.22.2+).
+`requirements.txt` содержит зависимости бота, а `package-lock.json` фиксирует
+зависимости проверок интерфейса. Переносимый скилл по-прежнему использует только
+стандартную библиотеку Python.
 
 ```bash
-python3 -m unittest discover -s tests -p 'test_selection*.py' -v
-python3 -m unittest discover -s tests -p 'test_skill*.py' -v
+python -m pip install -r requirements.txt
+npm ci --ignore-scripts --no-audit --no-fund
+python scripts/project.py check --web
 ```
 
-Офлайн-сборка сайта использует уже скачанные превью. Для их загрузки нужен
-`BOT_TOKEN`; CI берёт его из секрета. Изменения общего загрузчика проверяются
-также тестами сайта и составных изображений.
+На Windows запускай Python из `.venv\Scripts\python.exe`, на macOS/Linux —
+из `.venv/bin/python`. На Windows вместо `npm` можно использовать `npm.cmd`.
+Команда `check --web` проверяет источники данных, запускает все Python-тесты,
+собирает сайт офлайн, проверяет DOM и сравнивает результаты подбора Python/JS.
+Тот же набор выполняется в CI на Windows, macOS и Linux; сборка пакета,
+публикация сайта и релиз ожидают успешной матрицы.
 
-Интерфейс и согласованность ранжирования:
+Для короткой проверки и отдельных задач:
 
 ```bash
-npm install --prefix .runtime/catalog-qa --no-audit --no-fund jsdom
-node tests/catalog_dom.cjs
-node tests/selection_parity.cjs
+python scripts/project.py validate-data
+python scripts/project.py check
+python generate_site.py --offline
+python tools/skill_package.py --output dist
+python -m premium_emoji search "колокольчик без звука" --style minimal
 ```
 
-DOM-проверки дополняются просмотром в реальном браузере при изменениях интерфейса.
-Файлы `web/` собираются в игнорируемую папку `site/`.
+`check` без `--web` не требует Node.js. Для него нужны зависимости бота.
+Проверки подбора и переносимости можно запускать без них:
+
+```bash
+python -m unittest discover -s tests -p 'test_selection*.py' -v
+python -m unittest discover -s tests -p 'test_skill*.py' -v
+```
+
+Офлайн-сборка использует скачанные превью и не читает конфигурацию бота.
+Для загрузки превью запускай `python generate_site.py` с локальным `BOT_TOKEN`;
+CI передаёт секрет только шагу загрузки. DOM-тесты дополняются просмотром в
+реальном браузере при изменениях интерфейса. Файлы `web/` собираются в
+игнорируемую папку `site/`.
+
+Границы модулей, источники данных и места для изменений:
+[архитектура проекта](architecture.md). Правила работы агента: [AGENTS.md](../AGENTS.md).
 
 ## Пакет и релиз скилла
 
@@ -125,7 +141,7 @@ DOM-проверки дополняются просмотром в реальн
 содержит версию каталога и хеши файлов. Пакет строится из явного списка;
 бот, `.git`, `.env`, токены, логи и установленные зависимости не включаются.
 
-Workflow `Portable skill` проверяет поиск, профили и реальную установку
+Workflow `Project CI` проверяет данные, бота, поиск, профили, интерфейс и реальную установку
 распакованного пакета на Windows, macOS и Linux с Python 3.11. Он также запускает
 подбор из сторонней папки с Unicode и пробелами в пути. Архивы доступны в
 артефактах успешного workflow. Теги `skill-v*` публикуют эти архивы в GitHub Releases

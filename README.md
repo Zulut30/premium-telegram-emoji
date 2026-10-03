@@ -7,8 +7,7 @@
 **Правильный эмодзи по смыслу. Единый стиль во всём приложении.**
 
 [![Catalog](https://img.shields.io/badge/Открыть-каталог-8975F5?style=flat-square)](https://zulut30.github.io/premium-telegram-emoji/)
-[![Portable skill](https://github.com/Zulut30/premium-telegram-emoji/actions/workflows/skill-package.yml/badge.svg)](https://github.com/Zulut30/premium-telegram-emoji/actions/workflows/skill-package.yml)
-[![Deploy](https://github.com/Zulut30/premium-telegram-emoji/actions/workflows/deploy-site.yml/badge.svg)](https://github.com/Zulut30/premium-telegram-emoji/actions/workflows/deploy-site.yml)
+[![CI · Windows / macOS / Linux](https://github.com/Zulut30/premium-telegram-emoji/actions/workflows/ci.yml/badge.svg)](https://github.com/Zulut30/premium-telegram-emoji/actions/workflows/ci.yml)
 [![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=flat-square&logo=python&logoColor=white)](https://www.python.org/)
 [![Agent Skills](https://img.shields.io/badge/Agent_Skills-compatible-C4A6FF?style=flat-square)](https://agentskills.io/specification)
 
@@ -172,16 +171,23 @@ Telegram → bot.py → каталог и метаданные → GitHub Action
 SKILL.md                 Инструкции для агента
 install_skill.py         Установка и обновление на трёх ОС
 scripts/select_emoji.py  Переносимая точка входа
-emoji_catalog.py         Чтение каталога без конфигурации бота
-emoji_selection.py       Поиск, ограничения и профили
+premium_emoji/           Ядро: каталог, смысл, ранжирование и профили
+integrations/            Telegram, Git и сборка сайта
+scripts/project.py       Единая команда проверки проекта
+emoji_catalog.py         Совместимый импорт общего загрузчика
+emoji_selection.py       Совместимый импорт подбора
 references/             Каталог и руководства
 data/                   Проверенные метаданные и политика подбора
 web/                     Исходники сайта
 bot.py                   Пополнение через Telegram
-.github/workflows/       Публикация сайта и проверка/сборка скилла
+.github/workflows/ci.yml Проверки → пакет / сайт / релиз
 ```
 
-CI проверяет установку и подбор на Windows, macOS и Linux. ZIP и `.skill`
+[Карта архитектуры](docs/architecture.md) объясняет зависимости и места для изменений.
+[Правила для агентов](AGENTS.md) задают границы модулей и обязательную проверку:
+`python scripts/project.py check --web`.
+
+CI проверяет данные, бота, установку, подбор и интерфейс на Windows, macOS и Linux. ZIP и `.skill`
 собираются из явного списка файлов, с проверкой SHA-256; токены, логи и рабочее
 окружение в пакет не входят. Проверки: [GitHub Actions](https://github.com/Zulut30/premium-telegram-emoji/actions).
 

@@ -1,6 +1,12 @@
-"""Portable Agent Skills entrypoint; compatible with an arbitrary working directory."""
+"""Compatibility command for the shared selection CLI."""
 from pathlib import Path
-import runpy
+import sys
 
-if __name__ == '__main__':
-    runpy.run_path(str(Path(__file__).resolve().parents[1] / 'tools' / 'select_emoji.py'), run_name='__main__')
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from premium_emoji.cli import main
+
+if __name__ == "__main__":
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8")
+        sys.stderr.reconfigure(encoding="utf-8")
+    raise SystemExit(main())

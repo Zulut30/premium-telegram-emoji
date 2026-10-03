@@ -1,10 +1,10 @@
 // Behavior checks in a DOM simulator, not a browser-rendering or clipboard test.
-// Setup: npm install --prefix .runtime/catalog-qa --no-audit --no-fund jsdom
+// Setup: npm ci
 // Run after generation: node tests/catalog_dom.cjs
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
-const {JSDOM, VirtualConsole} = require(path.join(__dirname, '../.runtime/catalog-qa/node_modules/jsdom'));
+const {JSDOM, VirtualConsole} = require('jsdom');
 const html = fs.readFileSync(path.join(__dirname, '../site/index.html'), 'utf8');
 const payload = JSON.parse(html.match(/<script type="application\/json" id="catalog-data">(.*?)<\/script>/s)[1]);
 const first = payload.items[0];
