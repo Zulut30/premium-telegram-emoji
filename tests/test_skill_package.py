@@ -154,7 +154,7 @@ class PortableSkillTests(unittest.TestCase):
             project.mkdir()
             result = self.run_cli(ROOT / 'install_skill.py', '--agent', 'copilot', '--scope', 'project',
                                   '--project', str(project), '--dry-run', cwd=project)
-            self.assertEqual(result['path'], str(project / '.github/skills' / NAME))
+            self.assertEqual(Path(result['path']), project.resolve() / '.github/skills' / NAME)
             self.assertTrue(result['dry_run'])
             self.assertEqual(list(project.iterdir()), [])
 
