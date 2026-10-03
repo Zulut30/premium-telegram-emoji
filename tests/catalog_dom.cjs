@@ -13,7 +13,7 @@ const KEY = 'premiumEmojiRatings:v1';
 const tick = () => new Promise(resolve => setImmediate(resolve));
 let checks = 0;
 
-function create({mobile = false, ratings = {}, deniedStorage = false} = {}) {
+function create({mobile = false, ratings = {}, deniedStorage = false, style = null} = {}) {
   const errors = [];
   const writes = [];
   const virtualConsole = new VirtualConsole();
@@ -23,6 +23,7 @@ function create({mobile = false, ratings = {}, deniedStorage = false} = {}) {
     beforeParse(window) {
       window.matchMedia = () => ({matches: mobile, addEventListener() {}, removeEventListener() {}});
       window.localStorage.setItem(KEY, JSON.stringify(ratings));
+      if (style) window.localStorage.setItem('premiumEmojiStyle:v1', JSON.stringify(style));
       if (deniedStorage) window.Storage.prototype.setItem = () => { throw new Error('storage denied'); };
       Object.defineProperty(window.navigator, 'clipboard', {value: {writeText: async text => { writes.push(text); }}});
     }
@@ -176,6 +177,44 @@ function check(name, callback) {
     env.search(member.id);
     check('part details expose its composition membership', () => assert.equal(env.get('composition-detail').hidden, false));
   }
+  const semantic = create();
+  semantic.search('значок напоминания');
+  check('synonym request finds a known notification icon', () => {
+    assert.ok(semantic.rows().slice(0, 3).some(row => row.dataset.id === '5909201569898827582'));
+  });
+  semantic.search('неоновое сердце');
+  check('natural search respects inferred neon style', () => {
+    assert.equal(semantic.rows()[0].dataset.id, '5364201435858744869');
+    assert.ok(semantic.rows().every(row => payload.items.find(item => item.id === row.dataset.id).style_family === 'neon'));
+  });
+  semantic.search(''); semantic.change('style-filter', 'pixel');
+  check('explicit style excludes incompatible packs', () => {
+    assert.ok(semantic.rows().length);
+    assert.ok(semantic.rows().every(row => payload.items.find(item => item.id === row.dataset.id).style_family === 'pixel'));
+  });
+  semantic.get('choose-pack-style').click();
+  const savedStyle = JSON.parse(semantic.window.localStorage.getItem('premiumEmojiStyle:v1'));
+  const reopened = create({style: savedStyle});
+  check('style and exact pack survive a new document', () => {
+    assert.equal(reopened.get('style-filter').value, 'pixel');
+    assert.equal(reopened.get('pack-filter').value, savedStyle.pack);
+    assert.ok(reopened.rows().every(row => payload.items.find(item => item.id === row.dataset.id).sections.includes(savedStyle.pack)));
+  });
+  semantic.get('export-style').click(); await tick();
+  check('AI export preserves the chosen pack and profile schema', () => {
+    const profile = JSON.parse(semantic.writes.at(-1));
+    assert.equal(profile.schema_version, 1);
+    assert.equal(profile.style, 'pixel');
+    assert.equal(profile.primary_pack, payload.items.find(item => item.id === semantic.selected()).pack);
+    assert.deepEqual(profile.roles, {});
+  });
+  semantic.get('reset-filters').click();
+  check('reset explicitly clears persisted style', () => {
+    assert.equal(semantic.get('style-filter').value, 'all');
+    assert.equal(JSON.parse(semantic.window.localStorage.getItem('premiumEmojiStyle:v1')).style, 'all');
+  });
+  check('new selection controls produce no script errors', () => assert.deepEqual([...semantic.errors, ...reopened.errors], []));
+  reopened.dom.window.close(); semantic.dom.window.close();
   restored.dom.window.close(); phone.dom.window.close(); env.dom.window.close();
   console.log(`${checks} DOM behavior checks passed. Browser visual QA remains separate.`);
 })().catch(error => { console.error(error); process.exitCode = 1; });

@@ -6,6 +6,8 @@ on:
     paths:
       - "references/emoji-catalog.md"
       - "generate_site.py"
+      - "emoji_selection.py"
+      - "data/selection-policy.json"
       - "config.py"
       - "data/emoji-packs.json"
       - "data/emoji-compositions.json"

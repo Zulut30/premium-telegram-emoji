@@ -7,6 +7,7 @@
   const compositions = catalog.compositions || [];
   const compositionsByKey = new Map(compositions.map(group => [group.key, group]));
   const RATING_KEY = 'premiumEmojiRatings:v1';
+  const STYLE_KEY = 'premiumEmojiStyle:v1';
   const PAGE_SIZE = 30;
   const mobile = window.matchMedia('(max-width: 860px)');
   const $ = id => document.getElementById(id);
@@ -14,6 +15,7 @@
   const escape = value => String(value).replace(/[&<>"']/g, char => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[char]));
   const icon = (name, classes = '') => `<img class="icon ${classes}" src="icons/${name}.svg" alt="" aria-hidden="true">`;
   let ratings = loadRatings();
+  let savedStyle = loadStyle();
   let view = 'all';
   let page = 0;
   let selectedId = items[0]?.id || null;
@@ -37,6 +39,29 @@
   function image(item, extra = '') {
     const classes = `${item.image.startsWith('icons/') ? 'icon ' : item.monochrome ? 'monochrome ' : ''}${extra}`;
     return `<img class="${classes}" src="${escape(item.image)}" alt="" loading="lazy" width="40" height="40" data-emoji-image="${escape(item.id)}">`;
+  }
+
+  function loadStyle() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(STYLE_KEY) || '{}');
+      if (saved && (saved.style === 'all' || Object.hasOwn(catalog.selection_policy.styles, saved.style))) {
+        return {style: saved.style, pack: sections.some(section => section.id === saved.pack) ? saved.pack : 'all'};
+      }
+    } catch (_) { /* The catalog works without browser storage. */ }
+    return {style: 'all', pack: 'all'};
+  }
+
+  function saveStyle() {
+    savedStyle = {style: $('style-filter').value, pack: $('pack-filter').value};
+    try { localStorage.setItem(STYLE_KEY, JSON.stringify(savedStyle)); }
+    catch (_) { notify('Стиль выбран; браузер не разрешает сохранить его после закрытия страницы.'); }
+  }
+
+  function styleProfile() {
+    const item = byId.get(selectedId);
+    if (!item || !Object.hasOwn(catalog.selection_policy.styles, item.style_family)) return null;
+    return {schema_version: 1, style: item.style_family, primary_pack: item.pack,
+      secondary_packs: [], roles: {}, catalog_version: catalog.catalog_version};
   }
 
   // Telegram requires one emoji, rather than a word or currency sign, inside tg-emoji.
@@ -75,21 +100,26 @@
   }
 
   function matchingItems() {
-    const terms = $('search').value.toLocaleLowerCase('ru').trim().split(/\s+/).filter(Boolean);
+    const query = $('search').value.trim();
+    const plan = window.EmojiSelection.plan(query, $('style-filter').value === 'all' ? '' : $('style-filter').value);
+    const scores = new Map();
     const pack = $('pack-filter').value;
     const result = items.filter(item => {
       if (pack !== 'all' && !item.sections.includes(pack)) return false;
       if (view === 'ratings' && !ratings[item.id]) return false;
       if (view === 'news' && !item.sections.includes('1')) return false;
       if (view === 'apps' && !item.sections.some(id => ['2', '3', '7', '8'].includes(id))) return false;
-      return terms.every(term => item.search.includes(term));
+      const result = window.EmojiSelection.rank(item, plan, {includeSpecial: !plan.intents.length || query === item.id});
+      if (!result) return false;
+      scores.set(item.id, result.score);
+      return true;
     });
     const mode = $('sort').value;
     result.sort((a, b) => {
       if (mode === 'rating') return ((ratings[b.id] || 0) - (ratings[a.id] || 0)) || (a.order - b.order);
       if (mode === 'unrated') return (Number(Boolean(ratings[a.id])) - Number(Boolean(ratings[b.id]))) || (a.order - b.order);
       if (mode === 'name') return a.name.localeCompare(b.name, 'ru') || (a.order - b.order);
-      return a.order - b.order;
+      return (query ? scores.get(b.id) - scores.get(a.id) : 0) || a.order - b.order;
     });
     return result;
   }
@@ -108,6 +138,11 @@
     $('clear-search').hidden = !$('search').value;
     $('pack-filter').hidden = view === 'packs';
     $('sort').hidden = view === 'packs';
+    $('style-filter').hidden = view === 'packs';
+    document.querySelector('.style-tools').hidden = view === 'packs';
+    const style = $('style-filter').value;
+    const label = catalog.selection_policy.styles[style]?.label;
+    $('style-status').textContent = label ? `${label} · выбор сохраняется в этом браузере` : 'Поиск по назначению: например, «уведомления» или «скачать»';
   }
 
   function render() {
@@ -166,6 +201,7 @@
   }
 
   function renderDetail() {
+    $('export-style').disabled = !styleProfile();
     const item = byId.get(selectedId);
     $('detail-content').hidden = !item;
     $('detail-empty').hidden = !!item;
@@ -189,6 +225,8 @@
     $('detail-compositions').innerHTML = groups.map(compositionCard).join('');
     $('detail-category').hidden = !item.category && !item.subcategory;
     $('detail-category').textContent = [item.category, item.subcategory].filter(Boolean).join(' · ');
+    $('choose-pack-style').hidden = !Object.hasOwn(catalog.selection_policy.styles, item.style_family);
+    $('export-style').disabled = !styleProfile();
     paintRating();
   }
 
@@ -287,7 +325,9 @@
   function resetFilters() {
     $('search').value = '';
     $('pack-filter').value = 'all';
+    $('style-filter').value = 'all';
     $('sort').value = 'catalog';
+    saveStyle();
     view = 'all';
     page = 0;
     render();
@@ -295,6 +335,9 @@
   }
 
   sections.forEach(section => $('pack-filter').add(new Option(`${section.name} · ${format(section.count)}`, section.id)));
+  Object.entries(catalog.selection_policy.styles).forEach(([key, rule]) => $('style-filter').add(new Option(rule.label, key)));
+  $('style-filter').value = savedStyle.style;
+  $('pack-filter').value = savedStyle.pack;
   const ratingGroup = document.querySelector('.rating-buttons');
   for (let value = 1; value <= 5; value++) {
     const button = document.createElement('button');
@@ -310,7 +353,29 @@
   document.querySelectorAll('[data-view]').forEach(button => button.addEventListener('click', () => setView(button.dataset.view)));
   $('search').addEventListener('input', () => { page = 0; render(); });
   $('clear-search').addEventListener('click', () => { $('search').value = ''; page = 0; render(); $('search').focus(); });
-  $('pack-filter').addEventListener('change', () => { page = 0; render(); });
+  $('pack-filter').addEventListener('change', () => { saveStyle(); page = 0; render(); });
+  $('style-filter').addEventListener('change', () => { $('pack-filter').value = 'all'; saveStyle(); page = 0; render(); });
+  $('choose-pack-style').addEventListener('click', () => {
+    const item = byId.get(selectedId);
+    if (!item) return;
+    $('style-filter').value = item.style_family;
+    $('pack-filter').value = item.sections[0];
+    $('search').value = '';
+    saveStyle(); page = 0; render();
+    notify(`Стиль пака ${item.pack} сохранён`);
+  });
+  $('export-style').addEventListener('click', async () => {
+    const profile = styleProfile();
+    if (!profile) return;
+    const text = JSON.stringify(profile, null, 2);
+    try { await navigator.clipboard.writeText(text); notify('Профиль выбранного пака скопирован. Передайте его ИИ вместе с задачей.'); }
+    catch (_) {
+      const blob = new Blob([text + '\n'], {type: 'application/json'});
+      const url = URL.createObjectURL(blob), anchor = document.createElement('a');
+      anchor.href = url; anchor.download = 'emoji-style.json'; anchor.click(); URL.revokeObjectURL(url);
+      notify('Профиль стиля сохранён в файл');
+    }
+  });
   $('sort').addEventListener('change', () => { page = 0; render(); });
   $('reset-filters').addEventListener('click', resetFilters);
   $('focus-search').addEventListener('click', () => $('search').focus());
@@ -334,6 +399,9 @@
     view = 'all';
     $('search').value = '';
     $('pack-filter').value = button.dataset.pack;
+    const style = $('style-filter').value;
+    if (style !== 'all' && !items.some(item => item.sections.includes(button.dataset.pack) && item.style_family === style)) $('style-filter').value = 'all';
+    saveStyle();
     page = 0;
     render();
     $('emoji-list').querySelector('button')?.focus();

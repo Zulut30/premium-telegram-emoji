@@ -49,6 +49,8 @@
       <section class="catalog-pane" aria-label="Результаты поиска">
         <div class="list-toolbar">
           <div class="selects">
+            <label class="sr-only" for="style-filter">Стиль эмодзи</label>
+            <select id="style-filter"><option value="all">Все стили</option></select>
             <label class="sr-only" for="pack-filter">Пак эмодзи</label>
             <select id="pack-filter"><option value="all">Все паки</option></select>
             <label class="sr-only" for="sort">Порядок эмодзи</label>
@@ -60,6 +62,11 @@
             </select>
           </div>
           <p class="results-count" id="results-count" role="status" aria-live="polite"></p>
+        </div>
+
+        <div class="style-tools">
+          <p id="style-status" class="style-status" role="status"></p>
+          <button type="button" class="text-button" id="export-style">Профиль стиля для ИИ</button>
         </div>
 
         <details class="composition-panel" id="composition-panel" hidden>
@@ -131,6 +138,7 @@
             <a class="pack-link secondary-button" id="open-pack" target="_blank" rel="noopener noreferrer"><img class="icon" src="icons/external-link.svg" alt="">Открыть пак</a>
             <p class="pack-hint" id="pack-hint">Открыть этот пак в Telegram</p>
             <p class="detail-category" id="detail-category" hidden></p>
+            <button type="button" class="text-button" id="choose-pack-style">Сохранить стиль этого пака</button>
           </section>
         </div>
         <p class="detail-empty" id="detail-empty" hidden>Выберите эмодзи в списке, чтобы увидеть его ID и HTML.</p>
@@ -144,6 +152,7 @@
   </main>
   <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
   <script type="application/json" id="catalog-data">__CATALOG_DATA__</script>
+  <script>__SELECTION_JS__</script>
   <script>__CATALOG_JS__</script>
 </body>
 </html>

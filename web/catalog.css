@@ -56,7 +56,11 @@ h1 { font-size: clamp(26px, 2.6vw, 38px); font-weight: 700; letter-spacing: -.6p
 .workspace { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(380px, 1fr); gap: 28px; align-items: start; }
 .catalog-pane { min-width: 0; }
 .list-toolbar { min-height: 48px; display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; margin-bottom: 12px; }
-.selects { display: flex; gap: 16px; min-width: 0; }
+.selects { display: flex; flex-wrap: wrap; gap: 10px; min-width: 0; }
+.style-tools { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin: 0 0 14px; }
+.style-status { color: var(--muted); font-size: 12px; line-height: 1.5; margin: 0; }
+.style-tools button { font-size: 12px; }
+#choose-pack-style { margin-top: 10px; font-size: 13px; }
 select { appearance: none; color: #d7e4f7; background: var(--surface) url("icons/chevron-down.svg") no-repeat right 12px center; background-size: 18px; border: 1px solid var(--border); border-radius: 7px; min-height: 44px; padding: 9px 34px 9px 14px; max-width: 240px; font-size: 14px; cursor: pointer; }
 .results-count { align-self: center; color: var(--muted); font-size: 14px; text-align: right; }
 .table-shell { background: #0c131e; border-radius: 9px; overflow: hidden; }
@@ -172,6 +176,8 @@ img.monochrome { filter: brightness(0) invert(1); }
   .workspace { display: block; }
   .selects { width: 100%; }
   .selects select { flex: 1; min-width: 0; max-width: none; }
+  .list-toolbar { flex-wrap: wrap; }
+  .results-count { margin-left: auto; }
   .list-toolbar { gap: 10px; margin-bottom: 16px; }
   .emoji-list { max-height: none; }
   .detail-panel { display: none; }

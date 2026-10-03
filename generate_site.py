@@ -47,7 +47,7 @@ def parse_catalog() -> list[dict]:
     if METADATA_FILE.exists():
         data = json.loads(METADATA_FILE.read_text(encoding="utf-8"))
         reviewed = {
-            item["emoji_id"]: {**item, "pack_name": pack["name"], "pack_url": pack["url"]}
+            item["emoji_id"]: {**item, "pack_name": pack["name"], "pack_url": pack["url"], "pack_style": pack.get("style", "")}
             for pack in data["packs"]
             for item in pack["items"]
         }
@@ -80,7 +80,7 @@ def parse_catalog() -> list[dict]:
                     "fallback":    parts[3],
                 }
                 metadata = reviewed.get(parts[1], {})
-                for key in ["category", "subcategory", "tags", "pack_name", "pack_url", "monochrome", "needs_review", "notes", "original_fallback", "needs_repainting", "availability", "text", "composition_keys"]:
+                for key in ["category", "subcategory", "tags", "pack_name", "pack_url", "monochrome", "needs_review", "notes", "original_fallback", "needs_repainting", "availability", "text", "composition_keys", "pack_style", "is_animated", "is_video", "role"]:
                     if key in metadata:
                         emoji[key] = metadata[key]
                 current["emojis"].append(emoji)
@@ -249,6 +249,10 @@ def catalog_data(sections: list[dict], thumbnails: dict[str, str]) -> dict:
                 "adaptive": bool(emoji.get("needs_repainting", False)),
                 "availability": emoji.get("availability", ""),
                 "text": emoji.get("text", ""),
+                "pack_style": emoji.get("pack_style", ""),
+                "animated": emoji.get("is_animated"),
+                "video": emoji.get("is_video"),
+                "role": emoji.get("role", ""),
                 "notes": emoji.get("notes", []),
                 "search": " ".join(search_parts).lower(),
             }
@@ -259,8 +263,9 @@ def catalog_data(sections: list[dict], thumbnails: dict[str, str]) -> dict:
         for composition in json.loads(COMPOSITIONS_FILE.read_text(encoding="utf-8"))["compositions"]:
             if all(eid in items for eid in composition["emoji_ids"]):
                 compositions.append(composition)
-    return {"items": list(items.values()), "sections": groups, "compositions": compositions,
-            "source_count": sum(len(section["emojis"]) for section in sections)}
+    from emoji_selection import enrich_catalog
+    return enrich_catalog({"items": list(items.values()), "sections": groups, "compositions": compositions,
+                           "source_count": sum(len(section["emojis"]) for section in sections)})
 
 
 def build_html(sections: list[dict], thumbnails: dict[str, str]) -> str:
@@ -271,6 +276,7 @@ def build_html(sections: list[dict], thumbnails: dict[str, str]) -> str:
     return (WEB_DIR.joinpath("catalog.html").read_text(encoding="utf-8")
             .replace("__CATALOG_CSS__", WEB_DIR.joinpath("catalog.css").read_text(encoding="utf-8"))
             .replace("__CATALOG_JS__", WEB_DIR.joinpath("catalog.js").read_text(encoding="utf-8"))
+            .replace("__SELECTION_JS__", WEB_DIR.joinpath("selection.js").read_text(encoding="utf-8"))
             .replace("__GITHUB_URL__", GITHUB_URL)
             .replace("__BRAND_IMAGE__", brand)
             .replace("__CATALOG_DATA__", serialized))
@@ -281,6 +287,8 @@ def write_site(sections: list[dict], thumbnails: dict[str, str]) -> Path:
     shutil.copytree(WEB_DIR / "icons", SITE_DIR / "icons", dirs_exist_ok=True)
     out = SITE_DIR / "index.html"
     out.write_text(build_html(sections, thumbnails), encoding="utf-8")
+    data = catalog_data(sections, thumbnails)
+    (SITE_DIR / 'emoji-index.json').write_text(json.dumps(data, ensure_ascii=False, separators=(',', ':')), encoding='utf-8')
     return out
 
 
