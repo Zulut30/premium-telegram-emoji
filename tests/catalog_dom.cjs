@@ -208,6 +208,20 @@ function check(name, callback) {
     assert.equal(profile.primary_pack, payload.items.find(item => item.id === semantic.selected()).pack);
     assert.deepEqual(profile.roles, {});
   });
+  const pinnedProfile = JSON.parse(semantic.writes.at(-1));
+  semantic.search('qzxnonexistent999');
+  semantic.get('export-style').click(); await tick();
+  check('saved pack can still be exported when a query has no matches', () => {
+    assert.equal(semantic.rows().length, 0);
+    assert.equal(semantic.get('export-style').disabled, false);
+    assert.equal(JSON.parse(semantic.writes.at(-1)).primary_pack, pinnedProfile.primary_pack);
+  });
+  semantic.document.querySelector('[data-view="apps"]').click();
+  semantic.get('export-style').click(); await tick();
+  check('navigation preserves the saved source instead of exporting a different pack', () => {
+    assert.equal(JSON.parse(semantic.writes.at(-1)).primary_pack, pinnedProfile.primary_pack);
+    assert.match(semantic.get('export-style').textContent, /сохранённого/);
+  });
   semantic.get('reset-filters').click();
   check('reset explicitly clears persisted style', () => {
     assert.equal(semantic.get('style-filter').value, 'all');
@@ -218,6 +232,13 @@ function check(name, callback) {
     assert.equal(semantic.rows().length, 1);
     assert.equal(semantic.rows()[0].dataset.id, '6021440013214948027');
   });
+  semantic.change('pack-filter', payload.items.find(item => item.pack === 'sfsymbols').sections[0]);
+  semantic.search('включить уведомления');
+  check('enabled notifications exclude the crossed bell', () => {
+    assert.equal(semantic.rows().length, 1);
+    assert.equal(semantic.rows()[0].dataset.id, '6021536113108196448');
+  });
+  semantic.change('pack-filter', 'all');
   semantic.search('статичный одноцветный значок уведомлений');
   check('strict static and monochrome constraints select verified metadata', () => {
     assert.equal(semantic.rows()[0].dataset.id, '5341291972927710892');

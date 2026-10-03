@@ -45,7 +45,9 @@
     try {
       const saved = JSON.parse(localStorage.getItem(STYLE_KEY) || '{}');
       if (saved && (saved.style === 'all' || Object.hasOwn(catalog.selection_policy.styles, saved.style))) {
-        return {style: saved.style, pack: sections.some(section => section.id === saved.pack) ? saved.pack : 'all'};
+        const compatible = sections.some(section => section.id === saved.pack) &&
+          items.some(item => item.sections.includes(saved.pack) && (saved.style === 'all' || item.style_family === saved.style));
+        return {style: saved.style, pack: compatible ? saved.pack : 'all'};
       }
     } catch (_) { /* The catalog works without browser storage. */ }
     return {style: 'all', pack: 'all'};
@@ -58,7 +60,9 @@
   }
 
   function styleProfile() {
-    const item = byId.get(selectedId);
+    const remembered = savedStyle.pack !== 'all' ? items.find(item => item.sections.includes(savedStyle.pack) &&
+      (savedStyle.style === 'all' || item.style_family === savedStyle.style)) : null;
+    const item = remembered || byId.get(selectedId);
     if (!item || !Object.hasOwn(catalog.selection_policy.styles, item.style_family)) return null;
     return {schema_version: 1, style: item.style_family, primary_pack: item.pack,
       secondary_packs: [], roles: {}, catalog_version: catalog.catalog_version};
@@ -153,6 +157,7 @@
     const style = $('style-filter').value;
     const label = catalog.selection_policy.styles[style]?.label;
     $('style-status').textContent = label ? `${label} · выбор сохраняется в этом браузере` : 'Поиск по назначению: например, «уведомления» или «скачать»';
+    $('export-style').textContent = savedStyle.pack !== 'all' ? 'Профиль сохранённого стиля' : 'Профиль стиля для ИИ';
   }
 
   function render() {
@@ -211,7 +216,9 @@
   }
 
   function renderDetail() {
-    $('export-style').disabled = !styleProfile();
+    const profile = styleProfile();
+    $('export-style').disabled = !profile;
+    $('export-style').title = profile ? `Пак: ${profile.primary_pack}` : '';
     const item = byId.get(selectedId);
     $('detail-content').hidden = !item;
     $('detail-empty').hidden = !!item;
@@ -236,7 +243,6 @@
     $('detail-category').hidden = !item.category && !item.subcategory;
     $('detail-category').textContent = [item.category, item.subcategory].filter(Boolean).join(' · ');
     $('choose-pack-style').hidden = !Object.hasOwn(catalog.selection_policy.styles, item.style_family);
-    $('export-style').disabled = !styleProfile();
     paintRating();
   }
 
@@ -378,7 +384,7 @@
     const profile = styleProfile();
     if (!profile) return;
     const text = JSON.stringify(profile, null, 2);
-    try { await navigator.clipboard.writeText(text); notify('Профиль выбранного пака скопирован. Передайте его ИИ вместе с задачей.'); }
+    try { await navigator.clipboard.writeText(text); notify(`Профиль пака ${profile.primary_pack} скопирован. Передайте его ИИ вместе с задачей.`); }
     catch (_) {
       const blob = new Blob([text + '\n'], {type: 'application/json'});
       const url = URL.createObjectURL(blob), anchor = document.createElement('a');

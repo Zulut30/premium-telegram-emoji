@@ -66,7 +66,7 @@
   },
   "actions": ["copy", "delete", "edit", "download", "upload", "save", "share", "search", "settings"],
   "features": {
-    "disabled": {"label": "Выключено / зачёркнуто", "pattern": "зачеркнут[а-я]*|выключ[а-я]*|отключ[а-я]*|muted|disabled|silent|off", "query_pattern": "зачеркнут[а-я]*|выключ[а-я]*|отключ[а-я]*|без звука|тих[а-я]*|mute(?:d)?|disable(?:d)?|silent", "implicit_intent": "sound"},
+    "disabled": {"label": "Выключено / зачёркнуто", "pattern": "зачеркнут[а-я]*|выключ[а-я]*|отключ[а-я]*|без звука|muted|disabled|silent|off", "query_pattern": "зачеркнут[а-я]*|выключ[а-я]*|отключ[а-я]*|без звука|тих[а-я]*|mute(?:d)?|disable(?:d)?|silent", "opposite_query_pattern": "включ[а-я]*|со звуком|unmute(?:d)?|enable(?:d)?", "implicit_intent": "sound"},
     "broken": {"label": "Разбитое", "pattern": "разбит[а-я]*|broken", "query_pattern": "разбит[а-я]*|broken"},
     "open": {"label": "Открыто / разблокировано", "pattern": "открыт[а-я]*|разблок[а-я]*|unlocked|open", "query_pattern": "открыт[а-я]*|разблок[а-я]*|unlocked|open"},
     "closed": {"label": "Закрыто / заблокировано", "pattern": "закрыт[а-я]*|заблок[а-я]*|locked|closed", "query_pattern": "закрыт[а-я]*|заблок[а-я]*|locked|closed"},

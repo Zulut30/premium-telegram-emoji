@@ -36,6 +36,7 @@ python tools/select_emoji.py styles
 python tools/select_emoji.py search "напоминания" --style minimal --limit 8
 python tools/select_emoji.py search "колокольчик без звука" --style minimal
 python tools/select_emoji.py search "уведомления" --animation static --color monochrome --repainting required
+python tools/select_emoji.py search "уведомления" --profile /absolute/application/emoji-style.json
 python tools/select_emoji.py palette --style minimal --roles settings search notification success download --profile /absolute/application/emoji-style.json --save
 ```
 
@@ -50,6 +51,11 @@ full means direct name/key evidence for every primary intent; partial and
 category_only are weaker matches. These labels are not probabilities. Do not
 promote a category-only match to a role, or use a pack's name as proof of meaning.
 Missing roles are explicit: do not fill them with arbitrary symbols.
+Once a profile exists, pass --profile to searches too. It limits candidates to
+the recorded packs, inherits constraints, and prioritizes compatible saved IDs.
+saved_roles identifies those choices; catalog_changed reports source updates
+without changing bindings. A request for a different style requires a deliberate
+profile change, rather than choosing an out-of-style candidate from global search.
 
 ## Verify the visual choice and keep one coherent set
 
@@ -78,6 +84,16 @@ The palette can fill gaps from already recorded secondary_packs after trying the
 primary pack. It stores animation/color/repainting requirements in constraints
 and reuses them. Tightening a requirement that conflicts with saved IDs raises
 an error without changing the profile; review the affected roles deliberately.
+
+Use descriptive application role keys with --role-query ROLE=QUERY when one
+concept has several states: notifications_on and notifications_muted need
+different icons. The query is stored with the ID, inherited on later runs, and
+checked by validate. After viewing candidates, --bind ROLE=ID saves the exact
+reviewed choice instead of accepting the first ranked result. Bindings must fit
+their query, state, saved packs and constraints. Reusing a role for a new state or
+replacing its saved ID raises an error; introduce a distinct role when needed.
+See the selection guide for named-role and binding examples. unresolved_roles
+explains gaps; an ambiguous query does not create a role binding.
 
 Default selection excludes uncertain/unavailable images, individual letters,
 digits and composition fragments. --include-special is an inspection mode, not

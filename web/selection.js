@@ -25,7 +25,7 @@
   function plan(query, style = '', constraints = {}) {
     if (style && !policy.styles[style]) throw new Error(`Unknown style: ${style}`);
     let remaining = normalized(query);
-    const required = [], excluded = [], excludedTerms = [], excludedStyles = [], found = {}, warnings = [];
+    const required = [], excluded = [], excludedTerms = [], excludedStyles = [], stateIntents = [], found = {}, warnings = [];
     function consume(pattern) {
       const positions = spans(pattern, remaining);
       for (const [start, end] of positions.reverse()) remaining = remaining.slice(0, start) + ' '.repeat(end - start) + remaining.slice(end);
@@ -47,13 +47,24 @@
       }
     }
     for (const [key, rule] of Object.entries(policy.features)) {
-      if (consume('(?:не|без|not|no|without)\\s+(?:' + rule.query_pattern + ')')) excluded.push(key);
+      if (consume('(?:не|без|not|no|without)\\s+(?:' + rule.query_pattern + ')')) {
+        excluded.push(key);
+        if (rule.implicit_intent) stateIntents.push(rule.implicit_intent);
+      }
+      if (rule.opposite_query_pattern && consume('(?:не|без|not|no|without)\\s+(?:' + rule.opposite_query_pattern + ')')) {
+        required.push(key);
+        if (rule.implicit_intent) stateIntents.push(rule.implicit_intent);
+      }
     }
     for (const [key, rule] of Object.entries(policy.styles)) {
       if (consume('(?:не|без|not|no|without)\\s+(?:' + rule.pattern + ')[а-я]*')) excludedStyles.push(key);
     }
     for (const [key, rule] of Object.entries(policy.features)) {
       if (consume(rule.query_pattern)) required.push(key);
+      if (rule.opposite_query_pattern && consume(rule.opposite_query_pattern)) {
+        excluded.push(key);
+        if (rule.implicit_intent) stateIntents.push(rule.implicit_intent);
+      }
     }
     for (const [start, end] of spans('(?:не|без|not|no|without)\\s+[a-zа-я0-9]+', remaining).reverse()) {
       excludedTerms.push(remaining.slice(start, end).split(/\s+/).at(-1));
@@ -75,7 +86,7 @@
       intents = (actions.length ? actions : ordered).slice(0, 1);
       context = detected.filter(key => !intents.includes(key));
     }
-    if (!intents.length && required.length) intents = [...new Set(required.map(key => policy.features[key].implicit_intent).filter(Boolean))];
+    if (!intents.length) intents = [...new Set([...stateIntents, ...required.map(key => policy.features[key].implicit_intent).filter(Boolean)])];
     const terms = (remaining.match(/[a-zа-я0-9]+/g) || []).filter(token =>
       !policy.stop_words.includes(token) && !concepts(token).length && !Object.values(policy.styles).some(rule => matches(rule.pattern, token)));
     if (!style && inferred.length > 1) {
@@ -93,8 +104,8 @@
     }
     if (required.some(key => excluded.includes(key))) warnings.push('conflicting_constraints');
     if (policy.feature_conflicts.some(group => group.every(key => required.includes(key)))) warnings.push('conflicting_constraints');
-    return {query, intents, context_intents: context, terms, style: selectedStyle, constraints: found, features: required,
-      excluded_features: excluded, excluded_terms: excludedTerms, excluded_styles: excludedStyles, warnings: [...new Set(warnings)]};
+    return {query, intents, context_intents: context, terms, style: selectedStyle, constraints: found, features: [...new Set(required)],
+      excluded_features: [...new Set(excluded)], excluded_terms: excludedTerms, excluded_styles: excludedStyles, warnings: [...new Set(warnings)]};
   }
   function fitsConstraints(item, constraints) {
     return Object.entries(constraints).every(([field, value]) => {
@@ -127,7 +138,7 @@
     const direct = matched.filter(key => item.direct_intents.includes(key));
     const context = query.context_intents.filter(key => item.direct_intents.includes(key));
     let score = matched.length * 20 + direct.length * 20 + (literal ? 12 : 0) + context.length * 4 + query.terms.length * 8;
-    score -= Math.max(0, item.intents.length - matched.length);
+    score -= Math.max(0, item.direct_intents.length - direct.length);
     score -= Math.min(3, (normalized(item.name).match(/[a-zа-я0-9]+/g) || []).length * .15);
     const evidence = direct.length === query.intents.length ? 'full' : direct.length ? 'partial' : 'category_only';
     return {score, matched_intents: matched, direct_intents: direct, matched_context: context, match: evidence,

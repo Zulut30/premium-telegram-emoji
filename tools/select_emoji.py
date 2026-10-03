@@ -12,6 +12,16 @@ from emoji_selection import POLICY, palette, search, search_compositions, valida
 from generate_site import catalog_data, parse_catalog
 
 
+def assignments(values: list[str], label: str) -> dict:
+    result = {}
+    for entry in values:
+        key, separator, value = entry.partition('=')
+        if not separator or not key.strip() or not value.strip() or key.strip() in result:
+            raise ValueError(f'{label} requires unique ROLE=VALUE entries')
+        result[key.strip()] = value.strip()
+    return result
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     commands = parser.add_subparsers(dest='command', required=True)
@@ -22,6 +32,7 @@ def main() -> int:
     query.add_argument('--pack', default='')
     query.add_argument('--limit', type=int, default=12)
     query.add_argument('--include-special', action='store_true', help='Include uncertain entries, letters, digits and fragments for inspection')
+    query.add_argument('--profile', type=Path, help='Inherit saved style/packs/constraints and prefer compatible saved IDs')
     composition = commands.add_parser('compositions', help='Get complete assemblies with original order and repetitions')
     composition.add_argument('query', nargs='?', default='')
     composition.add_argument('--pack', default='')
@@ -32,6 +43,8 @@ def main() -> int:
     group.add_argument('--pack', default='')
     group.add_argument('--profile', type=Path, help='Application profile JSON: reuse if it exists')
     group.add_argument('--save', action='store_true', help='Write/update the supplied profile path')
+    group.add_argument('--role-query', action='append', default=[], metavar='ROLE=QUERY', help='Meaning/state of a named application role; repeat for several roles')
+    group.add_argument('--bind', action='append', default=[], metavar='ROLE=ID', help='Save a visually reviewed exact ID for a role; repeat for several roles')
     check = commands.add_parser('validate', help='Check that an application profile uses verified compatible IDs')
     check.add_argument('profile', type=Path)
     for command in [query, group]:
@@ -51,8 +64,9 @@ def main() -> int:
                     result = search_compositions(data, args.query, pack=args.pack, limit=args.limit)
                 else:
                     constraints = {field: getattr(args, field) for field in ['animation', 'color', 'repainting'] if getattr(args, field)}
+                    profile = json.loads(args.profile.read_text(encoding='utf-8')) if args.profile else None
                     result = search(data, args.query, style=args.style, pack=args.pack, limit=args.limit, constraints=constraints,
-                                    include_special=args.include_special)
+                                    include_special=args.include_special, profile=profile)
             elif args.command == 'validate':
                 errors = validate_profile(data, json.loads(args.profile.read_text(encoding='utf-8')))
                 result = {'valid': not errors, 'errors': errors}
@@ -64,7 +78,8 @@ def main() -> int:
                     raise ValueError('--save requires --profile')
                 existing = json.loads(args.profile.read_text(encoding='utf-8')) if args.profile and args.profile.exists() else None
                 constraints = {field: getattr(args, field) for field in ['animation', 'color', 'repainting'] if getattr(args, field)}
-                result = palette(data, args.roles, style=args.style, pack=args.pack, profile=existing, constraints=constraints)
+                result = palette(data, args.roles, style=args.style, pack=args.pack, profile=existing, constraints=constraints,
+                                 role_queries=assignments(args.role_query, '--role-query'), bindings=assignments(args.bind, '--bind'))
                 if args.save:
                     args.profile.parent.mkdir(parents=True, exist_ok=True)
                     temporary = args.profile.with_name(args.profile.name + '.tmp')

@@ -45,7 +45,7 @@ def query_plan(query: str, style: str = '', constraints: dict | None = None) -> 
     if style and style not in POLICY['styles']:
         raise ValueError(f'Unknown style: {style}')
     remaining = normalized(query)
-    required, excluded, excluded_terms, excluded_styles = [], [], [], []
+    required, excluded, excluded_terms, excluded_styles, state_intents = [], [], [], [], []
     found_constraints, warnings = {}, []
 
     def consume(pattern: str) -> bool:
@@ -72,6 +72,12 @@ def query_plan(query: str, style: str = '', constraints: dict | None = None) -> 
         negative = r'(?:не|без|not|no|without)\s+(?:' + rule['query_pattern'] + ')'
         if consume(negative):
             excluded.append(key)
+            if rule.get('implicit_intent'):
+                state_intents.append(rule['implicit_intent'])
+        if rule.get('opposite_query_pattern') and consume(r'(?:не|без|not|no|without)\s+(?:' + rule['opposite_query_pattern'] + ')'):
+            required.append(key)
+            if rule.get('implicit_intent'):
+                state_intents.append(rule['implicit_intent'])
     for key, rule in POLICY['styles'].items():
         if consume(r'(?:не|без|not|no|without)\s+(?:' + rule['pattern'] + ')[а-я]*'):
             excluded_styles.append(key)
@@ -79,6 +85,10 @@ def query_plan(query: str, style: str = '', constraints: dict | None = None) -> 
     for key, rule in POLICY['features'].items():
         if consume(rule['query_pattern']):
             required.append(key)
+        if rule.get('opposite_query_pattern') and consume(rule['opposite_query_pattern']):
+            excluded.append(key)
+            if rule.get('implicit_intent'):
+                state_intents.append(rule['implicit_intent'])
     # A negative brand/keyword is a filter, not positive search evidence.
     negative_terms = spans(r'(?:не|без|not|no|without)\s+[a-zа-я0-9]+', remaining)
     for start, end in reversed(negative_terms):
@@ -98,9 +108,10 @@ def query_plan(query: str, style: str = '', constraints: dict | None = None) -> 
     else:
         primary = (actions or ordered)[:1]
         intent_keys, context = primary, [key for key in detected if key not in primary]
-    if not intent_keys and required:
-        intent_keys = list(dict.fromkeys(POLICY['features'][key]['implicit_intent'] for key in required
-                                        if POLICY['features'][key].get('implicit_intent')))
+    if not intent_keys:
+        intent_keys = list(dict.fromkeys([*state_intents,
+            *[POLICY['features'][key]['implicit_intent'] for key in required
+              if POLICY['features'][key].get('implicit_intent')]]))
     tokens = re.findall(r'[a-zа-я0-9]+', remaining)
     terms = []
     for token in tokens:
@@ -131,8 +142,8 @@ def query_plan(query: str, style: str = '', constraints: dict | None = None) -> 
     if any(all(key in required for key in group) for group in POLICY['feature_conflicts']):
         warnings.append('conflicting_constraints')
     return {'query': query, 'intents': intent_keys, 'context_intents': context, 'terms': terms,
-            'style': selected_style, 'constraints': found_constraints, 'features': required,
-            'excluded_features': excluded, 'excluded_terms': excluded_terms,
+            'style': selected_style, 'constraints': found_constraints, 'features': list(dict.fromkeys(required)),
+            'excluded_features': list(dict.fromkeys(excluded)), 'excluded_terms': excluded_terms,
             'excluded_styles': excluded_styles, 'warnings': list(dict.fromkeys(warnings))}
 
 
@@ -225,7 +236,7 @@ def rank(item: dict, plan: dict, *, pack: str = '', include_special: bool = Fals
     if plan['terms']:
         score += 8 * len(plan['terms'])
     # Names mentioning fewer other functions are more specific evidence for the requested role.
-    score -= max(0, len(item['intents']) - len(matched))
+    score -= max(0, len(item['direct_intents']) - len(direct))
     score -= min(3, len(re.findall(r'[a-zа-я0-9]+', normalized(item['name']))) * .15)
     evidence = 'full' if len(direct) == len(plan['intents']) else 'partial' if direct else 'category_only'
     return {'item': item, 'score': score, 'matched_intents': matched, 'direct_intents': direct,
@@ -246,17 +257,67 @@ def fits_constraints(item: dict, constraints: dict) -> bool:
     return True
 
 
-def search(data: dict, query: str, *, style: str = '', pack: str = '', limit: int = 12,
-           include_special: bool = False, constraints: dict | None = None) -> dict:
+def merged_constraints(saved: dict, requested: dict | None) -> dict:
+    result = dict(saved)
+    for field, value in (requested or {}).items():
+        if field not in POLICY['constraints'] or not isinstance(value, str) or value not in {'', 'any', *POLICY['constraints'][field]}:
+            raise ValueError(f'Unknown constraint: {field}={value}')
+        if value in {'', 'any'}:
+            continue
+        if field in result and result[field] not in {'any', value}:
+            raise ValueError('Requested constraints conflict with the saved profile')
+        result[field] = value
+    return result
+
+
+def plan_in_style(query: str, style: str, constraints: dict) -> dict:
     plan = query_plan(query, style, constraints)
+    inferred = query_plan(query)['style']
+    if inferred and inferred != style and 'conflicting_constraints' not in plan['warnings']:
+        plan['warnings'].append('conflicting_constraints')
+    return plan
+
+
+def search(data: dict, query: str, *, style: str = '', pack: str = '', limit: int = 12,
+           include_special: bool = False, constraints: dict | None = None, profile: dict | None = None) -> dict:
+    allowed, saved_roles = [], {}
+    if profile is not None:
+        errors = validate_profile(data, profile)
+        if errors:
+            raise ValueError('; '.join(errors))
+        if style and style != profile['style']:
+            raise ValueError('Requested style conflicts with the saved profile')
+        allowed = list(dict.fromkeys([profile['primary_pack'], *profile.get('secondary_packs', [])]))
+        if pack and pack not in allowed:
+            raise ValueError('Requested pack is not allowed by the saved profile')
+        style = profile['style']
+        constraints = merged_constraints(profile.get('constraints', {}), constraints)
+        for role, saved in profile['roles'].items():
+            saved_roles.setdefault(saved['id'], []).append(role)
+        plan = plan_in_style(query, style, constraints)
+    else:
+        plan = query_plan(query, style, constraints)
     results = [result for item in data['items']
+               if (not allowed or item['pack'] in allowed)
                if (result := rank(item, plan, pack=pack, include_special=include_special))]
-    results.sort(key=lambda result: (-result['score'], result['item']['order']))
+    if profile is not None:
+        # Reuse a compatible reviewed choice before offering a new icon. Strong
+        # evidence still outranks a broad category in any allowed source.
+        results.sort(key=lambda result: (not result['recommended'], result['item']['id'] not in saved_roles,
+                     allowed.index(result['item']['pack']), -result['score'], result['item']['order']))
+    else:
+        results.sort(key=lambda result: (-result['score'], result['item']['order']))
     decision = ('needs_clarification' if plan['warnings'] else 'no_match' if not results else
                 'browse' if not plan['intents'] and not plan['terms'] else
                 'matched' if results[0]['recommended'] else 'needs_review')
-    return {'query': plan, 'decision': decision, 'count': len(results),
-            'candidates': [candidate(result) for result in results[:limit]]}
+    candidates = [candidate(result) for result in results[:limit]]
+    result = {'query': plan, 'decision': decision, 'count': len(results), 'candidates': candidates}
+    if profile is not None:
+        for item in candidates:
+            item['saved_roles'] = saved_roles.get(item['id'], [])
+        result['profile_context'] = {'style': style, 'allowed_packs': [pack] if pack else allowed,
+            'constraints': constraints, 'catalog_changed': profile.get('catalog_version') != data['catalog_version']}
+    return result
 
 
 def candidate(result: dict) -> dict:
@@ -298,7 +359,7 @@ def validate_profile(data: dict, profile: dict) -> list[str]:
         errors.append('Unsupported profile schema')
     by_id = {item['id']: item for item in data['items']}
     constraints = profile.get('constraints', {})
-    if not isinstance(constraints, dict) or any(field not in POLICY['constraints'] or value not in {'any', *POLICY['constraints'][field]}
+    if not isinstance(constraints, dict) or any(field not in POLICY['constraints'] or not isinstance(value, str) or value not in {'any', *POLICY['constraints'][field]}
                                                for field, value in constraints.items()):
         return errors + ['Invalid profile constraints']
     style = profile.get('style')
@@ -311,6 +372,9 @@ def validate_profile(data: dict, profile: dict) -> list[str]:
         if not isinstance(pack, str) or not any(item['pack'] == pack and item['style_family'] == style for item in data['items']):
             errors.append('Unknown or incompatible profile pack')
     for role, saved in profile.get('roles', {}).items():
+        if not isinstance(role, str) or not re.fullmatch(r'[a-z][a-z0-9_]*', role):
+            errors.append('Invalid role key')
+            continue
         if not isinstance(saved, dict):
             errors.append(f'{role}: role must be an object')
             continue
@@ -328,7 +392,15 @@ def validate_profile(data: dict, profile: dict) -> list[str]:
             errors.append(f'{role}: fallback differs from the catalog')
         if saved.get('pack') != item['pack']:
             errors.append(f'{role}: saved source pack differs from the catalog')
-        if role not in item['intents']:
+        if 'query' in saved:
+            if not isinstance(saved['query'], str) or not saved['query'].strip():
+                errors.append(f'{role}: invalid role query')
+            else:
+                plan = plan_in_style(saved['query'], style, constraints) if isinstance(style, str) and style in POLICY['styles'] else query_plan(saved['query'])
+                evidence = rank(item, plan)
+                if not evidence or not evidence['recommended']:
+                    errors.append(f'{role}: saved emoji does not satisfy its role query or state')
+        elif role not in item['intents']:
             errors.append(f'{role}: icon has no catalog evidence for this role')
     groups = {group['key']: group for group in data['compositions']}
     composition_roles = profile.get('composition_roles', {})
@@ -349,8 +421,10 @@ def validate_profile(data: dict, profile: dict) -> list[str]:
 
 
 def palette(data: dict, roles: list[str], *, style: str = '', pack: str = '', profile: dict | None = None,
-            constraints: dict | None = None) -> dict:
+            constraints: dict | None = None, role_queries: dict | None = None, bindings: dict | None = None) -> dict:
     existing = profile or {}
+    role_queries = {} if role_queries is None else role_queries
+    bindings = {} if bindings is None else bindings
     if profile is not None:
         errors = validate_profile(data, profile)
         if errors:
@@ -358,40 +432,88 @@ def palette(data: dict, roles: list[str], *, style: str = '', pack: str = '', pr
         if (style and style != profile['style']) or (pack and pack != profile['primary_pack']):
             raise ValueError('Requested style/pack conflicts with the saved profile; use a different profile path to change it')
         style, pack = profile['style'], profile['primary_pack']
+    requested = list(dict.fromkeys(roles))
+    if not requested or any(not isinstance(role, str) or not re.fullmatch(r'[a-z][a-z0-9_]*', role) for role in requested):
+        raise ValueError('Palette role keys must be lowercase names such as notification or notifications_muted')
+    if not isinstance(role_queries, dict) or not isinstance(bindings, dict) or (role_queries.keys() | bindings.keys()) - set(requested):
+        raise ValueError('Role queries and bindings must refer to requested roles')
+    queries, by_id = {}, {item['id']: item for item in data['items']}
+    for role in requested:
+        saved = existing.get('roles', {}).get(role, {})
+        query = role_queries.get(role, saved.get('query', role if role in POLICY['intents'] else ''))
+        if not isinstance(query, str) or not query.strip():
+            raise ValueError(f'{role}: provide --role-query for a custom role')
+        if role in role_queries and saved.get('query') and normalized(query).split() != normalized(saved['query']).split():
+            raise ValueError(f'{role}: role query conflicts with the saved profile; use a new role for a different state')
+        if role in bindings:
+            eid = bindings[role]
+            if not isinstance(eid, str) or eid not in by_id:
+                raise ValueError(f'{role}: binding must be a catalog string ID')
+            if saved and saved['id'] != eid:
+                raise ValueError(f'{role}: binding conflicts with the saved ID; use a new role or profile')
+        queries[role] = query
+    if profile is None and bindings:
+        bound_packs = {by_id[eid]['pack'] for eid in bindings.values()}
+        if len(bound_packs) != 1:
+            raise ValueError('New profile bindings must use one primary pack')
+        bound_pack = next(iter(bound_packs))
+        if pack and pack != bound_pack:
+            raise ValueError('Binding pack conflicts with the requested primary pack')
+        pack = pack or bound_pack
+        style = style or by_id[next(iter(bindings.values()))]['style_family']
     style = style or 'minimal'
     if style not in POLICY['styles']:
         raise ValueError(f'Unknown style: {style}')
-    selected_constraints = dict(existing.get('constraints', {}))
-    for field, value in (constraints or {}).items():
-        if value and value != 'any':
-            if field in selected_constraints and selected_constraints[field] not in {'any', value}:
-                raise ValueError('Requested constraints conflict with the saved profile')
-            selected_constraints[field] = value
+    selected_constraints = merged_constraints(existing.get('constraints', {}), constraints)
     # Validate new restrictions against existing IDs before considering any write.
     if profile is not None:
         errors = validate_profile(data, {**profile, 'constraints': selected_constraints})
         if errors:
             raise ValueError('; '.join(errors))
-    requested = list(dict.fromkeys(roles))
-    if not requested or any(not re.fullmatch(r'[a-z][a-z0-9_]*', role) or role not in POLICY['intents'] for role in requested):
-        raise ValueError('Palette roles must be known intent keys; use styles to list them')
+    plans = {role: plan_in_style(query, style, selected_constraints) for role, query in queries.items()}
+    for role, query in role_queries.items():
+        saved = existing.get('roles', {}).get(role)
+        if saved:
+            checked = rank(by_id[saved['id']], plans[role])
+            if not checked or not checked['recommended']:
+                raise ValueError(f'{role}: role query conflicts with the saved emoji or state')
     packs = [pack] if pack else sorted({item['pack'] for item in data['items'] if item['style_family'] == style})
+    allowed = [*packs, *existing.get('secondary_packs', [])]
+    for role, eid in bindings.items():
+        item = by_id[eid]
+        if item['pack'] not in allowed or item['style_family'] != style:
+            raise ValueError(f'{role}: binding violates the saved style or allowed packs')
+        checked = rank(item, plans[role])
+        if not checked or not checked['recommended']:
+            raise ValueError(f'{role}: binding does not satisfy its role query, state or constraints')
     options = []
     for source in packs:
-        selected = {}
+        selected, unresolved = {}, {}
         for role in requested:
+            if role in existing.get('roles', {}):
+                continue
+            if role in bindings:
+                selected[role] = candidate(rank(by_id[bindings[role]], plans[role]))
+                continue
             allowed_sources = [source, *existing.get('secondary_packs', [])]
+            decision = 'needs_clarification' if plans[role]['warnings'] else 'no_match'
             for allowed in allowed_sources:
-                result = search(data, role, style=style, pack=allowed, limit=12, constraints=selected_constraints)
+                if plans[role]['warnings']:
+                    break
+                result = search(data, queries[role], style=style, pack=allowed, limit=12, constraints=selected_constraints)
                 suitable = next((item for item in result['candidates'] if item['recommended']), None)
                 if suitable:
                     selected[role] = suitable
                     break
-        options.append((len(selected), sum(item['score'] for item in selected.values()), source, selected))
+                if result['decision'] == 'needs_review':
+                    decision = 'needs_review'
+            if role not in selected:
+                unresolved[role] = {'query': queries[role], 'decision': decision}
+        options.append((len(selected), sum(item['score'] for item in selected.values()), source, selected, unresolved))
     if not options:
         raise ValueError(f'No packs for style {style}')
     options.sort(key=lambda option: (-option[0], -option[1], option[2]))
-    _, _, source, selected = options[0]
+    _, _, source, selected, unresolved = options[0]
     if pack and not any(item['pack'] == pack and item['style_family'] == style for item in data['items']):
         raise ValueError('Pack does not belong to the requested style')
     # Existing role IDs are authoritative; rankings may evolve as the catalog grows.
@@ -399,10 +521,16 @@ def palette(data: dict, roles: list[str], *, style: str = '', pack: str = '', pr
     for role, item in selected.items():
         if role not in saved:
             saved[role] = {key: item[key] for key in ('id', 'key', 'name', 'pack', 'html_fallback')}
+            if role in role_queries or role not in POLICY['intents']:
+                saved[role]['query'] = queries[role]
+    for role, query in role_queries.items():
+        if role in saved and 'query' not in saved[role]:
+            saved[role] = {**saved[role], 'query': query}
     result = {**existing, 'schema_version': 1, 'style': style, 'primary_pack': source,
               'secondary_packs': existing.get('secondary_packs', []), 'roles': saved,
               'catalog_version': data['catalog_version']}
     if selected_constraints:
         result['constraints'] = selected_constraints
     return {'profile': result, 'missing_roles': [role for role in requested if role not in saved],
+            'unresolved_roles': unresolved,
             'html': {role: emoji_html(saved[role]) for role in requested if role in saved}}
