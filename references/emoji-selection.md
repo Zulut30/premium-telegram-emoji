@@ -10,6 +10,8 @@
 ```powershell
 python tools/select_emoji.py search 'значок напоминания' --style minimal --limit 8
 python tools/select_emoji.py search 'GitHub' --pack SocialEmojis
+python tools/select_emoji.py search 'колокольчик без звука' --style minimal
+python tools/select_emoji.py search 'уведомления' --animation static --color monochrome --repainting required
 python tools/select_emoji.py styles
 python tools/select_emoji.py palette --style minimal --roles settings search notification success download
 ```
@@ -20,21 +22,38 @@ python tools/select_emoji.py palette --style minimal --roles settings search not
 названия, прозрачные изображения, недоступные файлы, буквы, цифры и фрагменты
 исключены из обычной рекомендации. Для их осознанного анализа существует
 `--include-special`. Отсутствие результата требует уточнения запроса, а не
-выдуманного ID. `full` означает покрытие найденных назначений, не уверенность
-модели или авторитетность эмблемы.
+выдуманного ID. Действие отделяется от объекта: «удалить файл» требует значка
+удаления; папка — контекст. «Колокольчик без звука» требует зачёркнутого значка,
+«не разбитое сердце» исключает разбитые, «сердце без неона» исключает неоновый пак.
+Корзина покупок и плетёная корзина не служат обозначением удаления.
+
+Сначала прочитай `decision`: `matched` позволяет рассматривать кандидатов с
+`recommended=true`; `needs_review` требует проверки слабого совпадения;
+`needs_clarification` сообщает о нескольких назначениях/стилях или противоречивых
+ограничениях; `no_match` означает отсутствие подходящего результата. `browse` —
+обзор каталога. Разбей несколько ролей на отдельные запросы, разреши неоднозначность
+по контексту приложения. `full` означает прямое свидетельство в названии/ключе для
+каждого основного назначения, `partial` — для части, `category_only` — только
+общую категорию. Это не вероятность правильности. Название пака не доказывает
+назначение каждого элемента. Слабые совпадения не заполняют профиль автоматически.
 
 Стилевые семейства помогают искать. Строгое единство достигается одним паком,
 проверкой реальных форм и записью конкретных ID для каждой роли. Даже два
 контурных пака могут различаться толщиной линии и заполнением. Адаптивность
 Telegram (`adaptive`) не равна одноцветности (`monochrome`). Если в приложении
-важна статичность или анимация, проверь соответствующий флаг у каждого
-выбранного кандидата; `null` у старых записей означает отсутствие данных.
+важна статичность, одноцветность или перекрашивание, используй `--animation`,
+`--color` и `--repainting`: неизвестные метаданные не удовлетворяют строгому
+ограничению. `animated=null` и `color_mode=unknown` у старых записей означают
+отсутствие данных. Фильтры состояния основаны на проверенных названиях, поэтому
+отсутствие признака `counter` ещё не доказывает, что на рисунке нет цифр. Проверь
+само превью перед окончательным выбором.
 
 ## Профиль в создаваемом приложении
 
 ```powershell
 python tools/select_emoji.py palette --style minimal --roles settings search notification success download --profile 'C:\path\my-app\emoji-style.json' --save
 python tools/select_emoji.py palette --roles info calendar --profile 'C:\path\my-app\emoji-style.json' --save
+python tools/select_emoji.py palette --style outline --pack ref_x3_collab --roles notification calendar --animation static --color monochrome --repainting required --profile 'C:\path\other-app\emoji-style.json' --save
 python tools/select_emoji.py validate 'C:\path\my-app\emoji-style.json'
 ```
 
@@ -42,10 +61,14 @@ python tools/select_emoji.py validate 'C:\path\my-app\emoji-style.json'
 Следующий добавляет новые роли из того же пака, сохраняя предыдущие ID. Новый
 каталог или порядок ранжирования не меняет принятые решения. Без `--save`
 команда только возвращает результат. При отсутствии роли она указана в
-`missing_roles`; автоматического смешивания паков нет.
+`missing_roles`; автоматического смешивания паков нет. Уже записанный
+`secondary_packs` разрешает заполнить пробел из этого источника после основного.
 
 Профиль содержит `schema_version`, `style`, `primary_pack`, `secondary_packs`,
-`roles` и `catalog_version`. В каждой роли сохраняются строковый `id`, `key`,
+`roles` и `catalog_version`; при ограничениях добавляется `constraints`.
+Последующие вызовы наследуют ограничения. Если более строгое требование
+несовместимо с сохранённым ID, команда возвращает ошибку и не переписывает файл.
+В каждой роли сохраняются строковый `id`, `key`,
 `name`, `pack` и настоящий `html_fallback`. Второй пак добавляют осознанно
 после визуальной проверки; валидатор требует совместимого семейства. Для
 изменения общего стиля используй новый профиль либо явно пересмотри существующий
@@ -75,3 +98,6 @@ python tools/select_emoji.py compositions --pack nexus_base --limit 20
 Программный индекс публикуется в
 [emoji-index.json](https://zulut30.github.io/premium-telegram-emoji/emoji-index.json).
 Сайт и инструмент используют одну политику назначений и один набор метаданных.
+Для сложного запроса сайт показывает причину неоднозначности. Контрольные
+запросы и ожидаемые состояния сохранены в `tests/selection_cases.json`; тесты
+сравнивают также планы поиска, решения и порядок кандидатов сайта и инструмента.

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "styles": {
-    "minimal": {"label": "Минимализм", "pattern": "минимал|minimal|лаконич|строг|чистый интерфейс", "packs": ["sfsymbols", "Dervit", "prompt_ui", "tg_assets_adptv", "pictograms_adaptive", "MorkovkaAdaptive", "Minimalist B&W Icons"]},
+    "minimal": {"label": "Минимализм", "pattern": "минимал|minimal(?:ist|ism|istic)?|лаконич|строг|чистый интерфейс", "packs": ["sfsymbols", "Dervit", "prompt_ui", "tg_assets_adptv", "pictograms_adaptive", "MorkovkaAdaptive", "Minimalist B&W Icons"]},
     "outline": {"label": "Контур", "pattern": "контур|outline|линейн", "packs": ["adaptiveznaki_by_TgEmodziBot", "ref_x3_collab", "Adaptivpintura", "TPEmoji_of_jib", "medico_emoji_z1vert1k", "adaptivefoodemoji_by_TgEmodziBot", "adaptivcandyEmoji"]},
     "pixel": {"label": "Пиксельный", "pattern": "пиксел|pixel|8.bit", "packs": ["AdaptivePixelEmoji", "pixel_bitbit", "wi_pixeleng", "wi_pixelru"]},
     "neon": {"label": "Неон", "pattern": "неон|neon", "packs": ["NeonEmoji"]},
@@ -16,22 +16,22 @@
     "composite": {"label": "Составные плашки", "pattern": "составн|плашк|composite", "packs": ["nexus_base"]}
   },
   "intents": {
-    "notification": {"label": "Уведомления", "pattern": "уведомл|оповещ|напомин|колокол|notification|notify|remind|bell"},
-    "settings": {"label": "Настройки", "pattern": "настрой|параметр|шестер[её]н|settings|gear|preferences"},
-    "search": {"label": "Поиск", "pattern": "поиск|искать|найти|луп[ауы]|search|magnif"},
-    "info": {"label": "Информация и помощь", "pattern": "информац|справк|помощ|вопроситель|знак вопроса|info|help|question"},
-    "success": {"label": "Подтверждение", "pattern": "подтверж|готово|успех|галоч|check|success|confirm|done"},
+    "notification": {"label": "Уведомления", "pattern": "уведомл|оповещ|напомин|колокол|notification|notify|remind(?:er)?|bell"},
+    "settings": {"label": "Настройки", "pattern": "настрой|параметр|шестер[её]н|settings?|gear|preferences"},
+    "search": {"label": "Поиск", "pattern": "поиск|искать|найти|луп[ауы]|search|find|magnif(?:ier|ying|y)"},
+    "info": {"label": "Информация и помощь", "pattern": "информац|справк|помощ|вопроситель|знак вопроса|info(?:rmation)?|help|question"},
+    "success": {"label": "Подтверждение", "pattern": "подтверж|готово|успех|галоч|check|checkmark|success|confirm|done"},
     "error": {"label": "Ошибка и отмена", "pattern": "ошибк|отмен|крестик|error|cancel|cross"},
     "warning": {"label": "Предупреждение", "pattern": "предупреж|внимани|восклиц|warning|exclamation|caution"},
     "download": {"label": "Скачать", "pattern": "скач|загрузка файла|download"},
     "upload": {"label": "Загрузить на сервер", "pattern": "выгруз|загрузить на|upload"},
-    "copy": {"label": "Копирование", "pattern": "копир|дубликат|copy(?:[^a-z]|$)|duplicate"},
-    "link": {"label": "Ссылки", "pattern": "ссылк|цепочк|цепь|link(?:[^a-z]|$)|chain"},
+    "copy": {"label": "Копирование", "pattern": "(?:с)?копир|дубликат|copy|duplicate"},
+    "link": {"label": "Ссылки", "pattern": "ссылк|цепочк|цепь|link|chain"},
     "favorite": {"label": "Избранное", "pattern": "избран|заклад|bookmark|favorite"},
     "rating": {"label": "Оценка", "pattern": "оценк|рейтинг|звезд|звёзд|rating|star"},
     "profile": {"label": "Профиль и пользователи", "pattern": "профил|пользовател|аккаунт|силуэт человека|profile|user|account|person"},
     "lock": {"label": "Защита и доступ", "pattern": "замок|замка|закрыт|безопас|защит|щит|lock|security|shield"},
-    "delete": {"label": "Удаление", "pattern": "удал|мусор|корзин|delete|trash|bin(?:[^a-z]|$)"},
+    "delete": {"label": "Удаление", "pattern": "удал|мусор|корзин|delet(?:e|ed|ing|ion)|trash|bin", "source_exclude_pattern": "покуп|плетен|shopping|cart", "action_pattern": "удал|мусор|delet(?:e|ed|ing|ion)|trash|bin"},
     "edit": {"label": "Редактирование", "pattern": "редакт|карандаш|edit|pencil"},
     "calendar": {"label": "Дата и расписание", "pattern": "календар|расписан|дата|calendar|schedule|date"},
     "time": {"label": "Время", "pattern": "время|часов|часы|таймер|clock|time|timer"},
@@ -60,7 +60,33 @@
     "phone": {"label": "Телефон", "pattern": "телефон|звонок|трубка|phone|call"},
     "location": {"label": "Местоположение", "pattern": "местополож|геолокац|метка на карте|location|map_pin"},
     "language": {"label": "Язык и перевод", "pattern": "язык|перевод|глобус|language|translate|globe"},
-    "premium": {"label": "Премиум и награды", "pattern": "премиум|premium|награда|корона|crown|award"}
+    "premium": {"label": "Премиум и награды", "pattern": "премиум|premium|награда|корона|crown|award"},
+    "sound": {"label": "Звук", "pattern": "звук|динамик|аудио|громкост|audio|sound|speaker|volume"},
+    "shopping": {"label": "Покупки", "pattern": "покуп|тележк|shopping|cart"}
+  },
+  "actions": ["copy", "delete", "edit", "download", "upload", "save", "share", "search", "settings"],
+  "features": {
+    "disabled": {"label": "Выключено / зачёркнуто", "pattern": "зачеркнут[а-я]*|выключ[а-я]*|отключ[а-я]*|muted|disabled|silent|off", "query_pattern": "зачеркнут[а-я]*|выключ[а-я]*|отключ[а-я]*|без звука|тих[а-я]*|mute(?:d)?|disable(?:d)?|silent", "implicit_intent": "sound"},
+    "broken": {"label": "Разбитое", "pattern": "разбит[а-я]*|broken", "query_pattern": "разбит[а-я]*|broken"},
+    "open": {"label": "Открыто / разблокировано", "pattern": "открыт[а-я]*|разблок[а-я]*|unlocked|open", "query_pattern": "открыт[а-я]*|разблок[а-я]*|unlocked|open"},
+    "closed": {"label": "Закрыто / заблокировано", "pattern": "закрыт[а-я]*|заблок[а-я]*|locked|closed", "query_pattern": "закрыт[а-я]*|заблок[а-я]*|locked|closed"},
+    "counter": {"label": "Цифры или счётчик", "pattern": "цифр[а-я]*|с числом|счетчик[а-я]*|counter|badge", "query_pattern": "цифр[а-я]*|с числом|счетчик[а-я]*|counter|badge"}
+  },
+  "default_excluded_features": ["disabled", "broken"],
+  "feature_conflicts": [["open", "closed"]],
+  "constraints": {
+    "animation": {
+      "static": "без анимац[а-я]*|(?:no|without) animation|статич[а-я]*|static|still",
+      "animated": "анимир[а-я]*|animated|с анимац[а-я]*"
+    },
+    "color": {
+      "monochrome": "монохром[а-я]*|одноцвет[а-я]*|черно.бел[а-я]*|monochrome|black and white",
+      "color": "цветн[а-я]*|разноцвет[а-я]*|colored|colourful|colorful"
+    },
+    "repainting": {
+      "required": "адаптив[а-я]*|adaptive|repainting",
+      "fixed": "неадаптив[а-я]*|fixed color"
+    }
   },
   "stop_words": ["иконка", "иконку", "значок", "значка", "символ", "эмодзи", "emoji", "icon", "для", "мне", "нужен", "нужна", "нужны", "нужное", "нужно", "подбери", "хочу", "приложения", "приложении", "бота", "бот", "стиле", "стиль", "кнопка", "кнопки", "кнопку", "подойдет", "подходит", "подходящий", "выбрать", "взять", "показать", "какой", "какая", "какие", "этого", "этой", "the", "a", "an", "for", "of", "and", "to", "с", "и", "в", "на"]
 }

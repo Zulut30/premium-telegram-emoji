@@ -121,6 +121,16 @@
       if (mode === 'name') return a.name.localeCompare(b.name, 'ru') || (a.order - b.order);
       return (query ? scores.get(b.id) - scores.get(a.id) : 0) || a.order - b.order;
     });
+    if (plan.warnings.includes('conflicting_constraints')) {
+      $('style-status').textContent = 'Ограничения противоречат друг другу. Уточните запрос.';
+    } else if (plan.warnings.includes('multiple_intents')) {
+      $('style-status').textContent = 'Несколько назначений: ищите каждый значок отдельно.';
+    } else if (plan.warnings.includes('multiple_styles')) {
+      $('style-status').textContent = 'Укажите один стиль, чтобы получить согласованный набор.';
+    } else if (plan.intents.length && result.length && !result.some(item =>
+      window.EmojiSelection.rank(item, plan)?.recommended)) {
+      $('style-status').textContent = 'Есть лишь совпадения по категории. Уточните назначение и проверьте изображение.';
+    }
     return result;
   }
 

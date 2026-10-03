@@ -213,6 +213,28 @@ function check(name, callback) {
     assert.equal(semantic.get('style-filter').value, 'all');
     assert.equal(JSON.parse(semantic.window.localStorage.getItem('premiumEmojiStyle:v1')).style, 'all');
   });
+  semantic.search('колокольчик без звука');
+  check('muted notification uses the crossed bell, not a normal bell', () => {
+    assert.equal(semantic.rows().length, 1);
+    assert.equal(semantic.rows()[0].dataset.id, '6021440013214948027');
+  });
+  semantic.search('статичный одноцветный значок уведомлений');
+  check('strict static and monochrome constraints select verified metadata', () => {
+    assert.equal(semantic.rows()[0].dataset.id, '5341291972927710892');
+    assert.ok(semantic.rows().every(row => {
+      const item = payload.items.find(item => item.id === row.dataset.id);
+      return item.animated === false && item.color_mode === 'monochrome';
+    }));
+  });
+  semantic.search('настройки и уведомления');
+  check('several roles give an explanation rather than a confident recommendation', () => {
+    assert.match(semantic.get('style-status').textContent, /каждый значок отдельно/);
+  });
+  semantic.search('статичный анимированный колокольчик');
+  check('contradictory constraints give an explanation and no results', () => {
+    assert.equal(semantic.rows().length, 0);
+    assert.match(semantic.get('style-status').textContent, /противоречат/);
+  });
   check('new selection controls produce no script errors', () => assert.deepEqual([...semantic.errors, ...reopened.errors], []));
   reopened.dom.window.close(); semantic.dom.window.close();
   restored.dom.window.close(); phone.dom.window.close(); env.dom.window.close();

@@ -102,6 +102,8 @@ fallback и поисковые теги. Подкатегории показан
 
 ```powershell
 python tools/select_emoji.py search 'значок напоминания' --style minimal
+python tools/select_emoji.py search 'колокольчик без звука' --style minimal
+python tools/select_emoji.py search 'уведомления' --animation static --color monochrome
 python tools/select_emoji.py palette --style minimal --roles settings search notification success download --profile 'C:\path\my-app\emoji-style.json' --save
 python tools/select_emoji.py validate 'C:\path\my-app\emoji-style.json'
 ```
@@ -111,6 +113,12 @@ python tools/select_emoji.py validate 'C:\path\my-app\emoji-style.json'
 варианты. Профиль сохраняет прежние назначения ID при росте каталога; отсутствующие
 роли явно возвращаются в `missing_roles`. Неопределённые изображения и фрагменты
 не входят в обычный подбор. [Подробное руководство](references/emoji-selection.md).
+Подбор учитывает отрицания и состояние значка, отделяет действие от предмета и
+отдаёт преимущество прямому свидетельству в названии. Слабые совпадения по
+категории не заполняют роли автоматически. Требования к статичности, цвету и
+адаптивности сохраняются в профиле; неизвестные метаданные не проходят строгий
+фильтр. Несколько назначений или противоречащие ограничения возвращают
+`needs_clarification`. Контрольные примеры: [selection_cases.json](tests/selection_cases.json).
 Для программ доступен [полный JSON-индекс](https://zulut30.github.io/premium-telegram-emoji/emoji-index.json).
 
 ### Установка

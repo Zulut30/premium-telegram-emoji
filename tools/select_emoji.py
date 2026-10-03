@@ -34,6 +34,10 @@ def main() -> int:
     group.add_argument('--save', action='store_true', help='Write/update the supplied profile path')
     check = commands.add_parser('validate', help='Check that an application profile uses verified compatible IDs')
     check.add_argument('profile', type=Path)
+    for command in [query, group]:
+        command.add_argument('--animation', choices=['any', 'static', 'animated'], default='')
+        command.add_argument('--color', choices=['any', 'monochrome', 'color'], default='')
+        command.add_argument('--repainting', choices=['any', 'required', 'fixed'], default='')
     args = parser.parse_args()
     try:
         if args.command == 'styles':
@@ -46,7 +50,8 @@ def main() -> int:
                 if args.command == 'compositions':
                     result = search_compositions(data, args.query, pack=args.pack, limit=args.limit)
                 else:
-                    result = search(data, args.query, style=args.style, pack=args.pack, limit=args.limit,
+                    constraints = {field: getattr(args, field) for field in ['animation', 'color', 'repainting'] if getattr(args, field)}
+                    result = search(data, args.query, style=args.style, pack=args.pack, limit=args.limit, constraints=constraints,
                                     include_special=args.include_special)
             elif args.command == 'validate':
                 errors = validate_profile(data, json.loads(args.profile.read_text(encoding='utf-8')))
@@ -58,7 +63,8 @@ def main() -> int:
                 if args.save and not args.profile:
                     raise ValueError('--save requires --profile')
                 existing = json.loads(args.profile.read_text(encoding='utf-8')) if args.profile and args.profile.exists() else None
-                result = palette(data, args.roles, style=args.style, pack=args.pack, profile=existing)
+                constraints = {field: getattr(args, field) for field in ['animation', 'color', 'repainting'] if getattr(args, field)}
+                result = palette(data, args.roles, style=args.style, pack=args.pack, profile=existing, constraints=constraints)
                 if args.save:
                     args.profile.parent.mkdir(parents=True, exist_ok=True)
                     temporary = args.profile.with_name(args.profile.name + '.tmp')

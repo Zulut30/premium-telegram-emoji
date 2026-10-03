@@ -26,17 +26,29 @@ Translate the brief into concrete roles such as settings, notification, search,
 success, payment, education. Use a function-specific symbol: an alert, an error
 and a decoration serve different purposes. Do not choose an unrelated logo
 because it has a similar color or a suitable Unicode fallback.
+Identify the action separately from its object and state: "delete a file" needs
+a delete symbol, while the file is context; "mute notifications" needs a crossed
+bell. Preserve negations and constraints when searching. Split a request for
+settings and notifications into two roles; one icon need not represent both.
 
 ```sh
 python tools/select_emoji.py styles
 python tools/select_emoji.py search "напоминания" --style minimal --limit 8
+python tools/select_emoji.py search "колокольчик без звука" --style minimal
+python tools/select_emoji.py search "уведомления" --animation static --color monochrome --repainting required
 python tools/select_emoji.py palette --style minimal --roles settings search notification success download --profile /absolute/application/emoji-style.json --save
 ```
 
 Search returns shortlists with the actual name, exact string ID, preview URL,
 source pack, style family, repainting/animation metadata, match evidence and HTML.
-Full/partial describes matched intent coverage; it is not a probability that
-the identification is correct. Inspect partial results and refine the request.
+Read decision before selecting. matched permits evaluation of candidates marked
+recommended; needs_review means the evidence is weak, needs_clarification means
+the query has conflicting constraints or multiple roles/styles, and no_match
+means no eligible candidate. browse is catalog exploration. Resolve a query from
+the application context or search roles separately before asking the user.
+full means direct name/key evidence for every primary intent; partial and
+category_only are weaker matches. These labels are not probabilities. Do not
+promote a category-only match to a role, or use a pack's name as proof of meaning.
 Missing roles are explicit: do not fill them with arbitrary symbols.
 
 ## Verify the visual choice and keep one coherent set
@@ -45,6 +57,10 @@ Inspect the real previews for the final candidates. Check silhouette, stroke
 weight, filled versus outlined shapes, texture, color, animation and readability
 at message size. For a multicolor image, adaptive=true alone does not establish
 that the entire image is monochrome. Monochrome is separate evidence.
+Use --animation, --color and --repainting for requirements established by the
+brief. Unknown metadata does not satisfy a strict constraint. Name-derived state
+filters narrow candidates; absence of a counter/broken feature does not prove
+every visual detail. Check the actual image, especially for "without numbers".
 
 Use one primary pack for ordinary interface roles. Style families narrow the
 search; sharing a family does not prove that two artists' packs match. The palette
@@ -58,6 +74,10 @@ fits. Record its name in secondary_packs, and preserve a single role-to-ID
 mapping in the profile. Brand marks may warrant a separate deliberate treatment;
 do not silently replace interface symbols with colorful logos. A style change is
 an intentional project decision, not a side effect of a newer catalog or ranking.
+The palette can fill gaps from already recorded secondary_packs after trying the
+primary pack. It stores animation/color/repainting requirements in constraints
+and reuses them. Tightening a requirement that conflicts with saved IDs raises
+an error without changing the profile; review the affected roles deliberately.
 
 Default selection excludes uncertain/unavailable images, individual letters,
 digits and composition fragments. --include-special is an inspection mode, not
@@ -94,7 +114,8 @@ python tools/select_emoji.py validate /absolute/application/emoji-style.json
 ```
 
 Validation rejects invented/non-string IDs, incompatible packs, uncertain items,
-wrong role evidence, incorrect fallbacks and broken composition order. Validate
+wrong role evidence, incorrect fallbacks, broken composition order, and
+animation/color/repainting restrictions for icons and composition parts. Validate
 the actual generated application's use of the role mapping as well. Report
 remaining gaps rather than claiming that every requested concept was found.
 
