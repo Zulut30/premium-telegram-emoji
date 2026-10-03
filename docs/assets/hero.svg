@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="440" viewBox="0 0 1200 440" role="img" aria-labelledby="title desc">
+  <title id="title">Telegram Premium Emoji — Meaning meets style</title>
+  <desc id="desc">A verified emoji catalog and a portable agent skill. Meaning, preview and a saved application style.</desc>
+  <defs>
+    <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#111529"/><stop offset="1" stop-color="#1f1640"/></linearGradient>
+    <linearGradient id="accent"><stop stop-color="#8da8ff"/><stop offset="1" stop-color="#cf9fff"/></linearGradient>
+    <radialGradient id="glow"><stop stop-color="#8d66ff" stop-opacity=".22"/><stop offset="1" stop-color="#8d66ff" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="1200" height="440" rx="28" fill="url(#bg)"/>
+  <ellipse cx="1050" cy="110" rx="360" ry="310" fill="url(#glow)"/>
+  <g fill="none" stroke="#9382b9" stroke-opacity=".12"><path d="M0 352H1200M0 96H1200M1010 0V440M1074 0V440M1138 0V440"/></g>
+  <g font-family="Segoe UI,Arial,sans-serif">
+    <rect x="52" y="44" width="185" height="30" rx="15" fill="#2d284a" stroke="#655386"/>
+    <text x="69" y="64" fill="#d0bbff" font-size="12" font-weight="600" letter-spacing="1.3">PORTABLE AGENT SKILL</text>
+    <text x="52" y="123" fill="#b1aec9" font-size="18">TELEGRAM PREMIUM EMOJI</text>
+    <text x="50" y="186" fill="#f5f3ff" font-size="55" font-weight="700" letter-spacing="-1.7">Meaning meets style.</text>
+    <text x="53" y="224" fill="#b9b6cf" font-size="19">Choose the right emoji. Keep your application's identity.</text>
+    <g transform="translate(52 276)">
+      <rect width="326" height="103" rx="16" fill="#201f38" stroke="#55506e"/>
+      <text x="20" y="32" fill="#a99af8" font-size="13" letter-spacing="1.4">01 / MEANING</text>
+      <text x="20" y="61" fill="#eeebfc" font-size="20" font-weight="600">Action + object + state</text>
+      <text x="20" y="85" fill="#a6a2bc" font-size="14">Search by intent, with real catalog IDs</text>
+    </g>
+    <g transform="translate(435 276)">
+      <rect width="326" height="103" rx="16" fill="#24203b" stroke="#665182"/>
+      <text x="20" y="32" fill="#c2a2ff" font-size="13" letter-spacing="1.4">02 / PREVIEW</text>
+      <text x="20" y="61" fill="#eeebfc" font-size="20" font-weight="600">One coherent visual family</text>
+      <text x="20" y="85" fill="#a6a2bc" font-size="14">Review shape, color and animation</text>
+    </g>
+    <g transform="translate(818 276)">
+      <rect width="326" height="103" rx="16" fill="#29213e" stroke="#7a578c"/>
+      <text x="20" y="32" fill="#dab1ef" font-size="13" letter-spacing="1.4">03 / PROFILE</text>
+      <text x="20" y="61" fill="#eeebfc" font-size="20" font-weight="600">Saved choices, stable style</text>
+      <text x="20" y="85" fill="#a6a2bc" font-size="14">Reuse exact roles across screens</text>
+    </g>
+    <g stroke="url(#accent)" stroke-width="2" fill="none"><path d="M391 328h25l-6-6m6 6-6 6M774 328h25l-6-6m6 6-6 6"/></g>
+    <text x="53" y="414" fill="#918baa" font-size="12" letter-spacing=".8">WINDOWS · macOS · LINUX</text>
+    <text x="1145" y="414" text-anchor="end" fill="#918baa" font-size="12" letter-spacing=".8">CATALOG / SELECTOR / APPLICATION PROFILE</text>
+  </g>
+</svg>

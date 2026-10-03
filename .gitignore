@@ -5,3 +5,4 @@ site/
 .venv/
 .runtime/
 output/playwright/
+dist/

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Telegram Premium Emoji"
+  short_description: "Choose verified emoji and preserve application style"
+  default_prompt: "Use $telegram-premium-emoji to choose emoji for this Telegram project and preserve its saved application style."

@@ -1,4 +1,4 @@
-"""JSON shortlists and stable application profiles for Codex and other AI editors."""
+"""JSON shortlists and stable application profiles for Agent Skills-compatible agents."""
 from __future__ import annotations
 
 import argparse
@@ -9,7 +9,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from emoji_selection import POLICY, palette, search, search_compositions, validate_profile
-from generate_site import catalog_data, parse_catalog
+from emoji_catalog import catalog_data, parse_catalog
 
 
 def assignments(values: list[str], label: str) -> dict:

@@ -1,354 +1,200 @@
 <div align="center">
 
-# ✨ Premium Telegram Emoji
+![Telegram Premium Emoji — Meaning meets style](docs/assets/hero.svg)
 
-**Верифицированный каталог premium emoji + инструменты для разработчиков Telegram-ботов**
+# Telegram Premium Emoji
 
-[![GitHub Pages](https://img.shields.io/badge/Catalog-GitHub%20Pages-7c6cfc?style=for-the-badge&logo=github)](https://zulut30.github.io/premium-telegram-emoji/)
-[![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
-[![aiogram](https://img.shields.io/badge/aiogram-3.x-009DFF?style=for-the-badge)](https://aiogram.dev)
-[![License](https://img.shields.io/badge/License-MIT-22c55e?style=for-the-badge)](LICENSE)
+**Правильный эмодзи по смыслу. Единый стиль во всём приложении.**
 
-[🌐 Открыть каталог](https://zulut30.github.io/premium-telegram-emoji/) · [📦 Установить скилл](#-claude-code-skill) · [🤖 Запустить бота](#-telegram-бот)
+[![Catalog](https://img.shields.io/badge/Открыть-каталог-8975F5?style=flat-square)](https://zulut30.github.io/premium-telegram-emoji/)
+[![Portable skill](https://github.com/Zulut30/premium-telegram-emoji/actions/workflows/skill-package.yml/badge.svg)](https://github.com/Zulut30/premium-telegram-emoji/actions/workflows/skill-package.yml)
+[![Deploy](https://github.com/Zulut30/premium-telegram-emoji/actions/workflows/deploy-site.yml/badge.svg)](https://github.com/Zulut30/premium-telegram-emoji/actions/workflows/deploy-site.yml)
+[![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=flat-square&logo=python&logoColor=white)](https://www.python.org/)
+[![Agent Skills](https://img.shields.io/badge/Agent_Skills-compatible-C4A6FF?style=flat-square)](https://agentskills.io/specification)
+
+[Каталог](https://zulut30.github.io/premium-telegram-emoji/) · [Установка](docs/installation.md) · [Подбор и стиль](references/emoji-selection.md) · [Скачать скилл](https://github.com/Zulut30/premium-telegram-emoji/releases/latest) · [English](README.en.md)
 
 </div>
 
----
+## Каталог, скилл и бот
 
-## Что это?
+Проект помогает находить реальные Telegram `custom_emoji_id`, выбирать подходящие
+символы для интерфейса и сохранять выбор при развитии приложения.
 
-Репозиторий решает одну конкретную боль разработчиков Telegram-ботов: **где взять правильные `custom_emoji_id`** и как не тратить час на поиск нужного эмодзи.
+| | Возможности |
+| --- | --- |
+| **Каталог** | 7 092 уникальных ID, 68 разделов, 13 стилевых семейств; превью, поиск на русском и английском, оценки и экспорт профиля |
+| **Скилл для агента** | Подбор по действию и состоянию, визуальная проверка, один основной пак, закреплённые роли в `emoji-style.json` |
+| **Инструмент подбора** | JSON с точными ID, HTML и доказательствами совпадения; офлайн-поиск и проверка профиля через Python |
+| **Бот пополнения** | Принимает эмодзи с описанием, добавляет их в каталог и публикует изменения через GitHub Actions |
 
-Здесь три инструмента, которые работают вместе:
+**Windows · macOS · Linux** — один пакет. Для Codex, Claude Code, Cursor,
+GitHub Copilot, OpenCode и других агентов с поддержкой
+[Agent Skills](https://agentskills.io/specification).
 
-| Инструмент | Что делает |
-|---|---|
-| 📋 **Каталог** | 7 092 уникальных ID с превью, описанием и fallback |
-| 🤖 **Бот** | Принимает emoji в Telegram → автоматически добавляет в каталог → пушит в GitHub |
-| 🧠 **Claude Skill** | Спрашивает о стиле бота → выбирает подходящие emoji → генерирует готовый aiogram-код |
+## Установить за минуту
 
----
-
-## 🌐 Онлайн-каталог
-
-**[zulut30.github.io/premium-telegram-emoji](https://zulut30.github.io/premium-telegram-emoji/)**
-
-- Превью каждого стикера прямо в браузере
-- Поиск по названию, игре, ключу или ID и фильтр по пакам
-- Поиск по назначению на русском и английском: «напоминания», «копирование», «скачать»
-- Сохраняемый фильтр стиля, выбор одного пака и экспорт профиля для ИИ
-- Компактный список и панель выбранного эмодзи с ID и HTML
-- Явные кнопки копирования ID и HTML, клавиатурная навигация
-- Личные оценки и сортировка всего списка; прежние оценки сохраняются
-- На мобильном детали открываются отдельной панелью с кнопкой возврата
-- Обновляется автоматически при каждом пуше в репозиторий
-
-В текущих данных 7 092 уникальных ID в 68 разделах. Повторные записи объединяются
-в интерфейсе; альтернативные названия и ключи остаются доступными в поиске.
-
-Исходники интерфейса находятся в `web/`; `generate_site.py` собирает их в
-`site/index.html` и копирует локальные UI-иконки. Для сборки с уже скачанными
-превью без запросов к Telegram:
-
-```powershell
-python generate_site.py --offline
-```
-
-Проверка данных: `python -m unittest discover -s tests -v`.
-Проверка поведения интерфейса в симуляторе DOM: установи тестовую зависимость
-`npm install --prefix .runtime/catalog-qa --no-audit --no-fund jsdom`, затем
-запусти `node tests/catalog_dom.cjs`. Эта проверка не заменяет визуальную проверку
-в настоящем браузере. Текущий статус сверки с макетом находится в `design-qa.md`.
-Согласованность подбора на сайте и в инструменте ИИ проверяет
-`node tests/selection_parity.cjs` на реальных русских и английских запросах.
-
-Разобраны 58 дополнительных паков — 6 737 эмодзи. Последняя партия:
-50 паков и 5 853 новых ID, включая алфавиты, цифры, адаптивные значки,
-тематические иконки и 33 примера составных изображений.
-Каждый получил русское название, категорию, подкатегорию, уникальный key,
-fallback и поисковые теги. Подкатегории показаны в деталях; поиск понимает
-названия франшиз на русском и английском. Неоднозначные записи имеют пометку.
-
-Полный разбор: [`references/pack-analysis.md`](references/pack-analysis.md).
-Данные для программ: [`data/emoji-packs.json`](data/emoji-packs.json).
-Подробные таблицы каждого пака: [`references/packs/`](references/packs/).
-Составные эмодзи: [`references/emoji-compositions.md`](references/emoji-compositions.md)
-и [`data/emoji-compositions.json`](data/emoji-compositions.json).
-На сайте сборки доступны в деталях их частей и при выборе соответствующего пака:
-превью без промежутков, копирование готового HTML и ID по порядку с повторами.
-96 прозрачных изображений и два файла, которые Telegram не отдаёт, отмечены
-для уточнения; неизвестным эмблемам даны описания формы.
-
-Для повторного визуального анализа установи `requirements-inspection.txt`,
-затем используй `tools/inspect_packs.py` и `tools/inspect_animations.py`.
-
-Для новых партий: `python tools/review_pack_batch.py data/import-batches/2026-10-03.json`
-подготавливает материалы; `data/labels/` хранит проверенные названия,
-а `data/import-batches/*-review.json` — отметки просмотренных листов и примечания.
-Импорт проверяется командой `python tools/import_pack_batch.py data/import-batches/2026-10-03.json`;
-флаг `--write-catalog` применяет его, сохраняя прежние записи и метаданные.
-Подписи хранятся в `data/labels/`; `tools/import_reviewed_packs.py --write-catalog`
-добавляет проверенные записи и пропускает уже имеющиеся ID.
-
----
-
-## 🧠 Скилл для Codex и других ИИ
-
-Скилл для Codex, Claude Code, Cursor и других AI-редакторов. Использует весь
-каталог через короткие списки кандидатов, проверяет назначение и реальные превью,
-сохраняет выбранный пак и ID ролей в `emoji-style.json` создаваемого приложения.
-Новые экраны продолжают тот же стиль. Составные изображения выбираются целиком,
-с исходным порядком и повторениями ID.
-
-```powershell
-python tools/select_emoji.py search 'значок напоминания' --style minimal
-python tools/select_emoji.py search 'колокольчик без звука' --style minimal
-python tools/select_emoji.py search 'уведомления' --animation static --color monochrome
-python tools/select_emoji.py search 'уведомления' --profile 'C:\path\my-app\emoji-style.json'
-python tools/select_emoji.py palette --style minimal --roles settings search notification success download --profile 'C:\path\my-app\emoji-style.json' --save
-python tools/select_emoji.py validate 'C:\path\my-app\emoji-style.json'
-```
-
-Политика и словарь общие для сайта и инструмента. Новая модель или API-ключ
-не требуются: ИИ интерпретирует задачу, а инструмент возвращает проверенные
-варианты. Профиль сохраняет прежние назначения ID при росте каталога; отсутствующие
-роли явно возвращаются в `missing_roles`. Неопределённые изображения и фрагменты
-не входят в обычный подбор. [Подробное руководство](references/emoji-selection.md).
-Подбор учитывает отрицания и состояние значка, отделяет действие от предмета и
-отдаёт преимущество прямому свидетельству в названии. Слабые совпадения по
-категории не заполняют роли автоматически. Требования к статичности, цвету и
-адаптивности сохраняются в профиле; неизвестные метаданные не проходят строгий
-фильтр. Несколько назначений или противоречащие ограничения возвращают
-`needs_clarification`. Контрольные примеры: [selection_cases.json](tests/selection_cases.json).
-Именованные роли и состояния задаются через `--role-query ROLE=QUERY`:
-обычный и выключенный колокольчик сохраняются отдельно. `--bind ROLE=ID`
-закрепляет вариант после проверки превью. Поиск с `--profile` использует
-разрешённые паки и предпочитает совместимые сохранённые ID; смена состояния
-или привязанного ID проверяется до записи файла.
-Для программ доступен [полный JSON-индекс](https://zulut30.github.io/premium-telegram-emoji/emoji-index.json).
-
-### Установка
-
-```bash
-# Клонируй репозиторий
-git clone https://github.com/Zulut30/premium-telegram-emoji.git
-
-# Установи скилл (скопируй в директорию скиллов Claude Code)
-# macOS / Linux
-cp -r premium-telegram-emoji ~/.claude/skills/telegram-premium-emoji
-
-# Или распакуй .skill файл
-unzip premium-telegram-emoji/telegram-premium-emoji.skill \
-  -d ~/.claude/skills/telegram-premium-emoji
-```
-
-### Использование
-
-Просто попроси Claude:
-
-```
-Добавь premium emoji в моего новостного бота
-Хочу красивые иконки в боте для криптовалютных сигналов
-Сделай бота с premium emoji в стиле минимализм
-```
-
-ИИ использует существующий профиль стиля или выбирает основной пак, проверяет
-нужные роли и генерирует код с сохранёнными ID. Пример форматирования сообщения:
-
-```python
-from __future__ import annotations
-import html
-import os
-from aiogram import Bot
-from aiogram.types import LinkPreviewOptions
-
-EMOJI = {
-    "breaking": "5456140674028019486",   # 🚨 Срочная новость
-    "chart_up": "5449683594425410231",   # 📈 Рост
-    "warning":  "5447644880824181073",   # ⚠️ Предупреждение
-}
-
-def e(key: str, fallback: str) -> str:
-    return f'<tg-emoji emoji-id="{EMOJI[key]}">{fallback}</tg-emoji>'
-
-async def send_news(bot: Bot, channel: str, title: str, body: str) -> None:
-    text = f"{e('breaking', '🚨')} <b>{html.escape(title)}</b>\n\n{html.escape(body)}"
-    await bot.send_message(channel, text, parse_mode="HTML")
-```
-
----
-
-## 🤖 Telegram Бот
-
-Бот для пополнения каталога. Отправляешь ему сообщение с premium emoji и описанием — он сам добавляет всё в каталог и пушит в GitHub.
-
-### Быстрый старт
-
-#### Windows / PowerShell
-
-```powershell
-python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r requirements.txt
-# Запиши BOT_TOKEN=токен_от_BotFather в локальный файл .env
-.\Start-Bot.ps1
-# Остановка: .\Stop-Bot.ps1
-```
-
-Бот работает в фоне, пока компьютер включён. Логи находятся в `.runtime/`.
-На Windows токен также может храниться в `.runtime/bot-token.dpapi`,
-зашифрованный средствами Windows для текущего пользователя. Этот резерв
-используется только при отсутствии `BOT_TOKEN` в окружении и `.env`.
-Файл защищённого токена, `.env` и логи исключены из Git.
-Если Git уже авторизован для push, отдельный `GITHUB_TOKEN` не нужен.
-Бот читает секции из каталога, поэтому новые разделы появляются в кнопках автоматически.
-
-#### Docker
+Для скилла нужны **Git и Python 3.11+**. Дополнительные Python-пакеты, токен бота
+и ключ модели для подбора не требуются.
 
 ```bash
 git clone https://github.com/Zulut30/premium-telegram-emoji.git
 cd premium-telegram-emoji
-
-# Создай .env
-echo "BOT_TOKEN=ваш_токен_от_BotFather" > .env
-echo "GITHUB_TOKEN=ваш_github_pat" >> .env
-
-# Запусти через Docker
-docker compose up -d
+python3 install_skill.py --agent codex
 ```
 
-### Как добавить emoji
+На **Windows / PowerShell** последняя команда:
 
-1. Открой любой чат в Telegram, найди нужный premium emoji
-2. Напиши боту: `[emoji] Описание на русском`
-3. Выбери секцию (или создай новую кнопкой **➕ Новая секция**)
-4. Готово — emoji появится в каталоге и на сайте
-
-```
-📩 Входящее сообщение:
-🚀 Ракета / запуск
-
-🤖 Ответ бота:
-Нашёл:
-• 5472169951538224541 — Ракета / запуск (fallback: 🚀)
-
-В какую секцию добавить?
-[1 — Новости] [2 — Иконки] [3 — Анимир.] [4 — Минимализм] [➕ Новая секция]
+```powershell
+py -3 install_skill.py --agent codex
 ```
 
-### Команды
+Выбери своего агента:
 
-| Команда | Описание |
-|---|---|
-| `/start` | Инструкция по использованию |
-| `/sections` | Список всех секций каталога |
+| Агент | Установка |
+| --- | --- |
+| Codex | `python3 install_skill.py --agent codex` |
+| Claude Code | `python3 install_skill.py --agent claude` |
+| Cursor | `python3 install_skill.py --agent cursor` |
+| GitHub Copilot | `python3 install_skill.py --agent copilot` |
+| OpenCode | `python3 install_skill.py --agent opencode` |
+| Другой совместимый агент | `python3 install_skill.py --agent universal` |
 
----
+Используй доступный интерпретатор: `python3`, `python` или `py -3`.
+Установщик напечатает точный путь. Открой новую сессию агента.
+Для установки в приложение добавь `--scope project --project "/path/to/app"`.
 
-## 📋 Структура каталога
+**Без Git:** скачай ZIP из [релиза](https://github.com/Zulut30/premium-telegram-emoji/releases/latest),
+распакуй и запусти находящийся внутри `install_skill.py`.
 
-Каталог в [`references/emoji-catalog.md`](references/emoji-catalog.md) разделён по тематике:
+[Полное руководство →](docs/installation.md) — пути для всех агентов, Windows,
+проектная установка, ручной импорт, обновление и установка других скиллов.
 
-| # | Секция | Emoji |
-|---|---|---|
-| 1 | 📰 Animated News Emoji | Срочные новости, статистика, соцсети |
-| 2 | 📱 Static App Icons | GitHub, Docker, Figma, Notion и др. |
-| 3 | 🎨 Animated App Icons | Анимированные версии логотипов |
-| 4 | ⬛ Minimalist B&W Icons | Минималистичные монохромные иконки |
-| 5+ | 🗂 Кастомные секции | Добавляются через бота |
+## Просто попроси агента
 
-Формат записи:
-
-```markdown
-| key          | emoji_id             | description          | fallback |
-|---|---|---|---|
-| breaking     | 5456140674028019486  | Срочная новость      | 🚨       |
-| github       | 4999005636604723783  | GitHub (animated)    | 🐙       |
+```text
+Используй telegram-premium-emoji. Подбери эмодзи для настроек, поиска,
+уведомлений и оплаты. Нужен единый минималистичный стиль.
+Проверь превью, сохрани выбор в emoji-style.json приложения и примени в коде.
 ```
 
----
+В Codex можно написать `$telegram-premium-emoji`, в Claude Code —
+`/telegram-premium-emoji`, в Cursor — выбрать скилл из меню `/`.
 
-## 🏗 Архитектура
+Следующие задачи продолжают тот же стиль:
 
-```
-premium-telegram-emoji/
-├── references/
-│   └── emoji-catalog.md     # Основной каталог (275+ emoji)
-├── SKILL.md                 # Claude Code Skill
-├── bot.py                   # Telegram бот (aiogram 3)
-├── generate_site.py         # Генератор статического сайта
-├── site/                    # Собранный сайт (GitHub Pages)
-│   └── images/              # Превью стикеров
-├── Dockerfile
-├── docker-compose.yml
-└── .github/workflows/
-    └── deploy-site.yml      # Авто-деплой при пуше
+```text
+Добавь экран подписки. Используй существующий emoji-style.json:
+сохрани выбранный пак и уже закреплённые ID, подбери недостающие роли.
 ```
 
-**Поток данных:**
+Агент читает профиль приложения, уточняет назначение каждого символа и получает
+короткий список кандидатов. Затем проверяет реальные изображения и сохраняет
+точные ID. Обновление каталога не заменяет принятые решения.
 
-```
-Telegram сообщение
-      ↓
-   bot.py                 → emoji-catalog.md
-   (aiogram 3)            → emoji-ids.txt
-      ↓                   → git commit + push
-   GitHub
-      ↓
-   GitHub Actions         ← BOT_TOKEN (secret)
-   generate_site.py
-      ↓
-   GitHub Pages
-   (автообновление)
-```
+## Что делает подбор надёжнее
 
----
+- **Действие и предмет:** «удалить файл» ищет удаление; файл служит контекстом.
+- **Разные состояния:** включённые и отключённые уведомления получают разные роли.
+- **Ограничения:** статичность, одноцветность и возможность перекрашивания проверяются по метаданным.
+- **Проверенный выбор:** `--bind ROLE=ID` закрепляет конкретный вариант после просмотра превью.
+- **Стабильный стиль:** один основной пак; дополнительные источники записываются осознанно.
+- **Честные пробелы:** слабое совпадение по категории или неизвестное изображение не заполняет роль автоматически.
+- **Составные эмодзи:** рамки, кнопки и надписи сохраняют порядок частей и повторяющиеся ID.
 
-## ⚙️ Переменные окружения
+Скилл переносим между агентами: профиль хранится **в приложении** и содержит
+роли, паки, ограничения и строковые ID. Подбор использует правила и проверенные
+метаданные; агент интерпретирует задачу и оценивает превью. Полный процесс требует
+доступа к файлам и Python; просмотр изображений — доступа к сети.
 
-| Переменная | Обязательная | Описание |
-|---|---|---|
-| `BOT_TOKEN` | ✅ | Токен бота от [@BotFather](https://t.me/botfather) |
-| `GITHUB_TOKEN` | ☑️ | Personal Access Token для git push из контейнера |
+[Руководство по подбору →](references/emoji-selection.md) · [Инструкции скилла →](SKILL.md)
 
-GitHub Actions использует `BOT_TOKEN` как [repository secret](https://docs.github.com/en/actions/security-guides/encrypted-secrets) для генерации сайта.
+<details>
+<summary><strong>CLI: поиск, состояния и сохранённый профиль</strong></summary>
 
----
+Команды ниже запускаются из папки скилла или репозитория. Для профиля укажи
+абсолютный путь к приложению.
 
-## 🔧 Требования к боту
-
-Чтобы бот мог отправлять premium emoji в канал:
-
-- ✅ **Telegram Premium** у владельца аккаунта, создавшего бота
-- ✅ Бот добавлен в канал как **администратор** с правом постить
-- ✅ `parse_mode="HTML"` в каждом сообщении с emoji
-
-> 💡 Боту **не нужна** отдельная Premium-подписка — достаточно Premium на аккаунте владельца.
-
----
-
-## 📖 Как устроен custom emoji в Bot API
-
-```python
-# HTML-синтаксис (рекомендуется)
-text = '<tg-emoji emoji-id="5456140674028019486">🚨</tg-emoji> Срочная новость'
-
-# Внутри тега — unicode fallback для клиентов без Premium
-# emoji-id  — число из каталога этого репозитория
+```bash
+python3 scripts/select_emoji.py styles
+python3 scripts/select_emoji.py search "колокольчик без звука" --style minimal
+python3 scripts/select_emoji.py search "уведомления" --animation static --color monochrome
+python3 scripts/select_emoji.py search "уведомления" --profile "/path/to/app/emoji-style.json"
 ```
 
-Подробно о работе с `MessageEntity`, UTF-16 оффсетах и типичных ошибках — в [оригинальном гайде](references/).
+```bash
+python3 scripts/select_emoji.py palette --style minimal --pack sfsymbols --roles notifications_on notifications_muted --role-query "notifications_on=включить уведомления" --role-query "notifications_muted=колокольчик без звука" --profile "/path/to/app/emoji-style.json" --save
+python3 scripts/select_emoji.py validate "/path/to/app/emoji-style.json"
+python3 scripts/select_emoji.py compositions "ПОЛЕЗНОЕ" --pack nexus_base
+```
 
----
+В Telegram используй полученный HTML с `parse_mode="HTML"`; в веб-интерфейсе —
+`preview_url` как изображение. Тег `<tg-emoji>` предназначен для сообщений Telegram.
 
-## 🤝 Как добавить свои emoji
+</details>
 
-1. **Через бота** (рекомендуется) — отправь emoji + описание, выбери секцию
-2. **Вручную** — отредактируй [`references/emoji-catalog.md`](references/emoji-catalog.md) и [`emoji-ids.txt`](emoji-ids.txt), сделай PR
+## Посмотреть каталог
 
----
+**[Открыть онлайн-каталог →](https://zulut30.github.io/premium-telegram-emoji/)**
+
+Поиск по названию, смыслу, ключу и ID; фильтры по паку и стилю; реальные превью;
+копирование ID и HTML; личные оценки. Выбранный стиль и пак сохраняются в браузере,
+а профиль можно экспортировать для агента.
+
+| Данные | Ссылка |
+| --- | --- |
+| Полный машиночитаемый индекс | [emoji-index.json](https://zulut30.github.io/premium-telegram-emoji/emoji-index.json) |
+| Каталог с точными ID | [emoji-catalog.md](references/emoji-catalog.md) |
+| Названия, категории и визуальные метаданные | [emoji-packs.json](data/emoji-packs.json) |
+| Разбор паков | [pack-analysis.md](references/pack-analysis.md) |
+| 33 примера составных изображений | [emoji-compositions.md](references/emoji-compositions.md) |
+
+## Пополнить каталог
+
+Отправь боту сообщение вида `[premium emoji] Описание на русском`, затем выбери
+раздел или создай новый. Бот извлечёт реальный ID, сохранит запись и отправит
+изменения в GitHub. Actions соберёт и опубликует сайт.
+
+Скилл работает независимо от бота. Инструкции по запуску, импорту новых паков и
+проверкам проекта находятся в [руководстве разработчика](docs/development.md).
+
+## Как устроен проект
+
+```text
+SKILL.md + scripts/select_emoji.py → кандидаты → просмотр превью → emoji-style.json
+                                  ↳ точные ID и роли в коде приложения
+
+Telegram → bot.py → каталог и метаданные → GitHub Actions → GitHub Pages
+                                        ↳ переносимый ZIP / .skill
+```
+
+```text
+SKILL.md                 Инструкции для агента
+install_skill.py         Установка и обновление на трёх ОС
+scripts/select_emoji.py  Переносимая точка входа
+emoji_catalog.py         Чтение каталога без конфигурации бота
+emoji_selection.py       Поиск, ограничения и профили
+references/             Каталог и руководства
+data/                   Проверенные метаданные и политика подбора
+web/                     Исходники сайта
+bot.py                   Пополнение через Telegram
+.github/workflows/       Публикация сайта и проверка/сборка скилла
+```
+
+CI проверяет установку и подбор на Windows, macOS и Linux. ZIP и `.skill`
+собираются из явного списка файлов, с проверкой SHA-256; токены, логи и рабочее
+окружение в пакет не входят. Проверки: [GitHub Actions](https://github.com/Zulut30/premium-telegram-emoji/actions).
+
+## Добавить свои эмодзи
+
+Используй бота или предложи PR с каталогом и проверенными метаданными.
+Для целого пака сначала просмотри изображения и подпиши их; затем выполни импорт.
+[Процесс импорта и проверки →](docs/development.md#import-packs)
 
 <div align="center">
 
-Сделано с ❤️ для разработчиков Telegram-ботов
+**Хороший символ передаёт смысл. Хороший набор сохраняет стиль.**
+
+[Каталог](https://zulut30.github.io/premium-telegram-emoji/) · [Установить](docs/installation.md) · [English](README.en.md)
 
 </div>

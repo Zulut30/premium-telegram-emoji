@@ -5,14 +5,29 @@ description: >
   style across a bot or application, and generate HTML with catalog IDs. Use when
   a Telegram project needs premium emoji or the user requests a palette from this
   catalog. Includes ordered multi-emoji compositions. Not for unrelated UI icons.
+metadata:
+  runtime: "Python 3.11+ with file and shell access"
+  platforms: "Windows, macOS, Linux; Agent Skills-compatible agents"
 ---
 
 # Telegram emoji: meaning and a stable application style
 
-Use the entire current catalog through `tools/select_emoji.py`; do not read
-thousands of Markdown rows into context. Commands below run from the skill folder.
-When running elsewhere, use the absolute script path and an application-specific
-absolute `--profile` path. No API token or external model is needed for retrieval.
+Use the entire bundled catalog through `scripts/select_emoji.py`; do not read
+thousands of Markdown rows into context. Resolve the skill folder from this
+SKILL.md's location, rather than from the application's current directory.
+Commands below run from that folder. Elsewhere, quote the absolute script path
+and pass an application-specific absolute `--profile` path. Use the available
+Python 3.11+ interpreter: `python`, `python3` or `py -3` on Windows. Keep one
+interpreter for the workflow. The selector uses only Python's standard library,
+does not read bot credentials, and runs offline; preview inspection needs network
+access. It has no Codex-specific tools or model/API dependency.
+
+Use the host agent's file, terminal and image/browser tools. If a host cannot
+execute Python, use its capable runtime or request one; do not present unexecuted
+selection or validation as completed. If previews cannot be inspected, report
+that limit before treating a shortlist as visually approved. Installation paths,
+manual loading for other agents, and updates are in
+[the platform guide](references/platforms.md).
 
 ## Understand the role and reuse the application profile
 
@@ -32,12 +47,12 @@ bell. Preserve negations and constraints when searching. Split a request for
 settings and notifications into two roles; one icon need not represent both.
 
 ```sh
-python tools/select_emoji.py styles
-python tools/select_emoji.py search "напоминания" --style minimal --limit 8
-python tools/select_emoji.py search "колокольчик без звука" --style minimal
-python tools/select_emoji.py search "уведомления" --animation static --color monochrome --repainting required
-python tools/select_emoji.py search "уведомления" --profile /absolute/application/emoji-style.json
-python tools/select_emoji.py palette --style minimal --roles settings search notification success download --profile /absolute/application/emoji-style.json --save
+python scripts/select_emoji.py styles
+python scripts/select_emoji.py search "напоминания" --style minimal --limit 8
+python scripts/select_emoji.py search "колокольчик без звука" --style minimal
+python scripts/select_emoji.py search "уведомления" --animation static --color monochrome --repainting required
+python scripts/select_emoji.py search "уведомления" --profile /absolute/application/emoji-style.json
+python scripts/select_emoji.py palette --style minimal --roles settings search notification success download --profile /absolute/application/emoji-style.json --save
 ```
 
 Search returns shortlists with the actual name, exact string ID, preview URL,
@@ -103,7 +118,7 @@ picture from the fallback, guess an unknown brand, or invent a numeric ID.
 ## Whole compositions and typography
 
 ```sh
-python tools/select_emoji.py compositions "ПОЛЕЗНОЕ" --pack nexus_base
+python scripts/select_emoji.py compositions "ПОЛЕЗНОЕ" --pack nexus_base
 ```
 
 For a pill, keyboard, frame or separator, use the complete ordered assembly.
@@ -126,7 +141,7 @@ For a web surface, use the preview URL as an image; <tg-emoji> is Telegram
 message markup and does not render as a browser icon.
 
 ```sh
-python tools/select_emoji.py validate /absolute/application/emoji-style.json
+python scripts/select_emoji.py validate /absolute/application/emoji-style.json
 ```
 
 Validation rejects invented/non-string IDs, incompatible packs, uncertain items,
